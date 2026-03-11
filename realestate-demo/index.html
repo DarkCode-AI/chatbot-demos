@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Realty Group - AI Assistant Demo</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --brand: #1e3a5f;
+  --brand-dark: color-mix(in srgb, #1e3a5f 80%, black);
+  --brand-light: color-mix(in srgb, #1e3a5f 12%, white);
+  --accent: #d4a853;
+  --accent-light: color-mix(in srgb, #d4a853 15%, white);
+  --text: #1a1a2e;
+  --text-light: #6b7280;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --shadow: 0 4px 24px rgba(0,0,0,0.12);
+  --radius: 12px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: white;
+  padding: 80px 20px 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--bg);
+  border-radius: 50% 50% 0 0;
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+  position: relative;
+}
+.hero .tagline {
+  font-size: 1rem;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  position: relative;
+}
+.hero p {
+  font-size: 1.15rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+  position: relative;
+}
+.hero-cta {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--brand);
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+/* Features */
+.features {
+  max-width: 960px;
+  margin: -20px auto 60px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+.feature-card {
+  background: var(--white);
+  padding: 28px;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  text-align: center;
+  border-top: 3px solid transparent;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.feature-card:hover {
+  border-top-color: var(--accent);
+  transform: translateY(-2px);
+}
+.feature-card .icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+.feature-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.feature-card p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+.footer a { color: var(--brand); text-decoration: none; font-weight: 500; }
+.footer a:hover { text-decoration: underline; }
+.footer .powered {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Chat Widget */
+.chat-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s, background 0.3s;
+  animation: pulse 2s infinite;
+}
+.chat-fab:hover { transform: scale(1.08); }
+.chat-fab svg { width: 28px; height: 28px; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+  50% { box-shadow: 0 4px 32px rgba(30,58,95,0.4); }
+}
+
+.chat-window {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  width: 390px;
+  max-width: calc(100vw - 32px);
+  height: 570px;
+  max-height: calc(100vh - 140px);
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  z-index: 1001;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+.chat-window.open {
+  display: flex;
+  animation: slideUp 0.3s ease-out;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-header {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.chat-header .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+.chat-header .info h4 { font-size: 0.95rem; font-weight: 600; }
+.chat-header .info span { font-size: 0.8rem; opacity: 0.85; }
+.chat-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.4rem;
+  padding: 4px;
+  opacity: 0.8;
+}
+.chat-close:hover { opacity: 1; }
+
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  animation: fadeIn 0.3s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.msg.bot {
+  background: var(--brand-light);
+  color: var(--text);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  white-space: pre-line;
+}
+.msg.user {
+  background: var(--brand);
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0;
+}
+.quick-btn {
+  background: var(--white);
+  border: 1.5px solid var(--accent);
+  color: var(--brand);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.quick-btn:hover {
+  background: var(--accent);
+  color: var(--brand);
+  border-color: var(--accent);
+}
+
+.typing {
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px;
+  background: var(--brand-light);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+  max-width: 60px;
+}
+.typing span {
+  width: 8px;
+  height: 8px;
+  background: var(--brand);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: typingDot 1.4s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.4; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-4px); }
+}
+
+.chat-input {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+.chat-input input {
+  flex: 1;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 24px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.chat-input input:focus { border-color: var(--brand); }
+.chat-input button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.chat-input button:hover { background: var(--accent); color: var(--brand); }
+
+/* Lead capture form */
+.lead-form {
+  background: var(--accent-light);
+  border-radius: 12px;
+  padding: 14px;
+  align-self: flex-start;
+  max-width: 90%;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.lead-form p {
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+  color: var(--text);
+  font-weight: 500;
+}
+.lead-form input {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+.lead-form textarea {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 50px;
+}
+.lead-form button {
+  background: var(--brand);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.lead-form button:hover { background: var(--accent); color: var(--brand); }
+
+@media (max-width: 480px) {
+  .chat-window {
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  .chat-fab { bottom: 16px; right: 16px; width: 56px; height: 56px; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <h1>Demo Realty Group</h1>
+  <div class="tagline">Your Trusted Real Estate Partner</div>
+  <p>Find your dream home, sell with confidence, or invest for the future. Our expert agents are here to guide you every step of the way.</p>
+  <button class="hero-cta" onclick="toggleChat()">Try Our AI Assistant</button>
+</section>
+
+<section class="features">
+  <div class="feature-card"><div class="icon">&#127968;</div><h3>Browse Listings</h3><p>Search available homes, condos, and investment properties in your area.</p></div>
+  <div class="feature-card"><div class="icon">&#128197;</div><h3>Schedule Viewings</h3><p>Book private showings at your convenience, 24/7.</p></div>
+  <div class="feature-card"><div class="icon">&#128200;</div><h3>Market Analysis</h3><p>Get a free home valuation and local market insights.</p></div>
+  <div class="feature-card"><div class="icon">&#128273;</div><h3>Expert Guidance</h3><p>From first-time buyers to seasoned investors, our agents are here for you.</p></div>
+</section>
+
+<footer class="footer">
+  <p class="powered">AI-Powered by <a href="https://darkcodeai.carrd.co" target="_blank">DarkCode AI</a></p>
+  <p style="margin-top:8px;font-size:0.78rem;opacity:0.7">AI-powered chatbot demo &mdash; responses are generated from publicly available business information</p>
+</footer>
+
+<!-- Chat Widget -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="Open chat">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="avatar">&#127968;</div>
+    <div class="info">
+      <h4>Demo Realty Group</h4>
+      <span>AI Assistant &bull; Online</span>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">&times;</button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Ask about listings, viewings, buying..." autocomplete="off">
+    <button onclick="sendMessage()" aria-label="Send">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function() {
+  var QA_DATA = [
+    {
+      "q": "What properties do you have available?",
+      "a": "We have a wide selection of properties available including single-family homes, condos, townhouses, and luxury estates.\n\nOur current listings span multiple neighborhoods and price ranges. Visit our website to browse all available properties, or tell me what you're looking for and I'll help narrow it down!",
+      "kw": ["listings", "properties", "homes", "houses", "available", "for sale", "browse", "search", "what do you have", "current listings", "mls", "inventory"],
+      "cat": "listings"
+    },
+    {
+      "q": "How do I schedule a viewing?",
+      "a": "Scheduling a viewing is easy! You can:\n\n1. Call us at (555) 987-6543\n2. Use our online booking system on our website\n3. Leave your info here and we'll arrange a private showing\n\nWe offer flexible scheduling, including evenings and weekends. Most viewings can be arranged within 24-48 hours.",
+      "kw": ["viewing", "showing", "tour", "see the house", "see the property", "visit", "schedule a viewing", "book a viewing", "private showing", "walkthrough", "open house visit"],
+      "cat": "viewing"
+    },
+    {
+      "q": "How do I get pre-qualified for a mortgage?",
+      "a": "Getting pre-qualified is a great first step! Here's what you'll need:\n\n1. Proof of income (pay stubs, W-2s, tax returns)\n2. Credit history (we can recommend lenders who do soft pulls)\n3. Employment verification\n4. Bank statements\n\nWe partner with several trusted local lenders who can pre-qualify you quickly. Call us at (555) 987-6543 and we'll connect you with the right lender for your situation.",
+      "kw": ["pre-qualified", "pre-qualify", "prequalify", "prequalified", "pre-approval", "preapproval", "pre-approved", "preapproved", "mortgage", "loan", "financing", "lender", "bank", "interest rate", "how much can i afford", "afford"],
+      "cat": "mortgage"
+    },
+    {
+      "q": "What are the steps to buying a home?",
+      "a": "The home buying process typically follows these steps:\n\n1. Get pre-qualified for a mortgage\n2. Define your needs (location, size, budget)\n3. Browse listings and tour homes\n4. Make an offer\n5. Home inspection and appraisal\n6. Negotiate any repairs or credits\n7. Final loan approval and underwriting\n8. Closing day — get your keys!\n\nOur agents guide you through every step. Call (555) 987-6543 to get started!",
+      "kw": ["buying process", "buy a home", "buy a house", "how to buy", "steps to buy", "buying steps", "purchase", "first time buying", "homebuying"],
+      "cat": "buying"
+    },
+    {
+      "q": "I want to sell my home",
+      "a": "Great decision! Here's how we help you sell:\n\n1. Free comparative market analysis (CMA) to price your home right\n2. Professional staging and photography\n3. Marketing across MLS, major real estate sites, and social media\n4. Open houses and private showings\n5. Expert negotiation to get you top dollar\n6. Transaction management through closing\n\nOur average listing sells within 30 days. Call (555) 987-6543 or leave your info for a free consultation!",
+      "kw": ["sell", "selling", "list my home", "list my house", "listing agent", "sell my home", "sell my house", "put my house on the market", "listing process", "how to sell"],
+      "cat": "selling"
+    },
+    {
+      "q": "Can you do a market analysis or home valuation?",
+      "a": "Absolutely! We offer free Comparative Market Analyses (CMAs) for homeowners and potential sellers.\n\nA CMA includes:\n- Recent sales of comparable properties\n- Current market trends in your neighborhood\n- Estimated value range for your home\n- Recommended listing price if you decide to sell\n\nCall (555) 987-6543 or leave your address and contact info, and we'll prepare your custom report within 24 hours.",
+      "kw": ["market analysis", "home valuation", "home value", "worth", "how much is my home", "cma", "appraisal", "comparable", "comps", "property value", "what is my home worth", "estimate"],
+      "cat": "valuation"
+    },
+    {
+      "q": "Do you help first-time homebuyers?",
+      "a": "Yes! We love working with first-time homebuyers. Emily Chen on our team specializes in guiding first-time buyers through the process.\n\nWe can help you with:\n- Understanding available first-time buyer programs (FHA, USDA, state grants)\n- Down payment assistance programs\n- Navigating the entire buying process step by step\n- Connecting you with lenders who specialize in first-time buyer loans\n\nCall (555) 987-6543 to schedule a free first-time buyer consultation!",
+      "kw": ["first-time", "first time", "first home", "never bought", "new buyer", "starter home", "fha", "down payment assistance", "first time homebuyer", "first time buyer"],
+      "cat": "firsttime"
+    },
+    {
+      "q": "What are typical closing costs?",
+      "a": "Closing costs typically run 2-5% of the purchase price. They include:\n\nFor Buyers:\n- Loan origination fees\n- Title insurance and search\n- Home inspection ($300-$500)\n- Appraisal ($400-$600)\n- Attorney fees\n- Prepaid taxes and insurance\n\nFor Sellers:\n- Agent commissions\n- Transfer taxes\n- Title fees\n- Any negotiated repairs or credits\n\nWe'll provide a detailed cost estimate early in the process so there are no surprises. Call (555) 987-6543 for specifics.",
+      "kw": ["closing costs", "closing fees", "how much to close", "settlement costs", "fees", "closing", "title", "escrow", "settlement"],
+      "cat": "closing"
+    },
+    {
+      "q": "Tell me about neighborhoods and school districts",
+      "a": "We're experts in all the local neighborhoods and school districts! We can help you find the perfect area based on:\n\n- School ratings and district boundaries\n- Commute times to your workplace\n- Walkability and local amenities\n- Safety and crime statistics\n- Property value trends by neighborhood\n- Community features (parks, shopping, dining)\n\nTell us what matters most to you and we'll recommend the best neighborhoods. Call (555) 987-6543 to discuss with an agent!",
+      "kw": ["neighborhood", "neighborhoods", "school", "schools", "school district", "area", "community", "safe", "walkable", "commute", "best area", "where should i live", "good schools", "best neighborhood"],
+      "cat": "neighborhoods"
+    },
+    {
+      "q": "Do you handle investment properties?",
+      "a": "Absolutely! James Rodriguez on our team specializes in commercial and investment real estate.\n\nWe can help with:\n- Multi-family properties (duplexes, triplexes, apartment buildings)\n- Rental income analysis and cap rate calculations\n- 1031 exchanges\n- Fix-and-flip opportunities\n- Commercial properties\n- Long-term wealth-building strategies\n\nCall (555) 987-6543 to schedule an investment consultation with James!",
+      "kw": ["investment", "invest", "rental property", "rental income", "cap rate", "multi-family", "duplex", "triplex", "apartment building", "roi", "1031", "flip", "fix and flip", "investor"],
+      "cat": "investment"
+    },
+    {
+      "q": "Do you do commercial real estate?",
+      "a": "Yes! James Rodriguez leads our commercial real estate division. We handle:\n\n- Office space leasing and sales\n- Retail properties\n- Industrial and warehouse space\n- Mixed-use developments\n- Land and development opportunities\n- Commercial investment analysis\n\nWhether you're looking to buy, sell, or lease commercial space, call (555) 987-6543 to speak with James.",
+      "kw": ["commercial", "office space", "retail", "industrial", "warehouse", "business property", "commercial real estate", "lease", "office", "storefront"],
+      "cat": "commercial"
+    },
+    {
+      "q": "Do you have rental properties?",
+      "a": "Yes! Emily Chen handles our rental listings. We can help you find:\n\n- Apartments and condos for rent\n- Single-family home rentals\n- Townhouse rentals\n- Short-term and long-term options\n\nWe also assist landlords with property management referrals. Call (555) 987-6543 or let us know your rental requirements and budget!",
+      "kw": ["rental", "rent", "renting", "lease", "apartment for rent", "house for rent", "tenant", "landlord", "renter", "for rent"],
+      "cat": "rental"
+    },
+    {
+      "q": "When are your open houses?",
+      "a": "We hold open houses most weekends for our featured listings! Open houses are typically:\n\n- Saturdays: 11am - 2pm\n- Sundays: 1pm - 4pm\n\nCheck our website for this week's open house schedule, or call (555) 987-6543 for the latest times and addresses. We can also arrange a private showing if the open house times don't work for you.",
+      "kw": ["open house", "open houses", "this weekend", "saturday showing", "sunday showing", "walk through", "public showing"],
+      "cat": "openhouse"
+    },
+    {
+      "q": "Who are your agents?",
+      "a": "We have 3 experienced agents on our team:\n\n- Sarah Mitchell — Residential Sales\n  Expert in single-family homes and relocation\n\n- James Rodriguez — Commercial & Investment\n  Specializes in commercial properties, multi-family, and investment strategy\n\n- Emily Chen — First-Time Buyers & Rentals\n  Dedicated to helping new buyers and managing rental searches\n\nCall (555) 987-6543 to connect with the right agent for your needs!",
+      "kw": ["agents", "agent", "team", "staff", "who works", "realtors", "realtor", "meet the team", "your team", "who are", "how many agents"],
+      "cat": "team"
+    },
+    {
+      "q": "What are your office hours?",
+      "a": "Our office hours are:\n\nMonday - Friday: 9:00 AM - 6:00 PM\nSaturday: 10:00 AM - 4:00 PM\nSunday: By appointment only\n\nWe're located at 456 Main Street, Suite 200, Anytown, MA.\n\nNeed to meet outside these hours? Our agents are flexible — call (555) 987-6543 to arrange a time that works for you.",
+      "kw": ["hours", "open", "close", "time", "schedule", "when", "office hours", "business hours"],
+      "cat": "hours"
+    },
+    {
+      "q": "Where is your office?",
+      "a": "We're located at:\n\n456 Main Street, Suite 200\nAnytown, MA\n\nFree parking is available in the lot behind the building.\n\nOffice Hours:\nMon-Fri: 9am - 6pm\nSat: 10am - 4pm\nSun: By appointment\n\nCall (555) 987-6543 for directions or to schedule an in-office meeting.",
+      "kw": ["location", "located", "where", "address", "directions", "find you", "parking", "office", "come in"],
+      "cat": "location"
+    },
+    {
+      "q": "What is your phone number?",
+      "a": "You can reach us at (555) 987-6543. We're happy to help!",
+      "kw": ["phone", "phone number", "call", "telephone", "number", "reach you", "contact number"],
+      "cat": "contact"
+    },
+    {
+      "q": "What is your email?",
+      "a": "You can email us at info@demorealty.com, or call (555) 987-6543 for immediate assistance. We respond to all emails within one business day.",
+      "kw": ["email", "email address", "e-mail", "mail", "your email"],
+      "cat": "contact"
+    },
+    {
+      "q": "What is your contact info?",
+      "a": "Here's how to reach Demo Realty Group:\n\nPhone: (555) 987-6543\nEmail: info@demorealty.com\nAddress: 456 Main Street, Suite 200, Anytown, MA\n\nHours:\nMon-Fri: 9am - 6pm\nSat: 10am - 4pm\nSun: By appointment",
+      "kw": ["contact info", "contact information", "how to contact", "get in touch", "contact details", "contact"],
+      "cat": "contact"
+    },
+    {
+      "q": "Tell me about Sarah Mitchell",
+      "a": "Sarah Mitchell is our lead residential sales agent. She has extensive experience in single-family homes and specializes in helping families find their perfect home.\n\nSarah is known for her deep knowledge of local neighborhoods, expert negotiation skills, and personalized approach to every client. Whether you're upsizing, downsizing, or relocating, Sarah will guide you through the process.\n\nCall (555) 987-6543 to schedule a consultation with Sarah.",
+      "kw": ["sarah", "mitchell", "sarah mitchell"],
+      "cat": "agent"
+    },
+    {
+      "q": "Tell me about James Rodriguez",
+      "a": "James Rodriguez leads our commercial and investment real estate division. He specializes in helping investors build wealth through real estate.\n\nJames brings deep expertise in commercial properties, multi-family investments, 1031 exchanges, and market analysis. He works with both new and experienced investors to find the right opportunities.\n\nCall (555) 987-6543 to schedule an investment consultation with James.",
+      "kw": ["james", "rodriguez", "james rodriguez"],
+      "cat": "agent"
+    },
+    {
+      "q": "Tell me about Emily Chen",
+      "a": "Emily Chen specializes in first-time homebuyers and rental properties. She's passionate about making the home buying process accessible and stress-free for everyone.\n\nEmily is an expert on first-time buyer programs, FHA loans, down payment assistance, and the rental market. She takes the time to educate her clients so they feel confident every step of the way.\n\nCall (555) 987-6543 to schedule a consultation with Emily.",
+      "kw": ["emily", "chen", "emily chen"],
+      "cat": "agent"
+    },
+    {
+      "q": "What does a home inspection cover?",
+      "a": "A professional home inspection typically covers:\n\n- Foundation and structural integrity\n- Roof condition and age\n- Plumbing and electrical systems\n- HVAC (heating and cooling)\n- Windows, doors, and insulation\n- Appliances included in the sale\n- Potential water damage or mold\n- Pest and termite inspection (often separate)\n\nInspections usually cost $300-$500 and take 2-3 hours. We recommend never skipping this step. Call (555) 987-6543 for inspector recommendations!",
+      "kw": ["inspection", "inspect", "home inspection", "inspector", "what does inspection", "structural"],
+      "cat": "inspection"
+    },
+    {
+      "q": "How long does it take to buy a house?",
+      "a": "The typical timeline from start to closing is 30-60 days once your offer is accepted. Here's a rough breakdown:\n\n- Pre-qualification: 1-3 days\n- Home search: Varies (days to months)\n- Offer to acceptance: 1-7 days\n- Inspection: 7-10 days after acceptance\n- Appraisal: 1-2 weeks\n- Underwriting: 2-3 weeks\n- Closing: Scheduled 30-45 days from acceptance\n\nGetting pre-qualified speeds things up significantly. Call (555) 987-6543 to get started!",
+      "kw": ["how long", "timeline", "how fast", "time to buy", "how quickly", "when can i move in", "closing timeline"],
+      "cat": "buying"
+    },
+    {
+      "q": "What should I look for in a new home?",
+      "a": "Here are the key factors to consider when house hunting:\n\n- Location and commute time\n- School district quality\n- Home size and layout for your needs\n- Age and condition of major systems (roof, HVAC, plumbing)\n- Property taxes and HOA fees\n- Neighborhood safety and amenities\n- Resale potential and market trends\n- Natural light, storage, and outdoor space\n\nOur agents will create a personalized checklist based on your priorities. Call (555) 987-6543 to discuss what you're looking for!",
+      "kw": ["what to look for", "checklist", "house hunting", "tips", "advice", "what should i", "buying tips", "house hunting tips"],
+      "cat": "buying"
+    },
+    {
+      "q": "Do you help with relocation?",
+      "a": "Yes! Sarah Mitchell has extensive experience helping families relocate. We provide:\n\n- Neighborhood tours and area orientation\n- School district guidance\n- Coordination with your employer's relocation package\n- Virtual showings for out-of-area buyers\n- Connections to local services (utilities, movers, etc.)\n\nCall (555) 987-6543 to start your relocation consultation!",
+      "kw": ["relocation", "relocate", "moving", "transfer", "new city", "out of state", "move to"],
+      "cat": "relocation"
+    }
+  ];
+
+  var QUICK_ACTIONS = [
+    {"label": "Browse Listings", "q": "What properties do you have available?"},
+    {"label": "Schedule Viewing", "q": "How do I schedule a viewing?"},
+    {"label": "Get Pre-Qualified", "q": "How do I get pre-qualified for a mortgage?"},
+    {"label": "Free Home Valuation", "q": "Can you do a market analysis or home valuation?"}
+  ];
+
+  var BUSINESS_NAME = "Demo Realty Group";
+  var PHONE = "(555) 987-6543";
+  var AGENT_DATA = [
+    {name: "Sarah Mitchell", lastName: "mitchell", specialty: "Residential Sales"},
+    {name: "James Rodriguez", lastName: "rodriguez", specialty: "Commercial & Investment"},
+    {name: "Emily Chen", lastName: "chen", specialty: "First-Time Buyers & Rentals"}
+  ];
+
+  var chatOpen = false;
+  var initialized = false;
+  var msgCount = 0;
+  var leadFormShown = false;
+  var lastAnswer = null;
+  var lastCategory = null;
+
+  window.toggleChat = function() {
+    chatOpen = !chatOpen;
+    var win = document.getElementById("chatWindow");
+    var fab = document.getElementById("chatFab");
+    if (chatOpen) {
+      win.classList.add("open");
+      fab.style.display = "none";
+      if (!initialized) {
+        initChat();
+        initialized = true;
+      }
+      setTimeout(function() { document.getElementById("chatInput").focus(); }, 300);
+    } else {
+      win.classList.remove("open");
+      fab.style.display = "flex";
+    }
+  };
+
+  function initChat() {
+    addBotMessage("Welcome to " + BUSINESS_NAME + "! I'm your AI real estate assistant. Whether you're buying, selling, or just exploring, I'm here to help. What can I do for you today?");
+    setTimeout(function() {
+      addQuickActions();
+    }, 400);
+  }
+
+  function addBotMessage(text) {
+    var body = document.getElementById("chatBody");
+    var div = document.createElement("div");
+    div.className = "msg bot";
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function addUserMessage(text) {
+    var body = document.getElementById("chatBody");
+    var div = document.createElement("div");
+    div.className = "msg user";
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function addQuickActions() {
+    var body = document.getElementById("chatBody");
+    var container = document.createElement("div");
+    container.className = "quick-actions";
+    for (var i = 0; i < QUICK_ACTIONS.length; i++) {
+      var btn = document.createElement("button");
+      btn.className = "quick-btn";
+      btn.textContent = QUICK_ACTIONS[i].label;
+      btn.setAttribute("data-q", QUICK_ACTIONS[i].q);
+      btn.onclick = function() {
+        var q = this.getAttribute("data-q");
+        handleUserInput(q);
+        this.parentElement.remove();
+      };
+      container.appendChild(btn);
+    }
+    body.appendChild(container);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function showTyping() {
+    var body = document.getElementById("chatBody");
+    var div = document.createElement("div");
+    div.className = "typing";
+    div.id = "typingIndicator";
+    div.innerHTML = "<span></span><span></span><span></span>";
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function hideTyping() {
+    var el = document.getElementById("typingIndicator");
+    if (el) el.remove();
+  }
+
+  function findBestMatch(input) {
+    var inputLower = input.toLowerCase();
+    var inputWords = inputLower.split(/\s+/);
+    var bestScore = 0;
+    var bestAnswer = null;
+    var bestCat = null;
+
+    for (var i = 0; i < QA_DATA.length; i++) {
+      var qa = QA_DATA[i];
+      var score = 0;
+
+      // Keyword matching
+      for (var k = 0; k < qa.kw.length; k++) {
+        var kw = qa.kw[k].toLowerCase();
+        if (inputLower.indexOf(kw) !== -1) {
+          score += 20;
+        }
+      }
+
+      // Word overlap with question
+      var qWords = qa.q.toLowerCase().replace(/[?!.,]/g, "").split(/\s+/);
+      for (var w = 0; w < inputWords.length; w++) {
+        if (inputWords[w].length <= 4) continue;
+        for (var qw = 0; qw < qWords.length; qw++) {
+          if (qWords[qw].length <= 4) continue;
+          if (qWords[qw].indexOf(inputWords[w]) !== -1 || inputWords[w].indexOf(qWords[qw]) !== -1) {
+            score += 8;
+          }
+        }
+      }
+
+      // Exact phrase bonus
+      if (inputLower.indexOf(qa.q.toLowerCase()) !== -1 || qa.q.toLowerCase().indexOf(inputLower) !== -1) {
+        score += 50;
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestAnswer = qa.a;
+        bestCat = qa.cat;
+      }
+    }
+
+    if (bestScore >= 15) {
+      return {a: bestAnswer, cat: bestCat};
+    }
+    return null;
+  }
+
+  function isGreeting(text) {
+    var greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "thanks", "thank you", "yo", "sup", "howdy", "greetings"];
+    var lower = text.toLowerCase().trim();
+    for (var i = 0; i < greetings.length; i++) {
+      if (lower === greetings[i] || lower.indexOf(greetings[i]) === 0) return true;
+    }
+    return false;
+  }
+
+  function detectAgentMention(text) {
+    var lower = text.toLowerCase();
+    for (var i = 0; i < AGENT_DATA.length; i++) {
+      if (lower.indexOf(AGENT_DATA[i].lastName) !== -1) return AGENT_DATA[i];
+    }
+    return null;
+  }
+
+  function isAvailabilityQuestion(text) {
+    var terms = ["available", "availability", "consultation", "schedule with", "appointment with", "appointment", "meet with", "when can i see", "can i see", "this week", "next week", "open slot", "book with", "want to see", "want to book", "book"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function isDetailedQuestion(text) {
+    var terms = ["specific address", "exact price", "square footage", "how many bedrooms", "make an offer", "submit an offer", "negotiate", "counteroffer", "my specific", "my property at", "my house at"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function maybeShowLeadPrompt() {
+    if (leadFormShown) return;
+    msgCount++;
+    if (msgCount >= 2) {
+      leadFormShown = true;
+      setTimeout(function() {
+        addBotMessage("By the way, if you'd like one of our agents to reach out personally, just leave your contact info below.");
+        showLeadCaptureForm();
+      }, 1200);
+    }
+  }
+
+  function showLeadCaptureForm() {
+    var body = document.getElementById("chatBody");
+    var form = document.createElement("div");
+    form.className = "lead-form";
+    form.innerHTML =
+      "<p>Want us to reach out? Leave your info:</p>" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
+      "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
+      "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
+      "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
+    body.appendChild(form);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function handleUserInput(text) {
+    addUserMessage(text);
+    showTyping();
+
+    var delay = 600 + Math.random() * 600;
+    setTimeout(function() {
+      hideTyping();
+
+      // Tier 1: Greetings
+      if (isGreeting(text)) {
+        addBotMessage("Hello! Whether you're looking to buy, sell, or rent, I'm here to help. What can I assist you with?");
+        return;
+      }
+
+      // Gather context
+      var agent = detectAgentMention(text);
+      var match = findBestMatch(text);
+      var availability = isAvailabilityQuestion(text);
+      var detailed = isDetailedQuestion(text);
+
+      // Agent-specific booking -> lead form
+      if (agent && availability) {
+        showAgentLeadCapture(text, agent);
+        lastCategory = "booking";
+        lastAnswer = null;
+        return;
+      }
+
+      // Detailed property/offer questions -> lead capture
+      if (detailed && !match) {
+        showAgentLeadCapture(text, null);
+        lastCategory = "detailed";
+        lastAnswer = null;
+        return;
+      }
+
+      // Knowledge base answer (with repeat detection)
+      if (match) {
+        if (match.a === lastAnswer) {
+          addBotMessage("It looks like you want more details on this topic. Leave your info and one of our agents will follow up with you directly.");
+          showLeadCaptureForm();
+          lastCategory = match.cat;
+          lastAnswer = null;
+          return;
+        }
+        addBotMessage(match.a);
+        lastAnswer = match.a;
+        lastCategory = match.cat;
+        maybeShowLeadPrompt();
+        return;
+      }
+
+      // Fallback: Generic lead capture
+      showLeadCapture(text);
+      lastCategory = null;
+      lastAnswer = null;
+    }, delay);
+  }
+
+  function showAgentLeadCapture(originalQuestion, agent) {
+    var body = document.getElementById("chatBody");
+    var msg;
+    if (agent) {
+      msg = "Great choice! " + agent.name + " specializes in " + agent.specialty + ". Leave your info below and " + agent.name.split(" ")[0] + " will reach out to schedule a time with you.";
+    } else {
+      msg = "That's a great question for our team. Leave your info below and we'll have the right agent follow up with you directly.";
+    }
+    addBotMessage(msg);
+
+    var form = document.createElement("div");
+    form.className = "lead-form";
+    form.setAttribute("data-agent-requested", agent ? agent.name : "");
+    form.setAttribute("data-question-text", originalQuestion);
+    form.innerHTML =
+      "<p>Leave your info and we will get back to you:</p>" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
+      "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
+      "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
+      "<textarea id=\"leadNote\" placeholder=\"What are you looking for?\">" + originalQuestion + "</textarea>" +
+      "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
+    body.appendChild(form);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function showLeadCapture(originalQuestion) {
+    addBotMessage("Great question! Let me connect you with " + BUSINESS_NAME + " directly so they can give you the best answer.");
+    showLeadCaptureForm();
+  }
+
+  window.submitLead = function() {
+    var name = document.getElementById("leadName").value;
+    var phone = document.getElementById("leadPhone").value;
+    var email = document.getElementById("leadEmail").value;
+
+    if (!name && !phone && !email) {
+      return;
+    }
+
+    var forms = document.querySelectorAll(".lead-form");
+    for (var i = 0; i < forms.length; i++) { forms[i].remove(); }
+
+    addBotMessage("Thank you, " + (name || "friend") + "! A " + BUSINESS_NAME + " agent will reach out to you shortly." +
+      (PHONE ? " You can also call us directly at " + PHONE + "." : ""));
+  };
+
+  window.sendMessage = function() {
+    var input = document.getElementById("chatInput");
+    var text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+    handleUserInput(text);
+  };
+
+  document.getElementById("chatInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") window.sendMessage();
+  });
+})();
+</script>
+</body>
+</html>
