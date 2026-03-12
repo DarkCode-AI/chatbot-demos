@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belmont Periodontics & Dental Implants - AI Assistant Demo</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --brand: #2563eb;
+  --brand-dark: color-mix(in srgb, #2563eb 80%, black);
+  --brand-light: color-mix(in srgb, #2563eb 12%, white);
+  --text: #1a1a2e;
+  --text-light: #6b7280;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --shadow: 0 4px 24px rgba(0,0,0,0.12);
+  --radius: 12px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: white;
+  padding: 80px 20px 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--bg);
+  border-radius: 50% 50% 0 0;
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.hero p {
+  font-size: 1.15rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+.hero-cta {
+  display: inline-block;
+  background: white;
+  color: var(--brand);
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.features {
+  max-width: 900px;
+  margin: -20px auto 60px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+.feature-card {
+  background: var(--white);
+  padding: 28px;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  text-align: center;
+}
+.feature-card .icon { font-size: 2rem; margin-bottom: 12px; }
+.feature-card h3 { font-size: 1.05rem; margin-bottom: 8px; color: var(--text); }
+.feature-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+.footer a { color: var(--brand); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+.chat-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s, background 0.3s;
+  animation: pulse 2s infinite;
+}
+.chat-fab:hover { transform: scale(1.08); }
+.chat-fab svg { width: 28px; height: 28px; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+  50% { box-shadow: 0 4px 32px rgba(0,0,0,0.25); }
+}
+
+.chat-window {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  height: 560px;
+  max-height: calc(100vh - 140px);
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  z-index: 1001;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+.chat-window.open {
+  display: flex;
+  animation: slideUp 0.3s ease-out;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-header {
+  background: var(--brand);
+  color: white;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.chat-header .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+.chat-header .info h4 { font-size: 0.95rem; font-weight: 600; }
+.chat-header .info span { font-size: 0.8rem; opacity: 0.85; }
+.chat-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.4rem;
+  padding: 4px;
+  opacity: 0.8;
+}
+.chat-close:hover { opacity: 1; }
+
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  animation: fadeIn 0.3s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.msg.bot {
+  background: var(--brand-light);
+  color: var(--text);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  white-space: pre-line;
+}
+.msg.user {
+  background: var(--brand);
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0;
+}
+.quick-btn {
+  background: var(--white);
+  border: 1.5px solid var(--brand);
+  color: var(--brand);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.quick-btn:hover {
+  background: var(--brand);
+  color: white;
+}
+
+.typing {
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px;
+  background: var(--brand-light);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+  max-width: 60px;
+}
+.typing span {
+  width: 8px;
+  height: 8px;
+  background: var(--brand);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: typingDot 1.4s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.4; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-4px); }
+}
+
+.chat-input {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+.chat-input input {
+  flex: 1;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 24px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.chat-input input:focus { border-color: var(--brand); }
+.chat-input button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.chat-input button:hover { background: var(--brand-dark); }
+
+.lead-form {
+  background: #f0f4ff;
+  border-radius: 12px;
+  padding: 14px;
+  align-self: flex-start;
+  max-width: 90%;
+}
+.lead-form p { font-size: 0.85rem; margin-bottom: 10px; color: var(--text); }
+.lead-form input, .lead-form textarea {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  font-family: inherit;
+}
+.lead-form textarea { resize: vertical; min-height: 50px; }
+.lead-form button {
+  background: var(--brand);
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .chat-window {
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  .chat-fab { bottom: 16px; right: 16px; width: 56px; height: 56px; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <h1>Belmont Periodontics & Dental Implants</h1>
+  <p>Harvard-affiliated periodontist Dr. Taraneh Naghieh, DMD &mdash; serving the Boston area for over 20 years</p>
+  <button class="hero-cta" onclick="toggleChat()">Try Our AI Assistant</button>
+</section>
+
+<section class="features">
+  <div class="feature-card"><div class="icon">&#129463;</div><h3>Dental Implants</h3><p>Single, multiple, and full-arch implant solutions with over 95% long-term success rate.</p></div>
+  <div class="feature-card"><div class="icon">&#128161;</div><h3>LANAP Laser Therapy</h3><p>Minimally invasive gum disease treatment using advanced laser technology.</p></div>
+  <div class="feature-card"><div class="icon">&#128197;</div><h3>Easy Scheduling</h3><p>Book consultations and follow-ups. Mon&ndash;Thu 8AM&ndash;5PM.</p></div>
+</section>
+
+<footer class="footer">
+  <p>Powered by <a href="https://darkcodeai.carrd.co" target="_blank">DarkCode AI</a></p>
+  <p style="margin-top:8px;font-size:0.78rem;opacity:0.7">AI-powered chatbot demo &mdash; responses are generated from publicly available business information</p>
+</footer>
+
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="Open chat">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="avatar">&#129463;</div>
+    <div class="info">
+      <h4>Belmont Periodontics</h4>
+      <span>AI Assistant &bull; Online</span>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">&times;</button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Type your question..." autocomplete="off">
+    <button onclick="sendMessage()" aria-label="Send">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function() {
+  var QA_DATA = [
+    {"q": "What are your hours?", "a": "We're open Monday through Thursday, 8:00 AM to 5:00 PM. We're closed Friday through Sunday.\n\nCall us at (617) 484-0475 if you need to confirm availability.", "kw": ["hours", "open", "close", "time", "schedule", "when", "monday", "tuesday", "wednesday", "thursday", "friday", "weekend", "saturday", "sunday"], "cat": "hours"},
+    {"q": "How do I book an appointment?", "a": "You can call us at (617) 484-0475 to schedule an appointment. If you're a new patient, you can also download patient forms from our website before your visit.", "kw": ["appointment", "book", "schedule", "visit", "come in", "consultation"], "cat": "booking"},
+    {"q": "Do you accept my insurance?", "a": "Yes, we accept dental insurance. For specific plan questions and to verify your coverage, please call us at (617) 484-0475 and we'll check your benefits before your appointment.\n\nWe also offer online payment through our Clover portal.", "kw": ["insurance", "accept", "cover", "plan", "delta", "cigna", "aetna", "metlife", "bcbs", "blue cross", "guardian", "united", "what insurance", "which insurance"], "cat": "insurance"},
+    {"q": "What services do you offer?", "a": "Dr. Naghieh specializes in periodontics and dental implants, including:\n\n- Dental implants (single, multiple, full arch)\n- Bone grafting\n- LANAP laser therapy\n- Gum recession treatment\n- Crown lengthening\n- Cosmetic periodontal surgery\n- Pocket reduction surgery\n- Scaling and root planing\n- Sinus augmentation\n- Periodontal maintenance\n\nCall (617) 484-0475 for a consultation.", "kw": ["services", "what do you offer", "provide", "do you do", "treatments", "procedures"], "cat": "services"},
+    {"q": "Tell me about Dr. Naghieh", "a": "Dr. Taraneh Naghieh, DMD is a board-certified periodontist with over 20 years of private practice experience in the Boston area.\n\nShe received her DMD and Certificate of Advanced Education in Periodontology from Tufts School of Dental Medicine, and holds a BA in Biology from Boston University.\n\nShe's completed advanced implant training at Loma Linda University and the Malo Clinic in Portugal (All-on-4 certification). She's also a faculty member at Tufts University.\n\nRecognized as a Boston Magazine Top Dentist from 2021-2025.", "kw": ["naghieh", "doctor", "dr", "who", "periodontist", "dentist", "team", "staff", "provider", "taraneh", "about the doctor"], "cat": "doctor"},
+    {"q": "What are dental implants?", "a": "Dental implants are permanent replacements for missing teeth with over 95% long-term success rate. They look and function like natural teeth.\n\nDr. Naghieh offers single tooth implants, multiple implants, and full-arch solutions including All-on-4.\n\nCall (617) 484-0475 to schedule an implant consultation.", "kw": ["implant", "implants", "missing tooth", "missing teeth", "replace", "permanent", "all-on-4", "all on 4"], "cat": "implants"},
+    {"q": "What is LANAP?", "a": "LANAP (Laser Assisted New Attachment Procedure) is a minimally invasive laser treatment for gum disease. It uses advanced laser technology to remove diseased tissue while preserving healthy gums.\n\nBenefits include less pain, faster healing, and no cutting or stitches compared to traditional gum surgery.\n\nCall (617) 484-0475 to see if LANAP is right for you.", "kw": ["lanap", "laser", "laser therapy", "laser treatment", "laser surgery", "gingivectomy"], "cat": "services"},
+    {"q": "What is periodontal disease?", "a": "Periodontal disease is an infection of the structures supporting your teeth - gums, ligaments, and jawbone.\n\nWarning signs include:\n- Bleeding or swollen gums\n- Bad breath or unpleasant taste\n- Loose or shifting teeth\n- Gum recession\n\nIt's often painless in early stages, so regular check-ups are important. Call (617) 484-0475 for an evaluation.", "kw": ["periodontal disease", "gum disease", "periodontitis", "gingivitis", "gums", "bleeding gums", "swollen gums", "gum infection"], "cat": "education"},
+    {"q": "Do you do bone grafting?", "a": "Yes, Dr. Naghieh performs bone grafting procedures to rebuild jawbone lost to periodontal disease or tooth extraction. This is often needed before placing dental implants.\n\nWe also offer guided bone regeneration (GBR) using special membranes to encourage natural bone growth.\n\nCall (617) 484-0475 for a consultation.", "kw": ["bone graft", "bone grafting", "bone loss", "jawbone", "regeneration", "gbr"], "cat": "services"},
+    {"q": "What about gum recession?", "a": "Gum recession exposes tooth roots, causing sensitivity and increasing decay risk. Dr. Naghieh offers gum grafting procedures to restore your gumline and protect exposed roots.\n\nCall (617) 484-0475 to schedule an evaluation.", "kw": ["gum recession", "receding gums", "gum graft", "gum grafting", "root exposure", "sensitive teeth", "gumline"], "cat": "services"},
+    {"q": "Where are you located?", "a": "We're at 18 Moore Street, Suite 300, Belmont, MA 02478.\n\nThe office is in a three-story professional building in Belmont Center, next to People's United Bank and Town Hall Annex. Free parking is behind the building - take the left driveway.\n\nPhone: (617) 484-0475", "kw": ["location", "located", "where", "address", "directions", "find you", "parking", "belmont"], "cat": "location"},
+    {"q": "Are you accepting new patients?", "a": "Yes! We welcome new patients and referrals. You can download patient forms from our website before your first visit.\n\nCall (617) 484-0475 to schedule your initial consultation with Dr. Naghieh.", "kw": ["new patient", "accepting", "first time", "join", "referral", "referred"], "cat": "new_patient"},
+    {"q": "How much does a consultation cost?", "a": "Consultation costs vary depending on your insurance coverage and the type of evaluation needed. Many plans cover initial consultations.\n\nCall (617) 484-0475 and we'll verify your benefits and give you a cost estimate before your appointment.", "kw": ["cost", "price", "how much", "fee", "charge", "expensive", "consultation cost", "affordable"], "cat": "pricing"},
+    {"q": "What is crown lengthening?", "a": "Crown lengthening is a procedure that reshapes excess gum and bone tissue to expose more of a tooth's surface. It's done for both restorative reasons (preparing for a crown) and cosmetic purposes (correcting a 'gummy smile').\n\nCall (617) 484-0475 to learn more.", "kw": ["crown lengthening", "gummy smile", "excess gum", "short teeth", "crown"], "cat": "services"},
+    {"q": "What is scaling and root planing?", "a": "Scaling and root planing is a deep cleaning procedure done under local anesthetic. It removes plaque, calculus, and bacteria from below the gumline and smooths the tooth roots to help gums reattach.\n\nIt's the first line of treatment for periodontal disease. Follow-up maintenance is typically scheduled every three months.\n\nCall (617) 484-0475 to schedule.", "kw": ["scaling", "root planing", "deep cleaning", "deep clean", "srp", "calculus", "tartar"], "cat": "services"},
+    {"q": "How often should I come for maintenance?", "a": "For periodontal patients, Dr. Naghieh recommends maintenance visits every three months. This includes a periodontal cleaning, examination, and home care review.\n\nRegular maintenance is critical for long-term success after periodontal treatment.\n\nCall (617) 484-0475 to schedule your next maintenance visit.", "kw": ["maintenance", "how often", "follow up", "recall", "cleaning schedule", "every three months", "3 months"], "cat": "maintenance"},
+    {"q": "What is your phone number?", "a": "You can reach us at (617) 484-0475. We're happy to help!", "kw": ["phone", "phone number", "call", "telephone", "number", "contact number"], "cat": "contact"},
+    {"q": "What is your email?", "a": "You can email us at info@belmontperiodontics.com, or call (617) 484-0475.", "kw": ["email", "email address", "e-mail", "mail"], "cat": "contact"},
+    {"q": "What is your fax number?", "a": "Our fax number is (617) 484-3233.", "kw": ["fax", "fax number"], "cat": "contact"},
+    {"q": "Do you offer payment plans?", "a": "We accept insurance, and offer online payment through our Clover portal. For questions about payment options, call us at (617) 484-0475.", "kw": ["payment", "pay", "finance", "financing", "credit", "cash", "payment plan", "afford", "clover", "online payment"], "cat": "billing"},
+    {"q": "What are your credentials?", "a": "Dr. Naghieh is a member of:\n\n- American Dental Association\n- Massachusetts Dental Society\n- American Academy of Periodontology\n- Academy of Osseointegration\n- American Academy of Implant Dentistry\n\nShe's been recognized as a Boston Magazine Top Dentist from 2021 through 2025.", "kw": ["credentials", "qualifications", "board certified", "affiliations", "awards", "top dentist", "boston magazine"], "cat": "doctor"},
+    {"q": "Do you handle emergencies?", "a": "If you're experiencing a periodontal emergency - severe pain, swelling, or trauma - call us immediately at (617) 484-0475. We'll work to see you as soon as possible during office hours (Mon-Thu 8AM-5PM).", "kw": ["emergency", "urgent", "pain", "swelling", "trauma", "broken", "accident"], "cat": "emergency"},
+    {"q": "Is smoking bad for my gums?", "a": "Yes, smoking significantly increases your risk of periodontal disease. Research shows smoking inhibits your immune response and causes jawbone loss, making gum disease harder to treat.\n\nIf you smoke and have gum concerns, call (617) 484-0475 for an evaluation.", "kw": ["smoking", "smoke", "tobacco", "cigarette", "vaping"], "cat": "education"},
+    {"q": "What is sinus augmentation?", "a": "Sinus augmentation (sinus lift) adds bone to the upper jaw in the area of your molars and premolars. It's sometimes needed before placing dental implants in the upper jaw when there isn't enough bone height.\n\nCall (617) 484-0475 to discuss with Dr. Naghieh.", "kw": ["sinus", "sinus lift", "sinus augmentation", "upper jaw"], "cat": "services"}
+  ];
+
+  var QUICK_ACTIONS = [
+    {"label": "Dental Implants", "q": "What are dental implants?"},
+    {"label": "Book Appointment", "q": "How do I book an appointment?"},
+    {"label": "Insurance", "q": "Do you accept my insurance?"},
+    {"label": "About Dr. Naghieh", "q": "Tell me about Dr. Naghieh"}
+  ];
+
+  var BUSINESS_NAME = "Belmont Periodontics & Dental Implants";
+  var PHONE = "(617) 484-0475";
+
+  var chatOpen = false;
+  var initialized = false;
+  var lastAnswer = null;
+  var lastCategory = null;
+
+  window.toggleChat = function() {
+    chatOpen = !chatOpen;
+    var win = document.getElementById("chatWindow");
+    var fab = document.getElementById("chatFab");
+    if (chatOpen) {
+      win.classList.add("open");
+      fab.style.display = "none";
+      if (!initialized) { initChat(); initialized = true; }
+      setTimeout(function() { document.getElementById("chatInput").focus(); }, 300);
+    } else {
+      win.classList.remove("open");
+      fab.style.display = "flex";
+    }
+  };
+
+  function initChat() {
+    addBotMessage("Welcome to Belmont Periodontics & Dental Implants! I'm the AI assistant for Dr. Naghieh's office. How can I help you today?");
+    setTimeout(function() { addQuickActions(); }, 400);
+  }
+
+  function addBotMessage(text) {
+    var body = document.getElementById("chatBody");
+    var div = document.createElement("div");
+    div.className = "msg bot";
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function addUserMessage(text) {
+    var body = document.getElementById("chatBody");
+    var div = document.createElement("div");
+    div.className = "msg user";
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function addQuickActions() {
+    var body = document.getElementById("chatBody");
+    var container = document.createElement("div");
+    container.className = "quick-actions";
+    for (var i = 0; i < QUICK_ACTIONS.length; i++) {
+      var btn = document.createElement("button");
+      btn.className = "quick-btn";
+      btn.textContent = QUICK_ACTIONS[i].label;
+      btn.setAttribute("data-q", QUICK_ACTIONS[i].q);
+      btn.onclick = function() {
+        var q = this.getAttribute("data-q");
+        handleUserInput(q);
+        this.parentElement.remove();
+      };
+      container.appendChild(btn);
+    }
+    body.appendChild(container);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function showTyping() {
+    var body = document.getElementById("chatBody");
+    var div = document.createElement("div");
+    div.className = "typing";
+    div.id = "typingIndicator";
+    div.innerHTML = "<span></span><span></span><span></span>";
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function hideTyping() {
+    var el = document.getElementById("typingIndicator");
+    if (el) el.remove();
+  }
+
+  function findBestMatch(input) {
+    var inputLower = input.toLowerCase();
+    var inputWords = inputLower.split(/\s+/);
+    var bestScore = 0;
+    var bestAnswer = null;
+    var bestCat = null;
+
+    for (var i = 0; i < QA_DATA.length; i++) {
+      var qa = QA_DATA[i];
+      var score = 0;
+      for (var k = 0; k < qa.kw.length; k++) {
+        if (inputLower.indexOf(qa.kw[k].toLowerCase()) !== -1) score += 20;
+      }
+      var qWords = qa.q.toLowerCase().replace(/[?!.,]/g, "").split(/\s+/);
+      for (var w = 0; w < inputWords.length; w++) {
+        if (inputWords[w].length <= 4) continue;
+        for (var qw = 0; qw < qWords.length; qw++) {
+          if (qWords[qw].length <= 4) continue;
+          if (qWords[qw].indexOf(inputWords[w]) !== -1 || inputWords[w].indexOf(qWords[qw]) !== -1) score += 8;
+        }
+      }
+      if (inputLower.indexOf(qa.q.toLowerCase()) !== -1 || qa.q.toLowerCase().indexOf(inputLower) !== -1) score += 50;
+      if (score > bestScore) { bestScore = score; bestAnswer = qa.a; bestCat = qa.cat; }
+    }
+    return bestScore >= 15 ? {a: bestAnswer, cat: bestCat} : null;
+  }
+
+  function isGreeting(text) {
+    var greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "thanks", "thank you", "yo", "sup", "howdy"];
+    var lower = text.toLowerCase().trim();
+    for (var i = 0; i < greetings.length; i++) {
+      if (lower === greetings[i] || lower.indexOf(greetings[i]) === 0) return true;
+    }
+    return false;
+  }
+
+  function isAvailabilityQuestion(text) {
+    var terms = ["available", "availability", "schedule with", "appointment with", "when can i see", "can i see", "this week", "next week", "open slot", "book with"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function isMedicalQuestion(text) {
+    var terms = ["diagnosis", "treatment plan", "should i get", "do i need", "x-ray", "recommend", "second opinion", "pain in my", "my tooth", "my gums", "bleeding", "swollen", "infection"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function showLeadCaptureForm() {
+    var body = document.getElementById("chatBody");
+    var form = document.createElement("div");
+    form.className = "lead-form";
+    form.innerHTML =
+      "<p>Leave your info and we will get back to you:</p>" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
+      "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
+      "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
+      "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
+    body.appendChild(form);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function handleUserInput(text) {
+    addUserMessage(text);
+    showTyping();
+    var delay = 600 + Math.random() * 600;
+    setTimeout(function() {
+      hideTyping();
+      if (isGreeting(text)) { addBotMessage("Hello! How can I help you today?"); return; }
+      var match = findBestMatch(text);
+      var availability = isAvailabilityQuestion(text);
+      var medical = isMedicalQuestion(text);
+
+      if (availability && !match) {
+        addBotMessage("I'd be happy to help with scheduling! Call us at (617) 484-0475 and our team will find the best time for your appointment with Dr. Naghieh.");
+        showLeadCaptureForm();
+        return;
+      }
+      if (medical && !match) {
+        addBotMessage("That's a great question for Dr. Naghieh. Leave your info below and we'll have her team follow up with you directly.");
+        showLeadCaptureForm();
+        return;
+      }
+      if (match) {
+        if (match.a === lastAnswer) {
+          addBotMessage("Looks like you want more details on this. Leave your info and our team will follow up directly.");
+          showLeadCaptureForm();
+          lastAnswer = null;
+          return;
+        }
+        addBotMessage(match.a);
+        lastAnswer = match.a;
+        lastCategory = match.cat;
+        return;
+      }
+      addBotMessage("Great question! Let me connect you with Belmont Periodontics directly so they can give you the best answer.");
+      showLeadCaptureForm();
+      lastCategory = null;
+      lastAnswer = null;
+    }, delay);
+  }
+
+  window.submitLead = function() {
+    var name = document.getElementById("leadName").value;
+    var phone = document.getElementById("leadPhone").value;
+    var email = document.getElementById("leadEmail").value;
+    if (!name && !phone && !email) return;
+    var forms = document.querySelectorAll(".lead-form");
+    for (var i = 0; i < forms.length; i++) { forms[i].remove(); }
+    addBotMessage("Thank you, " + (name || "friend") + "! Belmont Periodontics will reach out to you shortly. You can also call us directly at (617) 484-0475.");
+  };
+
+  window.sendMessage = function() {
+    var input = document.getElementById("chatInput");
+    var text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+    handleUserInput(text);
+  };
+
+  document.getElementById("chatInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") window.sendMessage();
+  });
+})();
+</script>
+</body>
+</html>
