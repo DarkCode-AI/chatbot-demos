@@ -6,21 +6,23 @@
 <title>ERA M. Connie Laplante Real Estate - AI Assistant Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --brand: #0d9488;
-  --brand-dark: #0a7a70;
-  --brand-deeper: #065f58;
-  --brand-light: #ccfbf1;
-  --brand-glow: rgba(13, 148, 136, 0.15);
-  --accent: #f0fdfa;
+  --brand: #1e3a5f;
+  --brand-dark: #152c4a;
+  --brand-deeper: #0e1f35;
+  --brand-light: #e8eef5;
+  --accent: #d4a853;
+  --accent-dark: #b8923f;
+  --accent-light: #faf3e3;
+  --accent-glow: rgba(212, 168, 83, 0.15);
   --text: #0f172a;
   --text-secondary: #475569;
   --text-muted: #94a3b8;
-  --bg: #f8fafb;
+  --bg: #f9fafb;
   --white: #ffffff;
   --border: #e2e8f0;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
@@ -41,12 +43,12 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 40%, var(--brand-deeper) 100%);
+  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 45%, var(--brand-deeper) 100%);
   color: white;
   padding: 100px 20px 120px;
   text-align: center;
@@ -56,13 +58,12 @@ h1, h2, h3 {
 .hero::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -20%;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: heroFloat 20s ease-in-out infinite;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
 }
 .hero::after {
   content: '';
@@ -74,32 +75,43 @@ h1, h2, h3 {
   background: var(--bg);
   border-radius: 60% 60% 0 0;
 }
-@keyframes heroFloat {
+.hero-glow {
+  position: absolute;
+  top: -30%;
+  right: -15%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(212, 168, 83, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: glowDrift 18s ease-in-out infinite;
+}
+@keyframes glowDrift {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(40px, 30px) scale(1.05); }
-  66% { transform: translate(-20px, -15px) scale(0.98); }
+  50% { transform: translate(-30px, 20px) scale(1.06); }
 }
 .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.1);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.12);
   padding: 6px 16px;
   border-radius: 50px;
+  font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   margin-bottom: 24px;
   position: relative;
-  animation: fadeInDown 0.6s ease-out;
+  animation: fadeInUp 0.6s ease-out;
 }
 .hero-badge::before {
   content: '';
   width: 6px;
   height: 6px;
-  background: #34d399;
+  background: var(--accent);
   border-radius: 50%;
   animation: dotPulse 2s infinite;
 }
@@ -107,50 +119,62 @@ h1, h2, h3 {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
 }
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 .hero h1 {
   font-size: clamp(2rem, 5vw, 3.2rem);
-  font-weight: 800;
-  margin-bottom: 16px;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   position: relative;
-  animation: fadeInDown 0.6s ease-out 0.1s both;
+  animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+.hero .tagline {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out 0.1s both;
 }
 .hero p {
-  font-size: 1.1rem;
-  opacity: 0.88;
-  max-width: 520px;
+  font-size: 1.05rem;
+  opacity: 0.85;
+  max-width: 540px;
   margin: 0 auto 36px;
   line-height: 1.7;
   font-weight: 400;
   position: relative;
-  animation: fadeInDown 0.6s ease-out 0.2s both;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .hero-cta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: white;
-  color: var(--brand-dark);
-  padding: 14px 30px;
+  background: var(--accent);
+  color: var(--brand-deeper);
+  padding: 14px 32px;
   border-radius: 50px;
   font-weight: 700;
   font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   border: none;
-  font-family: 'Inter', sans-serif;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 16px rgba(212, 168, 83, 0.25);
   position: relative;
-  animation: fadeInDown 0.6s ease-out 0.3s both;
+  animation: fadeInUp 0.6s ease-out 0.3s both;
 }
 .hero-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 28px rgba(212, 168, 83, 0.35);
+  background: #ddb25e;
 }
 .hero-cta::after {
   content: '\2192';
@@ -162,18 +186,18 @@ h1, h2, h3 {
 
 /* Features */
 .features {
-  max-width: 900px;
+  max-width: 960px;
   margin: -40px auto 80px;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   position: relative;
   z-index: 1;
 }
 .feature-card {
   background: var(--white);
-  padding: 32px 28px;
+  padding: 32px 24px;
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
   text-align: center;
@@ -189,7 +213,7 @@ h1, h2, h3 {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--brand), var(--brand-dark));
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -202,25 +226,26 @@ h1, h2, h3 {
   opacity: 1;
 }
 .feature-card .icon {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   margin-bottom: 16px;
   width: 52px;
   height: 52px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--brand-light);
+  background: var(--accent-light);
   border-radius: 14px;
 }
 .feature-card h3 {
-  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
   font-weight: 700;
   margin-bottom: 8px;
   color: var(--text);
   letter-spacing: -0.01em;
 }
 .feature-card p {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   color: var(--text-secondary);
   line-height: 1.6;
 }
@@ -239,7 +264,12 @@ h1, h2, h3 {
   font-weight: 600;
   transition: color 0.2s;
 }
-.footer a:hover { color: var(--brand-dark); }
+.footer a:hover { color: var(--accent-dark); }
+.footer .powered {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
 
 /* Chat Widget */
 .chat-fab {
@@ -253,7 +283,7 @@ h1, h2, h3 {
   color: white;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(13, 148, 136, 0.35);
+  box-shadow: 0 4px 20px rgba(30, 58, 95, 0.35);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -263,7 +293,7 @@ h1, h2, h3 {
 }
 .chat-fab:hover {
   transform: scale(1.08);
-  box-shadow: 0 6px 28px rgba(13, 148, 136, 0.45);
+  box-shadow: 0 6px 28px rgba(30, 58, 95, 0.45);
 }
 .chat-fab svg { width: 26px; height: 26px; }
 @keyframes fabEntry {
@@ -275,9 +305,9 @@ h1, h2, h3 {
   position: fixed;
   bottom: 96px;
   right: 24px;
-  width: 380px;
+  width: 390px;
   max-width: calc(100vw - 32px);
-  height: 560px;
+  height: 570px;
   max-height: calc(100vh - 140px);
   background: var(--white);
   border-radius: 20px;
@@ -310,7 +340,7 @@ h1, h2, h3 {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.12);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -320,11 +350,12 @@ h1, h2, h3 {
 .chat-header .info h4 {
   font-size: 0.92rem;
   font-weight: 600;
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
 }
 .chat-header .info span {
   font-size: 0.78rem;
   opacity: 0.8;
+  font-family: 'Inter', sans-serif;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -404,8 +435,8 @@ h1, h2, h3 {
 }
 .quick-btn {
   background: var(--white);
-  border: 1.5px solid var(--brand-light);
-  color: var(--brand-dark);
+  border: 1.5px solid var(--accent-light);
+  color: var(--brand);
   padding: 7px 14px;
   border-radius: 20px;
   font-size: 0.8rem;
@@ -416,9 +447,9 @@ h1, h2, h3 {
   font-family: 'Inter', sans-serif;
 }
 .quick-btn:hover {
-  background: var(--brand);
-  color: white;
-  border-color: var(--brand);
+  background: var(--accent);
+  color: var(--brand-deeper);
+  border-color: var(--accent);
   transform: translateY(-1px);
 }
 
@@ -472,7 +503,7 @@ h1, h2, h3 {
 .chat-input input:focus {
   border-color: var(--brand);
   background: var(--white);
-  box-shadow: 0 0 0 3px var(--brand-glow);
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.08);
 }
 .chat-input input::placeholder { color: var(--text-muted); }
 .chat-input button {
@@ -490,8 +521,9 @@ h1, h2, h3 {
   transition: all 0.2s;
 }
 .chat-input button:hover {
+  background: var(--accent);
+  color: var(--brand-deeper);
   transform: scale(1.05);
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
 }
 
 /* Lead capture form */
@@ -567,7 +599,8 @@ h1, h2, h3 {
   transition: all 0.2s;
 }
 .lead-form button:hover {
-  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+  background: var(--accent);
+  color: var(--brand-deeper);
   transform: translateY(-1px);
 }
 
@@ -588,20 +621,23 @@ h1, h2, h3 {
 <body>
 
 <section class="hero">
-  <div class="hero-badge">AI-Powered Dental Assistant</div>
+  <div class="hero-glow"></div>
+  <div class="hero-badge">AI-Powered Real Estate Assistant</div>
   <h1>ERA M. Connie Laplante Real Estate</h1>
-  <p>Real Estate</p>
+  <div class="tagline">Real Estate</div>
+  <p>Find your dream home, sell with confidence, or invest for the future. Our expert agents are here to guide you every step of the way.</p>
   <button class="hero-cta" onclick="toggleChat()">Try Our AI Assistant</button>
 </section>
 
 <section class="features">
-  <div class="feature-card"><div class="icon">&#128197;</div><h3>Easy Scheduling</h3><p>Book appointments instantly, 24/7 — even outside office hours.</p></div>
-  <div class="feature-card"><div class="icon">&#128737;</div><h3>Insurance Check</h3><p>Instantly verify your dental insurance coverage and benefits.</p></div>
-  <div class="feature-card"><div class="icon">&#9889;</div><h3>Emergency Support</h3><p>Get immediate guidance for dental emergencies anytime.</p></div>
+  <div class="feature-card"><div class="icon">&#127968;</div><h3>Browse Listings</h3><p>Search available homes, condos, and investment properties in your area.</p></div>
+  <div class="feature-card"><div class="icon">&#128197;</div><h3>Schedule Showings</h3><p>Book private showings at your convenience, 24/7.</p></div>
+  <div class="feature-card"><div class="icon">&#128200;</div><h3>Home Valuation</h3><p>Get a free market analysis and local insights on your property.</p></div>
+  <div class="feature-card"><div class="icon">&#128273;</div><h3>Expert Guidance</h3><p>From first-time buyers to seasoned investors, our agents are here for you.</p></div>
 </section>
 
 <footer class="footer">
-  <p>Powered by <a href="https://darkcodeai.carrd.co" target="_blank">DarkCode AI</a></p>
+  <p class="powered">AI-Powered by <a href="https://darkcodeai.carrd.co" target="_blank">DarkCode AI</a></p>
   <p style="margin-top:8px;font-size:0.78rem;opacity:0.7">AI-powered chatbot demo &mdash; responses are generated from publicly available business information</p>
 </footer>
 
@@ -614,7 +650,7 @@ h1, h2, h3 {
 
 <div class="chat-window" id="chatWindow">
   <div class="chat-header">
-    <div class="avatar">&#129463;</div>
+    <div class="avatar">&#127968;</div>
     <div class="info">
       <h4>ERA M. Connie Laplante Real Estate</h4>
       <span>AI Assistant &bull; Online</span>
@@ -623,7 +659,7 @@ h1, h2, h3 {
   </div>
   <div class="chat-body" id="chatBody"></div>
   <div class="chat-input">
-    <input type="text" id="chatInput" placeholder="Type your question..." autocomplete="off">
+    <input type="text" id="chatInput" placeholder="Ask about listings, viewings, buying..." autocomplete="off">
     <button onclick="sendMessage()" aria-label="Send">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
     </button>
@@ -632,14 +668,22 @@ h1, h2, h3 {
 
 <script>
 (function() {
-  var QA_DATA = [{"q": "What is your contact info?", "a": "Here's how to reach ERA M. Connie Laplante Real Estate:\n\nPhone: (413) 536-9111\nAddress: 000 30 Red Bridge Rd, Lot 1  Wilbraham MA 01095\nEmail: eralaplante@gmail.com", "kw": ["contact info", "contact information", "how to contact", "reach you", "get in touch", "contact details", "how do i contact", "how do i reach", "contact"], "cat": "contact"}, {"q": "What is your phone number?", "a": "You can reach us at (413) 536-9111. We're happy to help!", "kw": ["phone", "phone number", "your phone", "call you", "telephone", "your number", "number"], "cat": "contact"}, {"q": "What is your email?", "a": "You can email us at eralaplante@gmail.com, or call (413) 536-9111.", "kw": ["email", "email address", "your email", "e-mail", "mail"], "cat": "contact"}, {"q": "What are your hours?", "a": "Our hours at ERA M. Connie Laplante Real Estate:\n\n10:30 am - 12 pm\n\nCall us at (413) 536-9111 if you need to confirm availability.", "kw": ["hours", "open", "close", "time", "schedule", "when", "business hours", "office hours"], "cat": "hours"}, {"q": "Can I see you on weekends?", "a": "Please call us at (413) 536-9111 to check our weekend availability. We understand busy schedules and try to offer convenient appointment times.", "kw": ["weekend", "saturday", "sunday", "after hours", "evening"], "cat": "hours"}, {"q": "What services do you offer?", "a": "At ERA M. Connie Laplante Real Estate, we offer New Construction, First-Time Buyers. We're here for all your dental needs!\n\nCall us at (413) 536-9111 to schedule a consultation.", "kw": ["services", "what do you offer", "provide", "do you do", "treatments", "procedures", "services do you"], "cat": "services"}, {"q": "Do you see children?", "a": "Absolutely! We love treating kids at ERA M. Connie Laplante Real Estate. We recommend bringing children in for their first visit by age 1 or when their first tooth appears.", "kw": ["children", "kids", "child", "pediatric", "baby", "toddler", "son", "daughter"], "cat": "pediatric"}, {"q": "Do you accept my insurance?", "a": "We accept most major dental insurance plans. Call us at (413) 536-9111 and we'll verify your specific coverage for free!", "kw": ["insurance", "accept", "cover", "plan", "delta", "cigna", "aetna", "metlife", "bcbs", "blue cross", "anthem", "guardian", "geha", "unum", "principal", "insurance companies", "what insurance", "which insurance", "insurance do you", "accept insurance"], "cat": "insurance"}, {"q": "What insurance do you accept for orthodontics?", "a": "For orthodontic coverage, please call us at (413) 536-9111 to verify your specific plan. Most major plans provide orthodontic benefits.", "kw": ["orthodontic insurance", "ortho insurance", "braces insurance", "braces coverage", "invisalign insurance", "orthodontic coverage"], "cat": "insurance"}, {"q": "What if my insurance is out-of-network?", "a": "No problem! If you're out-of-network, we'll submit insurance claims on your behalf so you can still get reimbursed. Call us at (413) 536-9111 and we'll help you understand your coverage.", "kw": ["out-of-network", "out of network", "not in network", "oon"], "cat": "insurance"}, {"q": "What payment options do you have?", "a": "We accept Cash, Check. Call us at (413) 536-9111 to discuss payment options.", "kw": ["payment", "pay", "finance", "financing", "credit", "cash", "payment plan", "afford", "carecredit", "care credit", "out of network", "out-of-network", "offer finance", "offer financing", "finance option", "financing option", "pay for", "how to pay", "financing available"], "cat": "billing"}, {"q": "How much does a cleaning cost?", "a": "Cleaning costs vary based on your insurance coverage. Most plans cover preventive cleanings at 100%. Call us at (413) 536-9111 for a cost estimate with your specific insurance.", "kw": ["cost", "price", "how much", "cleaning", "fee", "charge", "expensive"], "cat": "pricing"}, {"q": "Who are your dentists?", "a": "We have 2 doctors on our team:\n\n- Dr. South Hadley\n- Occupant Opportunity\n\nCall us at (413) 536-9111 to schedule with any of our doctors.", "kw": ["dentist", "doctor", "who", "team", "staff", "provider", "dr", "doctors", "how many", "meet the team", "docs"], "cat": "team"}, {"q": "Who are your doctors?", "a": "We have 2 doctors on our team:\n\n- Dr. South Hadley\n- Occupant Opportunity\n\nCall us at (413) 536-9111 to schedule with any of our doctors.", "kw": ["doctors", "doctor", "who", "team", "staff", "provider", "dr", "works there", "how many", "meet the team", "docs"], "cat": "doctor"}, {"q": "Tell me about Dr. South Hadley", "a": "Dr. South Hadley is part of our team at ERA M. Connie Laplante Real Estate. Call us at (413) 536-9111 to schedule an appointment.", "kw": ["hadley", "south", "dr hadley"], "cat": "doctor"}, {"q": "Tell me about Occupant Opportunity", "a": "Occupant Opportunity is part of our team at ERA M. Connie Laplante Real Estate. Call us at (413) 536-9111 to schedule an appointment.", "kw": ["opportunity", "occupant", "dr opportunity"], "cat": "doctor"}, {"q": "Are you accepting new patients?", "a": "Yes! ERA M. Connie Laplante Real Estate is always welcoming new patients. Call us at (413) 536-9111 to get started — we'll make your first visit easy and comfortable.", "kw": ["new patient", "accepting", "first time", "join", "sign up", "register"], "cat": "new_patient"}, {"q": "What should I expect at my first visit?", "a": "Your first visit includes a comprehensive exam, X-rays, and a cleaning. We'll discuss your dental health and create a personalized treatment plan. Plan for about 60-90 minutes.", "kw": ["first visit", "first appointment", "expect", "what happens", "new patient visit"], "cat": "new_patient"}, {"q": "Do you handle dental emergencies?", "a": "Yes, we handle dental emergencies! If you're in pain or had an accident, call (413) 536-9111 immediately. We'll get you in as soon as possible.", "kw": ["emergency", "emergencies", "urgent", "pain", "toothache", "broken", "knocked out", "accident"], "cat": "emergency"}, {"q": "How do I book an appointment?", "a": "You can book by calling us at (413) 536-9111 or by leaving your info in the chat! We'll find a time that works for you.", "kw": ["appointment", "book", "schedule", "visit", "come in"], "cat": "booking"}, {"q": "How do I book online?", "a": "You can book online at our website or call us at (413) 536-9111. We'll find a time that works for you!", "kw": ["book online", "online booking", "online appointment", "website booking", "online schedule"], "cat": "booking"}, {"q": "Do you take walk-ins?", "a": "We prefer appointments so we can give you dedicated time, but we do our best to accommodate walk-ins and emergencies. Call us at (413) 536-9111 to check availability.", "kw": ["walk-in", "walk in", "without appointment", "drop in", "no appointment"], "cat": "booking"}, {"q": "Where are you located?", "a": "We're located at 000 30 Red Bridge Rd, Lot 1  Wilbraham MA 01095. Call us at (413) 536-9111 for directions.", "kw": ["location", "located", "where", "address", "directions", "find you", "parking"], "cat": "location"}, {"q": "What COVID precautions do you take?", "a": "Patient safety is our top priority. We follow all CDC and ADA guidelines including enhanced sanitization, air filtration, and screening protocols.", "kw": ["covid", "safety", "precaution", "sanitize", "clean", "protocol", "safe"], "cat": "safety"}];
-  var QUICK_ACTIONS = [{"label": "Book Appointment", "q": "How do I book an appointment?"}, {"label": "Insurance", "q": "Do you accept my insurance?"}, {"label": "Services", "q": "What services do you offer?"}, {"label": "Emergency", "q": "Do you handle dental emergencies?"}];
+  var QA_DATA = [{"q": "What is your contact info?", "a": "Here's how to reach ERA M. Connie Laplante Real Estate:\n\nPhone: (413) 536-9111\nEmail: eralaplante@gmail.com", "kw": ["contact info", "contact information", "how to contact", "reach you", "get in touch", "contact details", "contact"], "cat": "contact"}, {"q": "What is your phone number?", "a": "You can reach us at (413) 536-9111. We're happy to help!", "kw": ["phone", "phone number", "call you", "telephone", "your number", "number"], "cat": "contact"}, {"q": "What is your email?", "a": "You can email us at eralaplante@gmail.com, or call (413) 536-9111. We respond within one business day.", "kw": ["email", "email address", "your email", "e-mail", "mail"], "cat": "contact"}, {"q": "What are your hours?", "a": "Our agents are available by appointment and our office is open during regular business hours. Call us at (413) 536-9111 to schedule a time that works for you.", "kw": ["hours", "open", "close", "time", "schedule", "when", "office hours", "business hours"], "cat": "hours"}, {"q": "What areas do you cover?", "a": "We serve South Hadley, Wilbraham, Kitchen, Street Belchertown, Granby and surrounding communities. Whether you're buying or selling in any of these areas, our agents know the local market inside and out.\n\nCall us at (413) 536-9111 to discuss properties in your preferred area!", "kw": ["areas", "cover", "serve", "neighborhoods", "cities", "towns", "where", "service area", "what areas", "which areas", "communities"], "cat": "areas"}, {"q": "What types of properties do you specialize in?", "a": "At ERA M. Connie Laplante Real Estate, we specialize in Investment Properties, Rentals, Luxury Homes, First-Time Buyers, New Construction, Condos & Townhomes, Land & Lots.\n\nNo matter what type of property you're looking for, we have the expertise to help. Call us at (413) 536-9111!", "kw": ["specialize", "specialty", "specialties", "types of properties", "property types", "what kind", "what type", "focus", "expertise"], "cat": "specialties"}, {"q": "What services do you offer?", "a": "At ERA M. Connie Laplante Real Estate, we provide New Construction.\n\nCall us at (413) 536-9111 to discuss how we can help with your real estate goals.", "kw": ["services", "what do you offer", "provide", "do you do"], "cat": "services"}, {"q": "Who is the agent I'd be working with?", "a": "Our experienced team at ERA M. Connie Laplante Real Estate (License #setting) is ready to help!\n\nLanguages: English, French\n\nCall us at (413) 536-9111 to connect with an agent.", "kw": ["agent", "agents", "who", "team", "staff", "realtors", "realtor", "meet the team", "working with", "who would i"], "cat": "team"}, {"q": "How does the buying process work with your team?", "a": "The home buying process with ERA M. Connie Laplante Real Estate:\n\n1. Free buyer consultation to understand your needs\n2. Get pre-qualified with our preferred lenders\n3. Browse listings and tour homes\n4. Make a competitive offer\n5. Home inspection and appraisal\n6. Negotiate and finalize\n7. Closing day — get your keys!\n\nOur agents guide you through every step. Call us at (413) 536-9111 to get started!", "kw": ["buying process", "buy a home", "buy a house", "how to buy", "steps to buy", "buying steps", "purchase", "homebuying", "buyer consultation"], "cat": "buying"}, {"q": "Can you help me sell my home?", "a": "Absolutely! Here's how ERA M. Connie Laplante Real Estate helps you sell:\n\n1. Free comparative market analysis (CMA)\n2. Professional staging and photography\n3. Marketing across MLS and major real estate sites\n4. Open houses and private showings\n5. Expert negotiation for top dollar\n6. Transaction management through closing\n\nCall us at (413) 536-9111 for a free consultation!", "kw": ["sell", "selling", "list my home", "list my house", "listing agent", "sell my home", "sell my house", "listing process", "how to sell"], "cat": "selling"}, {"q": "I want to schedule a showing", "a": "Scheduling a showing is easy! You can:\n\n1. Call us at (413) 536-9111\n2. Leave your info in the chat\n3. Visit our website to browse listings\n\nWe offer flexible scheduling including evenings and weekends. Most showings can be arranged within 24-48 hours!", "kw": ["showing", "viewing", "tour", "see the house", "see the property", "visit", "schedule a viewing", "book a viewing", "private showing", "walkthrough", "open house", "schedule a showing"], "cat": "viewing"}, {"q": "Are you accepting new clients?", "a": "Absolutely! ERA M. Connie Laplante Real Estate is always welcoming new clients. Whether you're a first-time buyer, seasoned investor, or looking to sell, we're here to help.\n\nCall us at (413) 536-9111 to get started!", "kw": ["new client", "new clients", "accepting", "first time", "sign up", "taking on", "work with you"], "cat": "new_client"}, {"q": "How do I get pre-qualified for a mortgage?", "a": "Getting pre-qualified is a great first step! You'll need proof of income, credit history, and bank statements. We partner with trusted local lenders who can pre-qualify you quickly.\n\nCall us at (413) 536-9111 and we'll connect you with the right lender!", "kw": ["pre-qualified", "pre-qualify", "prequalify", "prequalified", "pre-approval", "mortgage", "loan", "financing", "lender", "how much can i afford", "afford"], "cat": "mortgage"}, {"q": "Can you do a market analysis or home valuation?", "a": "Absolutely! We offer free Comparative Market Analyses (CMAs). We'll analyze recent sales, current trends, and your home's unique features to give you an accurate value estimate.\n\nCall us at (413) 536-9111 or leave your info for a free report within 24 hours!", "kw": ["market analysis", "home valuation", "home value", "worth", "how much is my home", "cma", "appraisal", "comparable", "comps", "property value", "estimate"], "cat": "valuation"}, {"q": "Do you help first-time homebuyers?", "a": "Yes! We love working with first-time homebuyers. We can help with first-time buyer programs (FHA, USDA, state grants), down payment assistance, and guide you through every step.\n\nCall us at (413) 536-9111 for a free first-time buyer consultation!", "kw": ["first-time", "first time", "first home", "never bought", "new buyer", "starter home", "fha", "down payment assistance", "first time buyer"], "cat": "firsttime"}, {"q": "Do you handle investment properties?", "a": "Absolutely! We help investors with multi-family properties, rental income analysis, 1031 exchanges, fix-and-flip opportunities, and long-term wealth-building strategies.\n\nCall us at (413) 536-9111 to discuss your investment goals!", "kw": ["investment", "invest", "rental property", "rental income", "cap rate", "multi-family", "duplex", "triplex", "roi", "1031", "flip", "investor"], "cat": "investment"}, {"q": "Do you handle emergencies?", "a": "If you have an urgent real estate need — a time-sensitive offer, last-minute closing issue, or emergency situation — call (413) 536-9111 directly. We're responsive and will get back to you as quickly as possible.", "kw": ["emergency", "emergencies", "urgent", "asap", "rush", "immediate", "time-sensitive"], "cat": "emergency"}, {"q": "How do I book an appointment?", "a": "You can schedule a free consultation by calling (413) 536-9111 or leaving your info in the chat! We'll set up a time to discuss your buying or selling goals.", "kw": ["appointment", "book", "schedule", "consultation", "meet", "come in"], "cat": "booking"}, {"q": "Where are you located?", "a": "Please visit our website or call (413) 536-9111 for our office location. We can also meet at a location convenient for you!", "kw": ["location", "located", "where", "address", "directions", "find you", "office"], "cat": "location"}, {"q": "Tell me about neighborhoods and school districts", "a": "We're experts in all local neighborhoods! We can help you find the perfect area based on school ratings, commute times, walkability, safety, and property value trends.\n\nTell us what matters most and we'll recommend the best neighborhoods. Call us at (413) 536-9111!", "kw": ["neighborhood", "neighborhoods", "school", "schools", "school district", "area", "community", "safe", "walkable", "commute", "best area"], "cat": "neighborhoods"}, {"q": "What are typical closing costs?", "a": "Closing costs typically run 2-5% of the purchase price and include loan fees, title insurance, inspection, appraisal, and taxes. We'll provide a detailed estimate early so there are no surprises.\n\nCall us at (413) 536-9111 for specifics!", "kw": ["closing costs", "closing fees", "how much to close", "settlement", "fees", "closing"], "cat": "closing"}, {"q": "What does a home inspection cover?", "a": "A professional inspection covers foundation, roof, plumbing, electrical, HVAC, windows, and more. Inspections cost $300-$500 and take 2-3 hours. We never recommend skipping this step.\n\nCall us at (413) 536-9111 for inspector recommendations!", "kw": ["inspection", "inspect", "home inspection", "inspector", "structural"], "cat": "inspection"}];
+
+  var QUICK_ACTIONS = [{"label": "Browse Listings", "q": "What properties do you have available?"}, {"label": "Schedule Showing", "q": "I want to schedule a showing"}, {"label": "Sell My Home", "q": "Can you help me sell my home?"}, {"label": "Free Valuation", "q": "Can you do a market analysis or home valuation?"}];
+
   var BUSINESS_NAME = "ERA M. Connie Laplante Real Estate";
   var PHONE = "(413) 536-9111";
-  var DOCTOR_DATA = [{name: "Dr. South Hadley", lastName: "hadley", specialty: "General Dentist"}, {name: "Occupant Opportunity", lastName: "opportunity", specialty: "General Dentist"}];
+  var AGENT_DATA = [
+    {name: "Sarah Mitchell", lastName: "mitchell", specialty: "Residential Sales"},
+    {name: "James Rodriguez", lastName: "rodriguez", specialty: "Commercial & Investment"},
+    {name: "Emily Chen", lastName: "chen", specialty: "First-Time Buyers & Rentals"}
+  ];
 
   var chatOpen = false;
   var initialized = false;
+  var msgCount = 0;
+  var leadFormShown = false;
   var lastAnswer = null;
   var lastCategory = null;
 
@@ -662,7 +706,7 @@ h1, h2, h3 {
   };
 
   function initChat() {
-    addBotMessage("Hi there! I am the AI assistant for " + BUSINESS_NAME + ". How can I help you today?");
+    addBotMessage("Welcome to " + BUSINESS_NAME + "! I'm your AI real estate assistant. Whether you're buying, selling, or just exploring, I'm here to help. What can I do for you today?");
     setTimeout(function() {
       addQuickActions();
     }, 400);
@@ -779,10 +823,10 @@ h1, h2, h3 {
     return false;
   }
 
-  function detectDoctorMention(text) {
+  function detectAgentMention(text) {
     var lower = text.toLowerCase();
-    for (var i = 0; i < DOCTOR_DATA.length; i++) {
-      if (lower.indexOf(DOCTOR_DATA[i].lastName) !== -1) return DOCTOR_DATA[i];
+    for (var i = 0; i < AGENT_DATA.length; i++) {
+      if (lower.indexOf(AGENT_DATA[i].lastName) !== -1) return AGENT_DATA[i];
     }
     return null;
   }
@@ -796,8 +840,8 @@ h1, h2, h3 {
     return false;
   }
 
-  function isMedicalQuestion(text) {
-    var terms = ["diagnosis", "treatment plan", "should i get", "do i need", "x-ray", "recommend", "second opinion", "pain in my", "my tooth", "what procedure", "my molar", "my gums", "bleeding", "swollen", "infection", "cavity"];
+  function isDetailedQuestion(text) {
+    var terms = ["specific address", "exact price", "square footage", "how many bedrooms", "make an offer", "submit an offer", "negotiate", "counteroffer", "my specific", "my property at", "my house at"];
     var lower = text.toLowerCase();
     for (var i = 0; i < terms.length; i++) {
       if (lower.indexOf(terms[i]) !== -1) return true;
@@ -805,9 +849,16 @@ h1, h2, h3 {
     return false;
   }
 
-  function isOnlineBookingQuestion(text) {
-    var lower = text.toLowerCase();
-    return (lower.indexOf("online") !== -1 && (lower.indexOf("book") !== -1 || lower.indexOf("schedule") !== -1 || lower.indexOf("appointment") !== -1));
+  function maybeShowLeadPrompt() {
+    if (leadFormShown) return;
+    msgCount++;
+    if (msgCount >= 2) {
+      leadFormShown = true;
+      setTimeout(function() {
+        addBotMessage("By the way, if you'd like one of our agents to reach out personally, just leave your contact info below.");
+        showLeadCaptureForm();
+      }, 1200);
+    }
   }
 
   function showLeadCaptureForm() {
@@ -815,13 +866,15 @@ h1, h2, h3 {
     var form = document.createElement("div");
     form.className = "lead-form";
     form.innerHTML =
-      "<p>Leave your info and we will get back to you:</p>" +
-      "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
+      "<p>Want us to reach out? Leave your info:</p>" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your full name\">" +
       "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
       "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
-      "<input type=\"text\" id=\"leadDate\" placeholder=\"Preferred date/time\">" +
-      "<select id=\"leadPatientType\"><option value=\"\">New or existing patient?</option><option value=\"new\">New Patient</option><option value=\"existing\">Existing Patient</option></select>" +
-      "<textarea id=\"leadReason\" placeholder=\"Reason for your visit\"></textarea>" +
+      "<select id=\"leadIntent\"><option value=\"\">Are you buying, selling, or both?</option><option value=\"buying\">Buying</option><option value=\"selling\">Selling</option><option value=\"both\">Both</option><option value=\"renting\">Renting</option><option value=\"investing\">Investing</option></select>" +
+      "<input type=\"text\" id=\"leadBudget\" placeholder=\"Budget range (e.g. $300K-$500K)\">" +
+      "<input type=\"text\" id=\"leadTimeline\" placeholder=\"Timeline (e.g. 3-6 months)\">" +
+      "<input type=\"text\" id=\"leadAreas\" placeholder=\"Preferred areas/neighborhoods\">" +
+      "<select id=\"leadCurrentStatus\"><option value=\"\">Currently renting or own?</option><option value=\"renting\">Renting</option><option value=\"own\">Own</option><option value=\"other\">Other</option></select>" +
       "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
     body.appendChild(form);
     body.scrollTop = body.scrollHeight;
@@ -837,42 +890,36 @@ h1, h2, h3 {
 
       // Tier 1: Greetings
       if (isGreeting(text)) {
-        addBotMessage("Hello! How can I help you today?");
-        return;
-      }
-
-      // Online booking → direct answer with URL
-      if (isOnlineBookingQuestion(text)) {
-        addBotMessage("You can book online at our website or call us at (413) 536-9111. We'll find a time that works for you!");
-        lastCategory = "booking";
-        lastAnswer = "You can book online at our website or call us at (413) 536-9111. We'll find a time that works for you!";
+        addBotMessage("Hello! Whether you're looking to buy, sell, or rent, I'm here to help. What can I assist you with?");
         return;
       }
 
       // Gather context
-      var doctor = detectDoctorMention(text);
+      var agent = detectAgentMention(text);
       var match = findBestMatch(text);
       var availability = isAvailabilityQuestion(text);
-      var medical = isMedicalQuestion(text);
+      var detailed = isDetailedQuestion(text);
 
-      // Tier 3: Doctor-specific booking → lead form (check BEFORE Tier 2)
-      if (doctor && availability) {
-        showDoctorLeadCapture(text, doctor);
+      // Agent-specific booking -> lead form
+      if (agent && availability) {
+        showAgentLeadCapture(text, agent);
         lastCategory = "booking";
         lastAnswer = null;
         return;
       }
-      if (medical && !match) {
-        showDoctorLeadCapture(text, null);
-        lastCategory = "medical";
+
+      // Detailed property/offer questions -> lead capture
+      if (detailed && !match) {
+        showAgentLeadCapture(text, null);
+        lastCategory = "detailed";
         lastAnswer = null;
         return;
       }
 
-      // Tier 2: Knowledge base answer (with repeat detection)
+      // Knowledge base answer (with repeat detection)
       if (match) {
         if (match.a === lastAnswer) {
-          addBotMessage("Looks like you want more details on this. Leave your info and our team will follow up directly.");
+          addBotMessage("It looks like you want more details on this topic. Leave your info and one of our agents will follow up with you directly.");
           showLeadCaptureForm();
           lastCategory = match.cat;
           lastAnswer = null;
@@ -881,6 +928,7 @@ h1, h2, h3 {
         addBotMessage(match.a);
         lastAnswer = match.a;
         lastCategory = match.cat;
+        maybeShowLeadPrompt();
         return;
       }
 
@@ -891,29 +939,29 @@ h1, h2, h3 {
     }, delay);
   }
 
-  function showDoctorLeadCapture(originalQuestion, doctor) {
+  function showAgentLeadCapture(originalQuestion, agent) {
     var body = document.getElementById("chatBody");
     var msg;
-    if (doctor) {
-      msg = "Great choice! " + doctor.name + "'s availability depends on the current schedule — leave your info below and our team will check and follow up with you directly.";
+    if (agent) {
+      msg = "Great choice! " + agent.name + " specializes in " + agent.specialty + ". Leave your info below and " + agent.name.split(" ")[0] + " will reach out to schedule a time with you.";
     } else {
-      msg = "That's a great question for our dental team. Leave your info below and we'll have the right doctor follow up with you directly.";
+      msg = "That's a great question for our team. Leave your info below and we'll have the right agent follow up with you directly.";
     }
     addBotMessage(msg);
 
     var form = document.createElement("div");
     form.className = "lead-form";
-    form.setAttribute("data-doctor-requested", doctor ? doctor.name : "");
+    form.setAttribute("data-agent-requested", agent ? agent.name : "");
     form.setAttribute("data-question-text", originalQuestion);
-    var escapedQ = originalQuestion.replace(/"/g, "&quot;");
     form.innerHTML =
       "<p>Leave your info and we will get back to you:</p>" +
-      "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your full name\">" +
       "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
       "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
-      "<input type=\"text\" id=\"leadDate\" placeholder=\"Preferred date/time\">" +
-      "<select id=\"leadPatientType\"><option value=\"\">New or existing patient?</option><option value=\"new\">New Patient</option><option value=\"existing\">Existing Patient</option></select>" +
-      "<textarea id=\"leadNote\" placeholder=\"Your question or concern\">" + originalQuestion + "</textarea>" +
+      "<select id=\"leadIntent\"><option value=\"\">Are you buying, selling, or both?</option><option value=\"buying\">Buying</option><option value=\"selling\">Selling</option><option value=\"both\">Both</option></select>" +
+      "<input type=\"text\" id=\"leadBudget\" placeholder=\"Budget range\">" +
+      "<input type=\"text\" id=\"leadTimeline\" placeholder=\"Timeline (e.g. 3-6 months)\">" +
+      "<textarea id=\"leadNote\" placeholder=\"What are you looking for?\">" + originalQuestion + "</textarea>" +
       "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
     body.appendChild(form);
     body.scrollTop = body.scrollHeight;
@@ -936,7 +984,7 @@ h1, h2, h3 {
     var forms = document.querySelectorAll(".lead-form");
     for (var i = 0; i < forms.length; i++) { forms[i].remove(); }
 
-    addBotMessage("Thank you, " + (name || "friend") + "! " + BUSINESS_NAME + " will reach out to you shortly." +
+    addBotMessage("Thank you, " + (name || "friend") + "! A " + BUSINESS_NAME + " agent will reach out to you shortly." +
       (PHONE ? " You can also call us directly at " + PHONE + "." : ""));
   };
 
