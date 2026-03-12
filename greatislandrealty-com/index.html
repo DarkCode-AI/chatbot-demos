@@ -4,36 +4,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Great Island Realty - AI Assistant Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --brand: #2563eb;
-  --brand-dark: color-mix(in srgb, #2563eb 80%, black);
-  --brand-light: color-mix(in srgb, #2563eb 15%, white);
-  --text: #1a1a2e;
-  --text-light: #6b7280;
-  --bg: #f8fafc;
+  --brand: #1e3a5f;
+  --brand-dark: #152c4a;
+  --brand-deeper: #0e1f35;
+  --brand-light: #e8eef5;
+  --accent: #d4a853;
+  --accent-dark: #b8923f;
+  --accent-light: #faf3e3;
+  --accent-glow: rgba(212, 168, 83, 0.15);
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --bg: #f9fafb;
   --white: #ffffff;
-  --shadow: 0 4px 24px rgba(0,0,0,0.12);
-  --radius: 12px;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 45%, var(--brand-deeper) 100%);
   color: white;
-  padding: 80px 20px 100px;
+  padding: 100px 20px 120px;
   text-align: center;
   position: relative;
   overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
 }
 .hero::after {
   content: '';
@@ -41,139 +71,237 @@ body {
   bottom: -2px;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 80px;
   background: var(--bg);
-  border-radius: 50% 50% 0 0;
+  border-radius: 60% 60% 0 0;
+}
+.hero-glow {
+  position: absolute;
+  top: -30%;
+  right: -15%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(212, 168, 83, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: glowDrift 18s ease-in-out infinite;
+}
+@keyframes glowDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-30px, 20px) scale(1.06); }
 }
 .hero h1 {
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   letter-spacing: -0.02em;
+  line-height: 1.15;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out;
+}
+.hero .tagline {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out 0.1s both;
 }
 .hero p {
-  font-size: 1.15rem;
-  opacity: 0.9;
-  max-width: 600px;
-  margin: 0 auto 32px;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  opacity: 0.85;
+  max-width: 540px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+  font-weight: 400;
+  position: relative;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .hero-cta {
-  display: inline-block;
-  background: white;
-  color: var(--brand);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: var(--brand-deeper);
   padding: 14px 32px;
   border-radius: 50px;
-  font-weight: 600;
-  font-size: 1.05rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   border: none;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(212, 168, 83, 0.25);
+  position: relative;
+  animation: fadeInUp 0.6s ease-out 0.3s both;
 }
 .hero-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 28px rgba(212, 168, 83, 0.35);
+  background: #ddb25e;
+}
+.hero-cta::after {
+  content: '\2192';
+  transition: transform 0.25s;
+}
+.hero-cta:hover::after {
+  transform: translateX(3px);
 }
 
 /* Features */
 .features {
-  max-width: 900px;
-  margin: -20px auto 60px;
+  max-width: 960px;
+  margin: -40px auto 80px;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
   position: relative;
   z-index: 1;
 }
 .feature-card {
   background: var(--white);
-  padding: 28px;
+  padding: 32px 24px;
   border-radius: var(--radius);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-sm);
   text-align: center;
+  border: 1px solid var(--border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.feature-card:hover::before {
+  opacity: 1;
 }
 .feature-card .icon {
-  font-size: 2rem;
-  margin-bottom: 12px;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  width: 52px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-light);
+  border-radius: 14px;
 }
 .feature-card h3 {
-  font-size: 1.05rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
   margin-bottom: 8px;
   color: var(--text);
+  letter-spacing: -0.01em;
 }
 .feature-card p {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  line-height: 1.5;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 /* Footer */
 .footer {
   text-align: center;
-  padding: 40px 20px;
-  color: var(--text-light);
+  padding: 48px 20px;
+  color: var(--text-muted);
   font-size: 0.85rem;
+  border-top: 1px solid var(--border);
 }
-.footer a { color: var(--brand); text-decoration: none; }
-.footer a:hover { text-decoration: underline; }
+.footer a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.footer a:hover { color: var(--accent-dark); }
+.footer .powered {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
 
 /* Chat Widget */
 .chat-fab {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: var(--brand);
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
   color: white;
   border: none;
   cursor: pointer;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 20px rgba(30, 58, 95, 0.35);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s, background 0.3s;
-  animation: pulse 2s infinite;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fabEntry 0.5s ease-out 1s both;
 }
-.chat-fab:hover { transform: scale(1.08); }
-.chat-fab svg { width: 28px; height: 28px; }
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
-  50% { box-shadow: 0 4px 32px rgba(0,0,0,0.25); }
+.chat-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(30, 58, 95, 0.45);
+}
+.chat-fab svg { width: 26px; height: 26px; }
+@keyframes fabEntry {
+  from { opacity: 0; transform: scale(0.5) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .chat-window {
   position: fixed;
-  bottom: 100px;
+  bottom: 96px;
   right: 24px;
-  width: 380px;
+  width: 390px;
   max-width: calc(100vw - 32px);
-  height: 560px;
+  height: 570px;
   max-height: calc(100vh - 140px);
   background: var(--white);
-  border-radius: 16px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  border-radius: 20px;
+  box-shadow: var(--shadow-xl);
   z-index: 1001;
   display: none;
   flex-direction: column;
   overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
 }
 .chat-window.open {
   display: flex;
-  animation: slideUp 0.3s ease-out;
+  animation: chatSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes chatSlideUp {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .chat-header {
-  background: var(--brand);
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
   color: white;
-  padding: 16px 20px;
+  padding: 18px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -182,26 +310,52 @@ body {
 .chat-header .avatar {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
 }
-.chat-header .info h4 { font-size: 0.95rem; font-weight: 600; }
-.chat-header .info span { font-size: 0.8rem; opacity: 0.85; }
+.chat-header .info h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+.chat-header .info span {
+  font-size: 0.78rem;
+  opacity: 0.8;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.chat-header .info span::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #34d399;
+  border-radius: 50%;
+}
 .chat-close {
   margin-left: auto;
-  background: none;
+  background: rgba(255,255,255,0.1);
   border: none;
   color: white;
   cursor: pointer;
-  font-size: 1.4rem;
-  padding: 4px;
+  font-size: 1.2rem;
+  padding: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0.8;
+  transition: all 0.2s;
 }
-.chat-close:hover { opacity: 1; }
+.chat-close:hover { opacity: 1; background: rgba(255,255,255,0.2); }
 
 .chat-body {
   flex: 1;
@@ -209,29 +363,36 @@ body {
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  background: var(--bg);
 }
+.chat-body::-webkit-scrollbar { width: 4px; }
+.chat-body::-webkit-scrollbar-track { background: transparent; }
+.chat-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
 .msg {
-  max-width: 85%;
+  max-width: 82%;
   padding: 10px 14px;
   border-radius: 16px;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  animation: fadeIn 0.3s;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  animation: msgIn 0.3s ease-out;
 }
-@keyframes fadeIn {
+@keyframes msgIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .msg.bot {
-  background: var(--brand-light);
+  background: var(--white);
   color: var(--text);
   align-self: flex-start;
   border-bottom-left-radius: 4px;
+  white-space: pre-line;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
 }
 .msg.user {
-  background: var(--brand);
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
   color: white;
   align-self: flex-end;
   border-bottom-right-radius: 4px;
@@ -240,72 +401,87 @@ body {
 .quick-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
   padding: 4px 0;
 }
 .quick-btn {
   background: var(--white);
-  border: 1.5px solid var(--brand);
+  border: 1.5px solid var(--accent-light);
   color: var(--brand);
-  padding: 6px 14px;
+  padding: 7px 14px;
   border-radius: 20px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
+  font-family: 'Inter', sans-serif;
 }
 .quick-btn:hover {
-  background: var(--brand);
-  color: white;
+  background: var(--accent);
+  color: var(--brand-deeper);
+  border-color: var(--accent);
+  transform: translateY(-1px);
 }
 
 .typing {
   display: flex;
-  gap: 4px;
-  padding: 10px 14px;
-  background: var(--brand-light);
+  gap: 5px;
+  padding: 12px 16px;
+  background: var(--white);
   border-radius: 16px;
   border-bottom-left-radius: 4px;
   align-self: flex-start;
-  max-width: 60px;
+  max-width: 64px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
 }
 .typing span {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   background: var(--brand);
   border-radius: 50%;
-  opacity: 0.4;
+  opacity: 0.3;
   animation: typingDot 1.4s infinite;
 }
 .typing span:nth-child(2) { animation-delay: 0.2s; }
 .typing span:nth-child(3) { animation-delay: 0.4s; }
 @keyframes typingDot {
-  0%, 60%, 100% { opacity: 0.4; transform: translateY(0); }
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
   30% { opacity: 1; transform: translateY(-4px); }
 }
 
 .chat-input {
   display: flex;
   gap: 8px;
-  padding: 12px 16px;
-  border-top: 1px solid #e5e7eb;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
   flex-shrink: 0;
+  background: var(--white);
 }
 .chat-input input {
   flex: 1;
-  border: 1.5px solid #e5e7eb;
+  border: 1.5px solid var(--border);
   border-radius: 24px;
   padding: 10px 16px;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  font-family: 'Inter', sans-serif;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
+  background: var(--bg);
+  color: var(--text);
 }
-.chat-input input:focus { border-color: var(--brand); }
+.chat-input input:focus {
+  border-color: var(--brand);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(30, 58, 95, 0.08);
+}
+.chat-input input::placeholder { color: var(--text-muted); }
 .chat-input button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--brand);
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
   color: white;
   border: none;
   cursor: pointer;
@@ -313,41 +489,90 @@ body {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
-.chat-input button:hover { background: var(--brand-dark); }
+.chat-input button:hover {
+  background: var(--accent);
+  color: var(--brand-deeper);
+  transform: scale(1.05);
+}
 
 /* Lead capture form */
 .lead-form {
-  background: #f0f4ff;
-  border-radius: 12px;
-  padding: 14px;
+  background: var(--white);
+  border-radius: 14px;
+  padding: 16px;
   align-self: flex-start;
   max-width: 90%;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
 .lead-form p {
-  font-size: 0.85rem;
-  margin-bottom: 10px;
+  font-size: 0.84rem;
+  margin-bottom: 12px;
   color: var(--text);
+  font-weight: 600;
 }
-.lead-form input {
+.lead-form input, .lead-form select {
   display: block;
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
   margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.lead-form input:focus, .lead-form select:focus {
+  border-color: var(--brand);
+  background: var(--white);
+}
+.lead-form textarea {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  resize: vertical;
+  min-height: 50px;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+}
+.lead-form textarea:focus { border-color: var(--brand); background: var(--white); }
+.lead-form select {
+  width: 100%;
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #fff;
 }
 .lead-form button {
-  background: var(--brand);
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
   color: white;
   border: none;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  font-weight: 600;
   cursor: pointer;
   width: 100%;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+.lead-form button:hover {
+  background: var(--accent);
+  color: var(--brand-deeper);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 480px) {
@@ -360,25 +585,29 @@ body {
     border-radius: 0;
   }
   .chat-fab { bottom: 16px; right: 16px; width: 56px; height: 56px; }
+  .hero { padding: 72px 20px 100px; }
 }
 </style>
 </head>
 <body>
 
 <section class="hero">
+  <div class="hero-glow"></div>
   <h1>Great Island Realty</h1>
-  <p>Click to search all current real estate for sale in the Portsmouth and New Castle, NH area. Search, save your favorites, and consult with an agent today!</p>
+  <div class="tagline">Click to search all current real estate for sale in the Portsmouth and New Castle, NH area. Search, save your favorites, and consult with an agent today!</div>
+  <p>Find your dream home, sell with confidence, or invest for the future. Our expert agents are here to guide you every step of the way.</p>
   <button class="hero-cta" onclick="toggleChat()">Try Our AI Assistant</button>
 </section>
 
 <section class="features">
-  <div class="feature-card"><div class="icon">&#127968;</div><h3>Property Search</h3><p>Get instant answers about listings, areas, and pricing.</p></div>
-  <div class="feature-card"><div class="icon">&#128200;</div><h3>Market Insights</h3><p>Access up-to-date market data for informed decisions.</p></div>
-  <div class="feature-card"><div class="icon">&#128197;</div><h3>Schedule Showings</h3><p>Book property tours and consultations instantly.</p></div>
+  <div class="feature-card"><div class="icon">&#127968;</div><h3>Browse Listings</h3><p>Search available homes, condos, and investment properties in your area.</p></div>
+  <div class="feature-card"><div class="icon">&#128197;</div><h3>Schedule Viewings</h3><p>Book private showings at your convenience, 24/7.</p></div>
+  <div class="feature-card"><div class="icon">&#128200;</div><h3>Market Analysis</h3><p>Get a free home valuation and local market insights.</p></div>
+  <div class="feature-card"><div class="icon">&#128273;</div><h3>Expert Guidance</h3><p>From first-time buyers to seasoned investors, our agents are here for you.</p></div>
 </section>
 
 <footer class="footer">
-  <p>Powered by <a href="https://darkcodeai.carrd.co" target="_blank">DarkCode AI</a></p>
+  <p class="powered">AI-Powered by <a href="https://darkcodeai.carrd.co" target="_blank">DarkCode AI</a></p>
   <p style="margin-top:8px;font-size:0.78rem;opacity:0.7">AI-powered chatbot demo &mdash; responses are generated from publicly available business information</p>
 </footer>
 
@@ -400,7 +629,7 @@ body {
   </div>
   <div class="chat-body" id="chatBody"></div>
   <div class="chat-input">
-    <input type="text" id="chatInput" placeholder="Type your question..." autocomplete="off">
+    <input type="text" id="chatInput" placeholder="Ask about listings, viewings, buying..." autocomplete="off">
     <button onclick="sendMessage()" aria-label="Send">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
     </button>
@@ -409,13 +638,24 @@ body {
 
 <script>
 (function() {
-  var QA_DATA = [{"q": "What areas do you serve?", "a": "We serve Dover, Portsmouth, Rochester, Durham, Somersworth and surrounding communities. Our agents have deep local knowledge of these markets.", "kw": ["area", "serve", "where", "location", "neighborhood", "town", "city", "region"], "cat": "areas"}, {"q": "How do I start the home buying process?", "a": "Start with a free consultation! Call 603-433-3350 — we'll discuss your budget, preferences, and timeline. We also recommend getting pre-approved for a mortgage first.", "kw": ["buy", "buying", "purchase", "start", "begin", "process", "first time", "how to"], "cat": "buying"}, {"q": "How do I sell my home?", "a": "Contact us at 603-433-3350 for a free home valuation. We'll analyze the market, suggest pricing, and create a marketing plan to sell your home quickly and at the best price.", "kw": ["sell", "selling", "list", "listing", "put on market", "home value"], "cat": "selling"}, {"q": "What's the market like right now?", "a": "The market in Dover, Portsmouth, Rochester, Durham, Somersworth is always evolving. Contact us at 603-433-3350 for a current market analysis specific to your area and price range.", "kw": ["market", "conditions", "hot", "cold", "prices", "trends", "forecast"], "cat": "market"}, {"q": "Do you help with financing?", "a": "While we're not a lender, we have trusted mortgage partners we can refer you to. Getting pre-approved is the first step — call 603-433-3350 and we'll connect you.", "kw": ["financing", "mortgage", "loan", "pre-approved", "down payment", "afford"], "cat": "financing"}, {"q": "Can I schedule a showing?", "a": "Absolutely! Call 603-433-3350 or let me know which property you're interested in, and we'll arrange a private showing at a time that works for you.", "kw": ["showing", "tour", "visit", "see", "view", "look at", "open house"], "cat": "showing"}, {"q": "Who are your agents?", "a": "Our team includes our experienced agents. Each agent brings expertise and dedication to helping you achieve your real estate goals.", "kw": ["agent", "realtor", "who", "team", "staff", "broker"], "cat": "team"}, {"q": "Do you handle rentals?", "a": "Yes, Great Island Realty can help with rental properties too. Whether you're looking to rent or need a property managed, call 603-433-3350 to discuss your needs.", "kw": ["rental", "rent", "lease", "apartment", "tenant", "landlord"], "cat": "rentals"}, {"q": "What's my home worth?", "a": "We offer free, no-obligation home valuations! Call 603-433-3350 or share your address and we'll provide a comparative market analysis based on recent sales in your area.", "kw": ["worth", "value", "valuation", "estimate", "cma", "appraisal", "price my home"], "cat": "valuation"}, {"q": "Do you work with first-time buyers?", "a": "We love working with first-time buyers! Our agents will guide you through every step — from pre-approval to closing. Call 603-433-3350 to start your journey.", "kw": ["first time", "first-time", "never bought", "new buyer", "beginner"], "cat": "buying"}, {"q": "What are the closing costs?", "a": "Closing costs typically range from 2-5% of the purchase price. They include lender fees, title insurance, inspections, and more. We'll walk you through every cost before you sign.", "kw": ["closing cost", "fees", "how much", "additional cost", "hidden cost"], "cat": "costs"}, {"q": "How long does it take to buy a home?", "a": "The typical process takes 30-60 days from offer acceptance to closing. Finding the right home can take a few weeks to a few months depending on the market and your criteria.", "kw": ["how long", "timeline", "time", "duration", "weeks", "months"], "cat": "timeline"}, {"q": "Do you handle commercial properties?", "a": "Yes, Great Island Realty handles commercial real estate including office, retail, and investment properties. Call 603-433-3350 to discuss your commercial needs.", "kw": ["commercial", "business", "office", "retail", "investment", "industrial"], "cat": "commercial"}, {"q": "What services do you offer?", "a": "We offer Luxury Homes. Our full-service approach means we handle everything from listing to closing.", "kw": ["services", "offer", "provide", "help with", "what do you do"], "cat": "services"}, {"q": "Do you have any open houses coming up?", "a": "We regularly host open houses! Call 603-433-3350 or check our website for upcoming dates and addresses. We can also set up alerts for open houses in your preferred areas.", "kw": ["open house", "upcoming", "this weekend", "events"], "cat": "events"}, {"q": "What's the commission rate?", "a": "Commission rates are negotiable and discussed upfront. Call 603-433-3350 and we'll explain our fee structure — no surprises, full transparency.", "kw": ["commission", "rate", "percentage", "fee", "charge", "cost to sell"], "cat": "pricing"}, {"q": "Can you help me find an investment property?", "a": "Absolutely! We work with investors to find properties with strong ROI potential. Call 603-433-3350 to discuss your investment goals and budget.", "kw": ["investment", "invest", "rental property", "roi", "income property", "flip"], "cat": "investment"}, {"q": "Do you offer virtual tours?", "a": "Yes! We offer virtual tours and video walkthroughs for many of our listings. Contact us at 603-433-3350 for a virtual showing of any property.", "kw": ["virtual", "video", "online tour", "remote", "3d tour"], "cat": "technology"}, {"q": "What should I know about the local schools?", "a": "Great schools are a big part of the Dover, Portsmouth, Rochester, Durham, Somersworth area. Our agents can provide detailed information about school districts, ratings, and proximity for any property.", "kw": ["school", "education", "district", "rating", "kids", "family"], "cat": "community"}, {"q": "How do I contact you?", "a": "You can reach Great Island Realty at 603-433-3350 or email info@greatislandrealty.com. We're here to help with all your real estate needs!", "kw": ["contact", "reach", "call", "phone", "email", "get in touch"], "cat": "contact"}];
-  var QUICK_ACTIONS = [{"label": "Buy a Home", "q": "How do I start the home buying process?"}, {"label": "Sell My Home", "q": "How do I sell my home?"}, {"label": "Schedule Showing", "q": "Can I schedule a showing?"}, {"label": "Home Value", "q": "What's my home worth?"}];
+  var QA_DATA = [{"q": "What is your contact info?", "a": "Here's how to reach Great Island Realty:\n\nPhone: (603) 433-3350\nAddress: 40 Pleasant Street, Portsmouth, NH, 03801\nEmail: info@greatislandrealty.com", "kw": ["contact info", "contact information", "how to contact", "reach you", "get in touch", "contact details", "contact"], "cat": "contact"}, {"q": "What is your phone number?", "a": "You can reach us at (603) 433-3350. We're happy to help!", "kw": ["phone", "phone number", "call you", "telephone", "your number", "number"], "cat": "contact"}, {"q": "What is your email?", "a": "You can email us at info@greatislandrealty.com, or call (603) 433-3350. We respond within one business day.", "kw": ["email", "email address", "your email", "e-mail", "mail"], "cat": "contact"}, {"q": "What are your hours?", "a": "Our agents are available by appointment and our office is open during regular business hours. Call us at (603) 433-3350 to schedule a time that works for you.", "kw": ["hours", "open", "close", "time", "schedule", "when", "office hours", "business hours"], "cat": "hours"}, {"q": "What areas do you cover?", "a": "We serve Instagram Portsmouth, Portsmouth, Their Search, Dover, New Castle and surrounding communities. Whether you're buying or selling in any of these areas, our agents know the local market inside and out.\n\nCall us at (603) 433-3350 to discuss properties in your preferred area!", "kw": ["areas", "cover", "serve", "neighborhoods", "cities", "towns", "where", "service area", "what areas", "which areas", "communities"], "cat": "areas"}, {"q": "What types of properties do you specialize in?", "a": "At Great Island Realty, we specialize in Luxury Homes, Condos & Townhomes, Land & Lots.\n\nNo matter what type of property you're looking for, we have the expertise to help. Call us at (603) 433-3350!", "kw": ["specialize", "specialty", "specialties", "types of properties", "property types", "what kind", "what type", "focus", "expertise"], "cat": "specialties"}, {"q": "What services do you offer?", "a": "At Great Island Realty, we provide Luxury Homes.\n\nCall us at (603) 433-3350 to discuss how we can help with your real estate goals.", "kw": ["services", "what do you offer", "provide", "do you do"], "cat": "services"}, {"q": "Who is the agent I'd be working with?", "a": "Our experienced team at Great Island Realty (Licensed Broker, ABR) is ready to help!\n\nCall us at (603) 433-3350 to connect with an agent.", "kw": ["agent", "agents", "who", "team", "staff", "realtors", "realtor", "meet the team", "working with", "who would i"], "cat": "team"}, {"q": "How does the buying process work with your team?", "a": "The home buying process with Great Island Realty:\n\n1. Free buyer consultation to understand your needs\n2. Get pre-qualified with our preferred lenders\n3. Browse listings and tour homes\n4. Make a competitive offer\n5. Home inspection and appraisal\n6. Negotiate and finalize\n7. Closing day — get your keys!\n\nOur agents guide you through every step. Call us at (603) 433-3350 to get started!", "kw": ["buying process", "buy a home", "buy a house", "how to buy", "steps to buy", "buying steps", "purchase", "homebuying", "buyer consultation"], "cat": "buying"}, {"q": "Can you help me sell my home?", "a": "Absolutely! Sell Your Home, with Offices Conveniently Located in Portsmouth and Dover Our Agents About Us Trust the Local Market Experts Great Island Realty agents have deep, lifelong ties to the New Hampshire Seacoast region.\n\nCall us at (603) 433-3350 for a free home valuation!", "kw": ["sell", "selling", "list my home", "list my house", "listing agent", "sell my home", "sell my house", "listing process", "how to sell"], "cat": "selling"}, {"q": "I want to schedule a showing", "a": "Scheduling a showing is easy! You can:\n\n1. Call us at (603) 433-3350\n2. Leave your info in the chat\n3. Visit our website to browse listings\n\nWe offer flexible scheduling including evenings and weekends. Most showings can be arranged within 24-48 hours!", "kw": ["showing", "viewing", "tour", "see the house", "see the property", "visit", "schedule a viewing", "book a viewing", "private showing", "walkthrough", "open house", "schedule a showing"], "cat": "viewing"}, {"q": "Are you accepting new clients?", "a": "Absolutely! Great Island Realty is always welcoming new clients. Whether you're a first-time buyer, seasoned investor, or looking to sell, we're here to help.\n\nCall us at (603) 433-3350 to get started!", "kw": ["new client", "new clients", "accepting", "first time", "sign up", "new patient", "taking on"], "cat": "new_patient"}, {"q": "How do I get pre-qualified for a mortgage?", "a": "Getting pre-qualified is a great first step! You'll need proof of income, credit history, and bank statements. We partner with trusted local lenders who can pre-qualify you quickly.\n\nCall us at (603) 433-3350 and we'll connect you with the right lender!", "kw": ["pre-qualified", "pre-qualify", "prequalify", "prequalified", "pre-approval", "mortgage", "loan", "financing", "lender", "how much can i afford", "afford"], "cat": "mortgage"}, {"q": "Can you do a market analysis or home valuation?", "a": "Absolutely! We offer free Comparative Market Analyses (CMAs). We'll analyze recent sales, current trends, and your home's unique features to give you an accurate value estimate.\n\nCall us at (603) 433-3350 or leave your info for a free report within 24 hours!", "kw": ["market analysis", "home valuation", "home value", "worth", "how much is my home", "cma", "appraisal", "comparable", "comps", "property value", "estimate"], "cat": "valuation"}, {"q": "Do you help first-time homebuyers?", "a": "Yes! We love working with first-time homebuyers. We can help with first-time buyer programs (FHA, USDA, state grants), down payment assistance, and guide you through every step.\n\nCall us at (603) 433-3350 for a free first-time buyer consultation!", "kw": ["first-time", "first time", "first home", "never bought", "new buyer", "starter home", "fha", "down payment assistance", "first time buyer"], "cat": "firsttime"}, {"q": "Do you handle investment properties?", "a": "Absolutely! We help investors with multi-family properties, rental income analysis, 1031 exchanges, fix-and-flip opportunities, and long-term wealth-building strategies.\n\nCall us at (603) 433-3350 to discuss your investment goals!", "kw": ["investment", "invest", "rental property", "rental income", "cap rate", "multi-family", "duplex", "triplex", "roi", "1031", "flip", "investor"], "cat": "investment"}, {"q": "Do you handle emergencies?", "a": "If you have an urgent real estate need — a time-sensitive offer, last-minute closing issue, or emergency situation — call (603) 433-3350 directly. We're responsive and will get back to you as quickly as possible.", "kw": ["emergency", "emergencies", "urgent", "asap", "rush", "immediate", "time-sensitive"], "cat": "emergency"}, {"q": "How do I book an appointment?", "a": "You can schedule a free consultation by calling (603) 433-3350 or leaving your info in the chat! We'll set up a time to discuss your buying or selling goals.", "kw": ["appointment", "book", "schedule", "consultation", "meet", "come in"], "cat": "booking"}, {"q": "Where are you located?", "a": "Our office is located at 40 Pleasant Street, Portsmouth, NH, 03801. Call us at (603) 433-3350 for directions or to schedule an in-office meeting.", "kw": ["location", "located", "where", "address", "directions", "find you", "parking", "office"], "cat": "location"}, {"q": "Tell me about neighborhoods and school districts", "a": "We're experts in all local neighborhoods! We can help you find the perfect area based on school ratings, commute times, walkability, safety, and property value trends.\n\nTell us what matters most and we'll recommend the best neighborhoods. Call us at (603) 433-3350!", "kw": ["neighborhood", "neighborhoods", "school", "schools", "school district", "area", "community", "safe", "walkable", "commute", "best area"], "cat": "neighborhoods"}, {"q": "What are typical closing costs?", "a": "Closing costs typically run 2-5% of the purchase price and include loan fees, title insurance, inspection, appraisal, and taxes. We'll provide a detailed estimate early so there are no surprises.\n\nCall us at (603) 433-3350 for specifics!", "kw": ["closing costs", "closing fees", "how much to close", "settlement", "fees", "closing"], "cat": "closing"}, {"q": "What does a home inspection cover?", "a": "A professional inspection covers foundation, roof, plumbing, electrical, HVAC, windows, and more. Inspections cost $300-$500 and take 2-3 hours. We never recommend skipping this step.\n\nCall us at (603) 433-3350 for inspector recommendations!", "kw": ["inspection", "inspect", "home inspection", "inspector", "structural"], "cat": "inspection"}];
+
+  var QUICK_ACTIONS = [{"label": "Browse Listings", "q": "What properties do you have available?"}, {"label": "Schedule Showing", "q": "I want to schedule a showing"}, {"label": "Sell My Home", "q": "Can you help me sell my home?"}, {"label": "Free Valuation", "q": "Can you do a market analysis or home valuation?"}];
+
   var BUSINESS_NAME = "Great Island Realty";
-  var PHONE = "603-433-3350";
+  var PHONE = "(603) 433-3350";
+  var AGENT_DATA = [
+    {name: "Sarah Mitchell", lastName: "mitchell", specialty: "Residential Sales"},
+    {name: "James Rodriguez", lastName: "rodriguez", specialty: "Commercial & Investment"},
+    {name: "Emily Chen", lastName: "chen", specialty: "First-Time Buyers & Rentals"}
+  ];
 
   var chatOpen = false;
   var initialized = false;
+  var msgCount = 0;
+  var leadFormShown = false;
+  var lastAnswer = null;
+  var lastCategory = null;
 
   window.toggleChat = function() {
     chatOpen = !chatOpen;
@@ -436,7 +676,7 @@ body {
   };
 
   function initChat() {
-    addBotMessage("Hi there! I am the AI assistant for " + BUSINESS_NAME + ". How can I help you today?");
+    addBotMessage("Welcome to " + BUSINESS_NAME + "! I'm your AI real estate assistant. Whether you're buying, selling, or just exploring, I'm here to help. What can I do for you today?");
     setTimeout(function() {
       addQuickActions();
     }, 400);
@@ -500,6 +740,7 @@ body {
     var inputWords = inputLower.split(/\s+/);
     var bestScore = 0;
     var bestAnswer = null;
+    var bestCat = null;
 
     for (var i = 0; i < QA_DATA.length; i++) {
       var qa = QA_DATA[i];
@@ -514,10 +755,11 @@ body {
       }
 
       // Word overlap with question
-      var qWords = qa.q.toLowerCase().split(/\s+/);
+      var qWords = qa.q.toLowerCase().replace(/[?!.,]/g, "").split(/\s+/);
       for (var w = 0; w < inputWords.length; w++) {
-        if (inputWords[w].length <= 3) continue;
+        if (inputWords[w].length <= 4) continue;
         for (var qw = 0; qw < qWords.length; qw++) {
+          if (qWords[qw].length <= 4) continue;
           if (qWords[qw].indexOf(inputWords[w]) !== -1 || inputWords[w].indexOf(qWords[qw]) !== -1) {
             score += 8;
           }
@@ -532,13 +774,80 @@ body {
       if (score > bestScore) {
         bestScore = score;
         bestAnswer = qa.a;
+        bestCat = qa.cat;
       }
     }
 
     if (bestScore >= 15) {
-      return bestAnswer;
+      return {a: bestAnswer, cat: bestCat};
     }
     return null;
+  }
+
+  function isGreeting(text) {
+    var greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "thanks", "thank you", "yo", "sup", "howdy", "greetings"];
+    var lower = text.toLowerCase().trim();
+    for (var i = 0; i < greetings.length; i++) {
+      if (lower === greetings[i] || lower.indexOf(greetings[i]) === 0) return true;
+    }
+    return false;
+  }
+
+  function detectAgentMention(text) {
+    var lower = text.toLowerCase();
+    for (var i = 0; i < AGENT_DATA.length; i++) {
+      if (lower.indexOf(AGENT_DATA[i].lastName) !== -1) return AGENT_DATA[i];
+    }
+    return null;
+  }
+
+  function isAvailabilityQuestion(text) {
+    var terms = ["available", "availability", "consultation", "schedule with", "appointment with", "appointment", "meet with", "when can i see", "can i see", "this week", "next week", "open slot", "book with", "want to see", "want to book", "book"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function isDetailedQuestion(text) {
+    var terms = ["specific address", "exact price", "square footage", "how many bedrooms", "make an offer", "submit an offer", "negotiate", "counteroffer", "my specific", "my property at", "my house at"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function maybeShowLeadPrompt() {
+    if (leadFormShown) return;
+    msgCount++;
+    if (msgCount >= 2) {
+      leadFormShown = true;
+      setTimeout(function() {
+        addBotMessage("By the way, if you'd like one of our agents to reach out personally, just leave your contact info below.");
+        showLeadCaptureForm();
+      }, 1200);
+    }
+  }
+
+  function showLeadCaptureForm() {
+    var body = document.getElementById("chatBody");
+    var form = document.createElement("div");
+    form.className = "lead-form";
+    form.innerHTML =
+      "<p>Want us to reach out? Leave your info:</p>" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your full name\">" +
+      "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
+      "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
+      "<select id=\"leadIntent\"><option value=\"\">Are you buying, selling, or both?</option><option value=\"buying\">Buying</option><option value=\"selling\">Selling</option><option value=\"both\">Both</option><option value=\"renting\">Renting</option><option value=\"investing\">Investing</option></select>" +
+      "<input type=\"text\" id=\"leadBudget\" placeholder=\"Budget range (e.g. $300K-$500K)\">" +
+      "<input type=\"text\" id=\"leadTimeline\" placeholder=\"Timeline (e.g. 3-6 months)\">" +
+      "<input type=\"text\" id=\"leadAreas\" placeholder=\"Preferred areas/neighborhoods\">" +
+      "<select id=\"leadCurrentStatus\"><option value=\"\">Currently renting or own?</option><option value=\"renting\">Renting</option><option value=\"own\">Own</option><option value=\"other\">Other</option></select>" +
+      "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
+    body.appendChild(form);
+    body.scrollTop = body.scrollHeight;
   }
 
   function handleUserInput(text) {
@@ -548,29 +857,89 @@ body {
     var delay = 600 + Math.random() * 600;
     setTimeout(function() {
       hideTyping();
-      var answer = findBestMatch(text);
-      if (answer) {
-        addBotMessage(answer);
-      } else {
-        showLeadCapture(text);
+
+      // Tier 1: Greetings
+      if (isGreeting(text)) {
+        addBotMessage("Hello! Whether you're looking to buy, sell, or rent, I'm here to help. What can I assist you with?");
+        return;
       }
+
+      // Gather context
+      var agent = detectAgentMention(text);
+      var match = findBestMatch(text);
+      var availability = isAvailabilityQuestion(text);
+      var detailed = isDetailedQuestion(text);
+
+      // Agent-specific booking -> lead form
+      if (agent && availability) {
+        showAgentLeadCapture(text, agent);
+        lastCategory = "booking";
+        lastAnswer = null;
+        return;
+      }
+
+      // Detailed property/offer questions -> lead capture
+      if (detailed && !match) {
+        showAgentLeadCapture(text, null);
+        lastCategory = "detailed";
+        lastAnswer = null;
+        return;
+      }
+
+      // Knowledge base answer (with repeat detection)
+      if (match) {
+        if (match.a === lastAnswer) {
+          addBotMessage("It looks like you want more details on this topic. Leave your info and one of our agents will follow up with you directly.");
+          showLeadCaptureForm();
+          lastCategory = match.cat;
+          lastAnswer = null;
+          return;
+        }
+        addBotMessage(match.a);
+        lastAnswer = match.a;
+        lastCategory = match.cat;
+        maybeShowLeadPrompt();
+        return;
+      }
+
+      // Fallback: Generic lead capture
+      showLeadCapture(text);
+      lastCategory = null;
+      lastAnswer = null;
     }, delay);
   }
 
-  function showLeadCapture(originalQuestion) {
+  function showAgentLeadCapture(originalQuestion, agent) {
     var body = document.getElementById("chatBody");
-    addBotMessage("Great question! Let me connect you with " + BUSINESS_NAME + " directly so they can give you the best answer.");
+    var msg;
+    if (agent) {
+      msg = "Great choice! " + agent.name + " specializes in " + agent.specialty + ". Leave your info below and " + agent.name.split(" ")[0] + " will reach out to schedule a time with you.";
+    } else {
+      msg = "That's a great question for our team. Leave your info below and we'll have the right agent follow up with you directly.";
+    }
+    addBotMessage(msg);
 
     var form = document.createElement("div");
     form.className = "lead-form";
+    form.setAttribute("data-agent-requested", agent ? agent.name : "");
+    form.setAttribute("data-question-text", originalQuestion);
     form.innerHTML =
       "<p>Leave your info and we will get back to you:</p>" +
-      "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your full name\">" +
       "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
       "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
+      "<select id=\"leadIntent\"><option value=\"\">Are you buying, selling, or both?</option><option value=\"buying\">Buying</option><option value=\"selling\">Selling</option><option value=\"both\">Both</option></select>" +
+      "<input type=\"text\" id=\"leadBudget\" placeholder=\"Budget range\">" +
+      "<input type=\"text\" id=\"leadTimeline\" placeholder=\"Timeline (e.g. 3-6 months)\">" +
+      "<textarea id=\"leadNote\" placeholder=\"What are you looking for?\">" + originalQuestion + "</textarea>" +
       "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
     body.appendChild(form);
     body.scrollTop = body.scrollHeight;
+  }
+
+  function showLeadCapture(originalQuestion) {
+    addBotMessage("Great question! Let me connect you with " + BUSINESS_NAME + " directly so they can give you the best answer.");
+    showLeadCaptureForm();
   }
 
   window.submitLead = function() {
@@ -585,7 +954,7 @@ body {
     var forms = document.querySelectorAll(".lead-form");
     for (var i = 0; i < forms.length; i++) { forms[i].remove(); }
 
-    addBotMessage("Thank you, " + (name || "friend") + "! " + BUSINESS_NAME + " will reach out to you shortly." +
+    addBotMessage("Thank you, " + (name || "friend") + "! A " + BUSINESS_NAME + " agent will reach out to you shortly." +
       (PHONE ? " You can also call us directly at " + PHONE + "." : ""));
   };
 
