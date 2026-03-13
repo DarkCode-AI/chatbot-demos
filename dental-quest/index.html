@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dental Quest - AI Assistant Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --brand: #0d9488;
+  --brand-dark: #0a7a70;
+  --brand-deeper: #065f58;
+  --brand-light: #ccfbf1;
+  --brand-glow: rgba(13, 148, 136, 0.15);
+  --accent: #f0fdfa;
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --bg: #f8fafb;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 40%, var(--brand-deeper) 100%);
+  color: white;
+  padding: 100px 20px 120px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: heroFloat 20s ease-in-out infinite;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: var(--bg);
+  border-radius: 60% 60% 0 0;
+}
+@keyframes heroFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, 30px) scale(1.05); }
+  66% { transform: translate(-20px, -15px) scale(0.98); }
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+  position: relative;
+  animation: fadeInDown 0.6s ease-out;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #34d399;
+  border-radius: 50%;
+  animation: dotPulse 2s infinite;
+}
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  position: relative;
+  animation: fadeInDown 0.6s ease-out 0.1s both;
+}
+.hero p {
+  font-size: 1.1rem;
+  opacity: 0.88;
+  max-width: 520px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+  font-weight: 400;
+  position: relative;
+  animation: fadeInDown 0.6s ease-out 0.2s both;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: var(--brand-dark);
+  padding: 14px 30px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  position: relative;
+  animation: fadeInDown 0.6s ease-out 0.3s both;
+}
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+}
+.hero-cta::after {
+  content: '\2192';
+  transition: transform 0.25s;
+}
+.hero-cta:hover::after {
+  transform: translateX(3px);
+}
+
+/* Features */
+.features {
+  max-width: 900px;
+  margin: -40px auto 80px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+.feature-card {
+  background: var(--white);
+  padding: 32px 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-dark));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.feature-card:hover::before {
+  opacity: 1;
+}
+.feature-card .icon {
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  width: 52px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-light);
+  border-radius: 14px;
+}
+.feature-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.feature-card p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+.footer a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.footer a:hover { color: var(--brand-dark); }
+
+/* Chat Widget */
+.chat-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(13, 148, 136, 0.35);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fabEntry 0.5s ease-out 1s both;
+}
+.chat-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(13, 148, 136, 0.45);
+}
+.chat-fab svg { width: 26px; height: 26px; }
+@keyframes fabEntry {
+  from { opacity: 0; transform: scale(0.5) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.chat-window {
+  position: fixed;
+  bottom: 96px;
+  right: 24px;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  height: 560px;
+  max-height: calc(100vh - 140px);
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: var(--shadow-xl);
+  z-index: 1001;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.chat-window.open {
+  display: flex;
+  animation: chatSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes chatSlideUp {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.chat-header {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: white;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.chat-header .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+.chat-header .info h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+.chat-header .info span {
+  font-size: 0.78rem;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.chat-header .info span::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #34d399;
+  border-radius: 50%;
+}
+.chat-close {
+  margin-left: auto;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: all 0.2s;
+}
+.chat-close:hover { opacity: 1; background: rgba(255,255,255,0.2); }
+
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg);
+}
+.chat-body::-webkit-scrollbar { width: 4px; }
+.chat-body::-webkit-scrollbar-track { background: transparent; }
+.chat-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.msg {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  animation: msgIn 0.3s ease-out;
+}
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.msg.bot {
+  background: var(--white);
+  color: var(--text);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  white-space: pre-line;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+.msg.user {
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 0;
+}
+.quick-btn {
+  background: var(--white);
+  border: 1.5px solid var(--brand-light);
+  color: var(--brand-dark);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+.quick-btn:hover {
+  background: var(--brand);
+  color: white;
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
+
+.typing {
+  display: flex;
+  gap: 5px;
+  padding: 12px 16px;
+  background: var(--white);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+  max-width: 64px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+.typing span {
+  width: 7px;
+  height: 7px;
+  background: var(--brand);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: typingDot 1.4s infinite;
+}
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-4px); }
+}
+
+.chat-input {
+  display: flex;
+  gap: 8px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--white);
+}
+.chat-input input {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: 24px;
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.2s;
+  background: var(--bg);
+  color: var(--text);
+}
+.chat-input input:focus {
+  border-color: var(--brand);
+  background: var(--white);
+  box-shadow: 0 0 0 3px var(--brand-glow);
+}
+.chat-input input::placeholder { color: var(--text-muted); }
+.chat-input button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.chat-input button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
+}
+
+/* Lead capture form */
+.lead-form {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 16px;
+  align-self: flex-start;
+  max-width: 90%;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.lead-form p {
+  font-size: 0.84rem;
+  margin-bottom: 12px;
+  color: var(--text);
+  font-weight: 600;
+}
+.lead-form input, .lead-form select {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.lead-form input:focus, .lead-form select:focus {
+  border-color: var(--brand);
+  background: var(--white);
+}
+.lead-form textarea {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  resize: vertical;
+  min-height: 50px;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+}
+.lead-form textarea:focus { border-color: var(--brand); background: var(--white); }
+.lead-form select {
+  width: 100%;
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #fff;
+}
+.lead-form button {
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+.lead-form button:hover {
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+  .chat-window {
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  .chat-fab { bottom: 16px; right: 16px; width: 56px; height: 56px; }
+  .hero { padding: 72px 20px 100px; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-badge">AI-Powered Dental Assistant</div>
+  <h1>Dental Quest</h1>
+  <p>Your Trusted Dental Care Provider</p>
+  <button class="hero-cta" onclick="toggleChat()">Try Our AI Assistant</button>
+</section>
+
+<section class="features">
+  <div class="feature-card"><div class="icon">&#128197;</div><h3>Easy Scheduling</h3><p>Book appointments instantly, 24/7 — even outside office hours.</p></div>
+  <div class="feature-card"><div class="icon">&#128737;</div><h3>Insurance Check</h3><p>Instantly verify your dental insurance coverage and benefits.</p></div>
+  <div class="feature-card"><div class="icon">&#9889;</div><h3>Emergency Support</h3><p>Get immediate guidance for dental emergencies anytime.</p></div>
+</section>
+
+<footer class="footer">
+  <p>Powered by <a href="https://darkcodeai.carrd.co" target="_blank">DarkCode AI</a></p>
+  <p style="margin-top:8px;font-size:0.78rem;opacity:0.7">AI-powered chatbot demo &mdash; responses are generated from publicly available business information</p>
+</footer>
+
+<!-- Chat Widget -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="Open chat">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+</button>
+
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="avatar">&#129463;</div>
+    <div class="info">
+      <h4>Dental Quest</h4>
+      <span>AI Assistant &bull; Online</span>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">&times;</button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Type your question..." autocomplete="off">
+    <button onclick="sendMessage()" aria-label="Send">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function() {
+  var QA_DATA = [{"q": "What is your contact info?", "a": "Here's how to reach Dental Quest:\n\nPhone: (978) 458-3456\nAddress: 1275 Pawtucket Blvd #1, Lowell, MA 01854\nEmail: Dentalwellnessoflowell@gmail.com", "kw": ["contact info", "contact information", "how to contact", "reach you", "get in touch", "contact details", "how do i contact", "how do i reach", "contact"], "cat": "contact"}, {"q": "What is your phone number?", "a": "You can reach us at (978) 458-3456. We're happy to help!", "kw": ["phone", "phone number", "your phone", "call you", "telephone", "your number", "number"], "cat": "contact"}, {"q": "What is your email?", "a": "You can email us at Dentalwellnessoflowell@gmail.com, or call (978) 458-3456.", "kw": ["email", "email address", "your email", "e-mail", "mail"], "cat": "contact"}, {"q": "What are your hours?", "a": "Our hours at Dental Quest:\n\nMonday: 9:00 AM - 5:00 PM\nTuesday: 9:00 AM - 5:00 PM\nWednesday: 9:00 AM - 5:00 PM\nThursday: 9:00 AM - 5:00 PM\nFriday: 9:00 AM - 5:00 PM\nSaturday: CLOSED\nSunday: CLOSED\n\nCall us at (978) 458-3456 if you need to confirm availability.", "kw": ["hours", "open", "close", "time", "schedule", "when", "business hours", "office hours"], "cat": "hours"}, {"q": "Can I see you on weekends?", "a": "Please call us at (978) 458-3456 to check our weekend availability. We understand busy schedules and try to offer convenient appointment times.", "kw": ["weekend", "saturday", "sunday", "after hours", "evening"], "cat": "hours"}, {"q": "What services do you offer?", "a": "At Dental Quest, we offer General Dentistry, Cosmetic Dentistry, Teeth Whitening, Dental Implants, Root Canal, Crowns, Veneers, Bridges, Fillings, Invisalign. We're here for all your dental needs!\n\nCall us at (978) 458-3456 to schedule a consultation.", "kw": ["services", "what do you offer", "provide", "do you do", "treatments", "procedures", "services do you"], "cat": "services"}, {"q": "Do you offer teeth whitening?", "a": "Yes! We offer teeth whitening at Dental Quest. Call us at (978) 458-3456 to schedule a consultation.", "kw": ["whitening", "whiten", "white", "bright", "bleach", "stain"], "cat": "cosmetic"}, {"q": "Do you offer Invisalign?", "a": "Yes! We offer invisalign at Dental Quest. Call us at (978) 458-3456 to schedule a consultation.", "kw": ["invisalign", "braces", "straighten", "alignment", "crooked", "orthodont"], "cat": "orthodontics"}, {"q": "What about dental implants?", "a": "Yes! We offer dental implants at Dental Quest. Call us at (978) 458-3456 to schedule a consultation.", "kw": ["implant", "missing tooth", "replace", "permanent"], "cat": "implants"}, {"q": "Do you do root canals?", "a": "Yes! We offer root canal at Dental Quest. Call us at (978) 458-3456 to schedule a consultation.", "kw": ["root canal", "endodontic", "nerve", "infected tooth"], "cat": "services"}, {"q": "Do you see children?", "a": "Absolutely! We love treating kids at Dental Quest. We recommend bringing children in for their first visit by age 1 or when their first tooth appears.", "kw": ["children", "kids", "child", "pediatric", "baby", "toddler", "son", "daughter"], "cat": "pediatric"}, {"q": "Do you accept my insurance?", "a": "We accept a wide range of dental insurance, including:\n\nDelta Dental, Cigna, Aetna, MetLife, Guardian, Humana, Blue Cross, Anthem, GEHA, Principal, Ameritas, Medicaid.\n\nNot sure if yours is covered? Call us at (978) 458-3456 and we'll verify your benefits for free.", "kw": ["insurance", "accept", "cover", "plan", "delta", "cigna", "aetna", "metlife", "bcbs", "blue cross", "anthem", "guardian", "geha", "unum", "principal", "insurance companies", "what insurance", "which insurance", "insurance do you", "accept insurance"], "cat": "insurance"}, {"q": "What insurance do you accept for orthodontics?", "a": "For orthodontic coverage, please call us at (978) 458-3456 to verify your specific plan. Most major plans provide orthodontic benefits.", "kw": ["orthodontic insurance", "ortho insurance", "braces insurance", "braces coverage", "invisalign insurance", "orthodontic coverage"], "cat": "insurance"}, {"q": "What if my insurance is out-of-network?", "a": "No problem! If you're out-of-network, we'll submit insurance claims on your behalf so you can still get reimbursed. Call us at (978) 458-3456 and we'll help you understand your coverage.", "kw": ["out-of-network", "out of network", "not in network", "oon"], "cat": "insurance"}, {"q": "What payment options do you have?", "a": "We accept Credit Cards, Cash, Check, Payment Plans. Call us at (978) 458-3456 to discuss payment options.", "kw": ["payment", "pay", "finance", "financing", "credit", "cash", "payment plan", "afford", "carecredit", "care credit", "out of network", "out-of-network", "offer finance", "offer financing", "finance option", "financing option", "pay for", "how to pay", "financing available"], "cat": "billing"}, {"q": "How much does a cleaning cost?", "a": "Cleaning costs vary based on your insurance coverage. Most plans cover preventive cleanings at 100%. Call us at (978) 458-3456 for a cost estimate with your specific insurance.", "kw": ["cost", "price", "how much", "cleaning", "fee", "charge", "expensive"], "cat": "pricing"}, {"q": "Who are your dentists?", "a": "Our doctor is Dr. Chandra Manish.\n\nCall us at (978) 458-3456 to schedule with any of our doctors.", "kw": ["dentist", "doctor", "who", "team", "staff", "provider", "dr", "doctors", "how many", "meet the team", "docs"], "cat": "team"}, {"q": "Who are your doctors?", "a": "Our doctor is Dr. Chandra Manish.\n\nCall us at (978) 458-3456 to schedule with any of our doctors.", "kw": ["doctors", "doctor", "who", "team", "staff", "provider", "dr", "works there", "how many", "meet the team", "docs"], "cat": "doctor"}, {"q": "Tell me about Dr. Chandra Manish", "a": "Dr. Chandra Manish is part of our team at Dental Quest. Call us at (978) 458-3456 to schedule an appointment.", "kw": ["manish", "chandra", "dr manish"], "cat": "doctor"}, {"q": "Are you accepting new patients?", "a": "Yes! Dental Quest is always welcoming new patients. Call us at (978) 458-3456 to get started — we'll make your first visit easy and comfortable.", "kw": ["new patient", "accepting", "first time", "join", "sign up", "register"], "cat": "new_patient"}, {"q": "What should I expect at my first visit?", "a": "Your first visit includes a comprehensive exam, X-rays, and a cleaning. We'll discuss your dental health and create a personalized treatment plan. Plan for about 60-90 minutes.", "kw": ["first visit", "first appointment", "expect", "what happens", "new patient visit"], "cat": "new_patient"}, {"q": "Do you handle dental emergencies?", "a": "Yes, we handle dental emergencies! If you're in pain or had an accident, call (978) 458-3456 immediately. We'll get you in as soon as possible.", "kw": ["emergency", "emergencies", "urgent", "pain", "toothache", "broken", "knocked out", "accident"], "cat": "emergency"}, {"q": "How do I book an appointment?", "a": "You can book by calling us at (978) 458-3456 or by leaving your info in the chat! We'll find a time that works for you.", "kw": ["appointment", "book", "schedule", "visit", "come in"], "cat": "booking"}, {"q": "How do I book online?", "a": "You can book online at our website or call us at (978) 458-3456. We'll find a time that works for you!", "kw": ["book online", "online booking", "online appointment", "website booking", "online schedule"], "cat": "booking"}, {"q": "Do you take walk-ins?", "a": "We prefer appointments so we can give you dedicated time, but we do our best to accommodate walk-ins and emergencies. Call us at (978) 458-3456 to check availability.", "kw": ["walk-in", "walk in", "without appointment", "drop in", "no appointment"], "cat": "booking"}, {"q": "Where are you located?", "a": "We're located at 1275 Pawtucket Blvd #1, Lowell, MA 01854. Call us at (978) 458-3456 for directions.", "kw": ["location", "located", "where", "address", "directions", "find you", "parking"], "cat": "location"}, {"q": "What COVID precautions do you take?", "a": "Patient safety is our top priority. We follow all CDC and ADA guidelines including enhanced sanitization, air filtration, and screening protocols.", "kw": ["covid", "safety", "precaution", "sanitize", "clean", "protocol", "safe"], "cat": "safety"}];
+  var QUICK_ACTIONS = [{"label": "Book Appointment", "q": "How do I book an appointment?"}, {"label": "Insurance", "q": "Do you accept my insurance?"}, {"label": "Services", "q": "What services do you offer?"}, {"label": "Emergency", "q": "Do you handle dental emergencies?"}];
+  var BUSINESS_NAME = "Dental Quest";
+  var PHONE = "(978) 458-3456";
+  var DOCTOR_DATA = [{name: "Dr. Chandra Manish", lastName: "manish", specialty: "General Dentist"}];
+
+  var chatOpen = false;
+  var initialized = false;
+  var lastAnswer = null;
+  var lastCategory = null;
+
+  window.toggleChat = function() {
+    chatOpen = !chatOpen;
+    var win = document.getElementById("chatWindow");
+    var fab = document.getElementById("chatFab");
+    if (chatOpen) {
+      win.classList.add("open");
+      fab.style.display = "none";
+      if (!initialized) {
+        initChat();
+        initialized = true;
+      }
+      setTimeout(function() { document.getElementById("chatInput").focus(); }, 300);
+    } else {
+      win.classList.remove("open");
+      fab.style.display = "flex";
+    }
+  };
+
+  function initChat() {
+    addBotMessage("Hi there! I am the AI assistant for " + BUSINESS_NAME + ". How can I help you today?");
+    setTimeout(function() {
+      addQuickActions();
+    }, 400);
+  }
+
+  function addBotMessage(text) {
+    var body = document.getElementById("chatBody");
+    var div = document.createElement("div");
+    div.className = "msg bot";
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function addUserMessage(text) {
+    var body = document.getElementById("chatBody");
+    var div = document.createElement("div");
+    div.className = "msg user";
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function addQuickActions() {
+    var body = document.getElementById("chatBody");
+    var container = document.createElement("div");
+    container.className = "quick-actions";
+    for (var i = 0; i < QUICK_ACTIONS.length; i++) {
+      var btn = document.createElement("button");
+      btn.className = "quick-btn";
+      btn.textContent = QUICK_ACTIONS[i].label;
+      btn.setAttribute("data-q", QUICK_ACTIONS[i].q);
+      btn.onclick = function() {
+        var q = this.getAttribute("data-q");
+        handleUserInput(q);
+        this.parentElement.remove();
+      };
+      container.appendChild(btn);
+    }
+    body.appendChild(container);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function showTyping() {
+    var body = document.getElementById("chatBody");
+    var div = document.createElement("div");
+    div.className = "typing";
+    div.id = "typingIndicator";
+    div.innerHTML = "<span></span><span></span><span></span>";
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function hideTyping() {
+    var el = document.getElementById("typingIndicator");
+    if (el) el.remove();
+  }
+
+  function findBestMatch(input) {
+    var inputLower = input.toLowerCase();
+    var inputWords = inputLower.split(/\s+/);
+    var bestScore = 0;
+    var bestAnswer = null;
+    var bestCat = null;
+
+    for (var i = 0; i < QA_DATA.length; i++) {
+      var qa = QA_DATA[i];
+      var score = 0;
+
+      // Keyword matching
+      for (var k = 0; k < qa.kw.length; k++) {
+        var kw = qa.kw[k].toLowerCase();
+        if (inputLower.indexOf(kw) !== -1) {
+          score += 20;
+        }
+      }
+
+      // Word overlap with question
+      var qWords = qa.q.toLowerCase().replace(/[?!.,]/g, "").split(/\s+/);
+      for (var w = 0; w < inputWords.length; w++) {
+        if (inputWords[w].length <= 4) continue;
+        for (var qw = 0; qw < qWords.length; qw++) {
+          if (qWords[qw].length <= 4) continue;
+          if (qWords[qw].indexOf(inputWords[w]) !== -1 || inputWords[w].indexOf(qWords[qw]) !== -1) {
+            score += 8;
+          }
+        }
+      }
+
+      // Exact phrase bonus
+      if (inputLower.indexOf(qa.q.toLowerCase()) !== -1 || qa.q.toLowerCase().indexOf(inputLower) !== -1) {
+        score += 50;
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestAnswer = qa.a;
+        bestCat = qa.cat;
+      }
+    }
+
+    if (bestScore >= 15) {
+      return {a: bestAnswer, cat: bestCat};
+    }
+    return null;
+  }
+
+  function isGreeting(text) {
+    var greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "thanks", "thank you", "yo", "sup", "howdy", "greetings"];
+    var lower = text.toLowerCase().trim();
+    for (var i = 0; i < greetings.length; i++) {
+      if (lower === greetings[i] || lower.indexOf(greetings[i]) === 0) return true;
+    }
+    return false;
+  }
+
+  function detectDoctorMention(text) {
+    var lower = text.toLowerCase();
+    for (var i = 0; i < DOCTOR_DATA.length; i++) {
+      if (lower.indexOf(DOCTOR_DATA[i].lastName) !== -1) return DOCTOR_DATA[i];
+    }
+    return null;
+  }
+
+  function isAvailabilityQuestion(text) {
+    var terms = ["available", "availability", "consultation", "schedule with", "appointment with", "appointment", "meet with", "when can i see", "can i see", "this week", "next week", "open slot", "book with", "want to see", "want to book", "book"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function isMedicalQuestion(text) {
+    var terms = ["diagnosis", "treatment plan", "should i get", "do i need", "x-ray", "recommend", "second opinion", "pain in my", "my tooth", "what procedure", "my molar", "my gums", "bleeding", "swollen", "infection", "cavity"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function isOnlineBookingQuestion(text) {
+    var lower = text.toLowerCase();
+    return (lower.indexOf("online") !== -1 && (lower.indexOf("book") !== -1 || lower.indexOf("schedule") !== -1 || lower.indexOf("appointment") !== -1));
+  }
+
+  function showLeadCaptureForm() {
+    var body = document.getElementById("chatBody");
+    var form = document.createElement("div");
+    form.className = "lead-form";
+    form.innerHTML =
+      "<p>Leave your info and we will get back to you:</p>" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
+      "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
+      "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
+      "<input type=\"text\" id=\"leadDate\" placeholder=\"Preferred date/time\">" +
+      "<select id=\"leadPatientType\"><option value=\"\">New or existing patient?</option><option value=\"new\">New Patient</option><option value=\"existing\">Existing Patient</option></select>" +
+      "<textarea id=\"leadReason\" placeholder=\"Reason for your visit\"></textarea>" +
+      "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
+    body.appendChild(form);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function handleUserInput(text) {
+    addUserMessage(text);
+    showTyping();
+
+    var delay = 600 + Math.random() * 600;
+    setTimeout(function() {
+      hideTyping();
+
+      // Tier 1: Greetings
+      if (isGreeting(text)) {
+        addBotMessage("Hello! How can I help you today?");
+        return;
+      }
+
+      // Online booking → direct answer with URL
+      if (isOnlineBookingQuestion(text)) {
+        addBotMessage("You can book online at our website or call us at (978) 458-3456. We'll find a time that works for you!");
+        lastCategory = "booking";
+        lastAnswer = "You can book online at our website or call us at (978) 458-3456. We'll find a time that works for you!";
+        return;
+      }
+
+      // Gather context
+      var doctor = detectDoctorMention(text);
+      var match = findBestMatch(text);
+      var availability = isAvailabilityQuestion(text);
+      var medical = isMedicalQuestion(text);
+
+      // Tier 3: Doctor-specific booking → lead form (check BEFORE Tier 2)
+      if (doctor && availability) {
+        showDoctorLeadCapture(text, doctor);
+        lastCategory = "booking";
+        lastAnswer = null;
+        return;
+      }
+      if (medical && !match) {
+        showDoctorLeadCapture(text, null);
+        lastCategory = "medical";
+        lastAnswer = null;
+        return;
+      }
+
+      // Tier 2: Knowledge base answer (with repeat detection)
+      if (match) {
+        if (match.a === lastAnswer) {
+          addBotMessage("Looks like you want more details on this. Leave your info and our team will follow up directly.");
+          showLeadCaptureForm();
+          lastCategory = match.cat;
+          lastAnswer = null;
+          return;
+        }
+        addBotMessage(match.a);
+        lastAnswer = match.a;
+        lastCategory = match.cat;
+        return;
+      }
+
+      // Fallback: Generic lead capture
+      showLeadCapture(text);
+      lastCategory = null;
+      lastAnswer = null;
+    }, delay);
+  }
+
+  function showDoctorLeadCapture(originalQuestion, doctor) {
+    var body = document.getElementById("chatBody");
+    var msg;
+    if (doctor) {
+      msg = "Great choice! " + doctor.name + "'s availability depends on the current schedule — leave your info below and our team will check and follow up with you directly.";
+    } else {
+      msg = "That's a great question for our dental team. Leave your info below and we'll have the right doctor follow up with you directly.";
+    }
+    addBotMessage(msg);
+
+    var form = document.createElement("div");
+    form.className = "lead-form";
+    form.setAttribute("data-doctor-requested", doctor ? doctor.name : "");
+    form.setAttribute("data-question-text", originalQuestion);
+    var escapedQ = originalQuestion.replace(/"/g, "&quot;");
+    form.innerHTML =
+      "<p>Leave your info and we will get back to you:</p>" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
+      "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
+      "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
+      "<input type=\"text\" id=\"leadDate\" placeholder=\"Preferred date/time\">" +
+      "<select id=\"leadPatientType\"><option value=\"\">New or existing patient?</option><option value=\"new\">New Patient</option><option value=\"existing\">Existing Patient</option></select>" +
+      "<textarea id=\"leadNote\" placeholder=\"Your question or concern\">" + originalQuestion + "</textarea>" +
+      "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
+    body.appendChild(form);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function showLeadCapture(originalQuestion) {
+    addBotMessage("Great question! Let me connect you with " + BUSINESS_NAME + " directly so they can give you the best answer.");
+    showLeadCaptureForm();
+  }
+
+  window.submitLead = function() {
+    var name = document.getElementById("leadName").value;
+    var phone = document.getElementById("leadPhone").value;
+    var email = document.getElementById("leadEmail").value;
+
+    if (!name && !phone && !email) {
+      return;
+    }
+
+    var forms = document.querySelectorAll(".lead-form");
+    for (var i = 0; i < forms.length; i++) { forms[i].remove(); }
+
+    addBotMessage("Thank you, " + (name || "friend") + "! " + BUSINESS_NAME + " will reach out to you shortly." +
+      (PHONE ? " You can also call us directly at " + PHONE + "." : ""));
+  };
+
+  window.sendMessage = function() {
+    var input = document.getElementById("chatInput");
+    var text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+    handleUserInput(text);
+  };
+
+  document.getElementById("chatInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") window.sendMessage();
+  });
+})();
+</script>
+</body>
+</html>
