@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI ROI Calculator — DarkCode AI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f172a'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='16' fill='%2360a5fa'%3EDC%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #7c3aed;
+  --brand-light: #a78bfa;
+  --brand-dark: #5b21b6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+  --bg: #0f0f0f;
+  --bg-card: #16213e;
+  --bg-elevated: #1e293b;
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border: #334155;
+  --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Layout */
+.container { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 3rem 0 2rem;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  color: var(--brand-light);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.hero h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, var(--text) 0%, var(--brand-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* Card */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.card-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+/* Form */
+.form-group { margin-bottom: 1.25rem; }
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.375rem;
+}
+.form-input, .form-select {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+  min-height: 44px;
+}
+.form-input:focus, .form-select:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+}
+.form-select { cursor: pointer; }
+.form-hint { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+/* Results */
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+}
+.result-row:last-child { border-bottom: none; }
+.result-label { font-size: 0.85rem; color: var(--text-secondary); }
+.result-value {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.result-big {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 800;
+  text-align: center;
+  padding: 1rem 0;
+}
+.text-success { color: var(--success); }
+.text-error { color: var(--error); }
+.text-warning { color: var(--warning); }
+.text-brand { color: var(--brand-light); }
+
+/* Gated section */
+.gated {
+  position: relative;
+  overflow: hidden;
+}
+.gated-blur {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+.gated-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(2px);
+  z-index: 2;
+  padding: 1.5rem;
+  text-align: center;
+}
+.gated-overlay p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+.email-row {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+.email-row input {
+  flex: 1;
+  padding: 0.625rem 0.875rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  outline: none;
+  min-height: 44px;
+}
+.email-row input:focus { border-color: var(--brand); }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+  min-height: 44px;
+}
+.btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.btn-primary { background: var(--brand); color: white; }
+.btn-primary:hover { background: var(--brand-light); transform: translateY(-1px); }
+.btn-lg {
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  border-radius: 0.625rem;
+  width: 100%;
+}
+.btn-success { background: var(--success); color: white; }
+.btn-success:hover { background: #059669; }
+
+/* CTA */
+.cta-section {
+  text-align: center;
+  padding: 2rem 0;
+}
+.cta-section p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+.footer a { color: var(--brand-light); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.4s ease-out; }
+
+/* Unlocked success state */
+.unlocked-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: var(--success);
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">DarkCode AI</div>
+    <h1>AI ROI Calculator</h1>
+    <p>See exactly how much revenue your business is losing to missed calls — and how AI can recover it.</p>
+  </div>
+
+  <!-- Input Card -->
+  <div class="card">
+    <div class="card-title">Your Business Details</div>
+
+    <div class="form-group">
+      <label class="form-label" for="bizType">Business Type</label>
+      <select class="form-select" id="bizType" onchange="onBizTypeChange()">
+        <option value="dental">Dental Practice</option>
+        <option value="realestate">Real Estate Agency</option>
+        <option value="hvac">HVAC Company</option>
+        <option value="legal">Law Firm</option>
+        <option value="medspa">Med Spa</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="missedCalls">Average Missed Calls Per Month</label>
+      <input class="form-input" type="number" id="missedCalls" value="30" min="0" oninput="calculate()">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="ltv">Average Customer Lifetime Value ($)</label>
+      <input class="form-input" type="number" id="ltv" value="10000" min="0" oninput="calculate()">
+      <div class="form-hint" id="ltvHint">Auto-filled for Dental Practice. Adjust to match your business.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="receptionistCost">Current Receptionist Monthly Cost ($)</label>
+      <input class="form-input" type="number" id="receptionistCost" value="3200" min="0" oninput="calculate()">
+    </div>
+  </div>
+
+  <!-- Free Results -->
+  <div class="card fade-in">
+    <div class="card-title">Revenue at Risk</div>
+    <div class="result-big text-error" id="monthlyLost">$0</div>
+    <div style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-bottom:0.75rem;">lost per month from missed calls</div>
+    <div class="result-row">
+      <span class="result-label">Annual Revenue Lost</span>
+      <span class="result-value text-error" id="annualLost">$0</span>
+    </div>
+    <div class="result-row">
+      <span class="result-label">Close Rate Used</span>
+      <span class="result-value" style="color:var(--text-muted);">15%</span>
+    </div>
+  </div>
+
+  <!-- Gated Results -->
+  <div class="card" id="gatedCard">
+    <div class="gated" id="gatedWrapper">
+      <div class="gated-overlay" id="gateOverlay">
+        <p>Enter your email to unlock your complete AI ROI report — savings, ROI timeline, and net annual gain.</p>
+        <div class="email-row">
+          <input type="email" id="emailInput" placeholder="you@business.com" autocomplete="email">
+          <button class="btn btn-primary" onclick="unlockReport()">Unlock</button>
+        </div>
+        <div id="emailError" style="color:var(--error);font-size:0.75rem;margin-top:0.5rem;display:none;">Please enter a valid email address.</div>
+      </div>
+      <div class="gated-blur" id="gatedContent">
+        <div class="card-title">Your AI Savings Report</div>
+        <div class="result-row">
+          <span class="result-label">AI Chatbot Monthly Cost</span>
+          <span class="result-value" style="color:var(--text-muted);" id="chatbotCost">$500</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Monthly Receptionist Savings (60%)</span>
+          <span class="result-value text-success" id="monthlySavings">$0</span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">ROI Timeline</span>
+          <span class="result-value text-brand" id="roiTimeline">-- days</span>
+        </div>
+        <div style="padding:1.25rem 0;text-align:center;border-top:1px solid var(--border);margin-top:0.75rem;">
+          <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.25rem;">Net Annual Gain</div>
+          <div class="result-big text-success" id="netAnnual" style="padding:0;">$0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <p>Want to see a live AI chatbot demo built for your business?</p>
+    <a href="https://darkcodeai.carrd.co" target="_blank" class="btn btn-success btn-lg">Book a Free Call</a>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Powered by <a href="https://darkcodeai.carrd.co" target="_blank">DarkCode AI</a></p>
+    <p style="margin-top:0.375rem;font-size:0.7rem;opacity:0.6;">Estimates based on industry averages. Actual results may vary.</p>
+  </div>
+
+</div>
+
+<script>
+var LTV_DEFAULTS = {
+  dental: 10000,
+  realestate: 8500,
+  hvac: 47000,
+  legal: 15000,
+  medspa: 12000,
+  other: 10000
+};
+
+var BIZ_LABELS = {
+  dental: 'Dental Practice',
+  realestate: 'Real Estate Agency',
+  hvac: 'HVAC Company',
+  legal: 'Law Firm',
+  medspa: 'Med Spa',
+  other: 'Small Business'
+};
+
+var CLOSE_RATE = 0.15;
+var CHATBOT_MONTHLY = 500;
+var SAVINGS_FACTOR = 0.6;
+
+function onBizTypeChange() {
+  var biz = document.getElementById('bizType').value;
+  var ltv = LTV_DEFAULTS[biz] || 10000;
+  document.getElementById('ltv').value = ltv;
+  document.getElementById('ltvHint').textContent = 'Auto-filled for ' + BIZ_LABELS[biz] + '. Adjust to match your business.';
+  calculate();
+}
+
+function formatCurrency(n) {
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+function calculate() {
+  var missed = parseInt(document.getElementById('missedCalls').value) || 0;
+  var ltv = parseFloat(document.getElementById('ltv').value) || 0;
+  var recCost = parseFloat(document.getElementById('receptionistCost').value) || 0;
+
+  var monthlyLost = missed * ltv * CLOSE_RATE;
+  var annualLost = monthlyLost * 12;
+  var monthlySavings = recCost * SAVINGS_FACTOR;
+  var annualSavings = monthlySavings * 12;
+  var annualChatbot = CHATBOT_MONTHLY * 12;
+  var netAnnual = annualLost + annualSavings - annualChatbot;
+  var roiDays = CHATBOT_MONTHLY > 0 ? Math.ceil(CHATBOT_MONTHLY / ((monthlyLost + monthlySavings) / 30)) : 0;
+  if (roiDays < 1) roiDays = 1;
+
+  document.getElementById('monthlyLost').textContent = formatCurrency(monthlyLost);
+  document.getElementById('annualLost').textContent = formatCurrency(annualLost);
+  document.getElementById('monthlySavings').textContent = formatCurrency(monthlySavings);
+  document.getElementById('roiTimeline').textContent = 'Pays for itself in ' + roiDays + ' days';
+  document.getElementById('netAnnual').textContent = formatCurrency(netAnnual);
+
+  // Store for email capture
+  window._roiData = {
+    business_type: BIZ_LABELS[document.getElementById('bizType').value] || 'Other',
+    missed_calls: missed,
+    ltv: ltv,
+    receptionist_cost: recCost,
+    monthly_lost: monthlyLost,
+    annual_lost: annualLost,
+    monthly_savings: monthlySavings,
+    roi_days: roiDays,
+    net_annual: netAnnual
+  };
+}
+
+function unlockReport() {
+  var email = document.getElementById('emailInput').value.trim();
+  var errEl = document.getElementById('emailError');
+
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    errEl.style.display = '';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  // Store locally
+  var capture = Object.assign({email: email, captured_at: new Date().toISOString()}, window._roiData || {});
+  localStorage.setItem('darkcode_roi_lead', JSON.stringify(capture));
+
+  // Try to send to backend (fails silently if not available)
+  try {
+    fetch('/api/leads/roi-capture', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(capture)
+    }).catch(function() {});
+  } catch(e) {}
+
+  // Unlock the gated content
+  document.getElementById('gateOverlay').style.display = 'none';
+  document.getElementById('gatedContent').classList.remove('gated-blur');
+
+  // Add unlocked badge
+  var badge = document.createElement('div');
+  badge.className = 'unlocked-badge';
+  badge.innerHTML = '<span style="font-size:0.8rem;">&#10003;</span> Report Unlocked';
+  document.getElementById('gatedCard').insertBefore(badge, document.getElementById('gatedCard').firstChild);
+}
+
+// Initial calculation
+calculate();
+
+// Check if already unlocked
+try {
+  var saved = localStorage.getItem('darkcode_roi_lead');
+  if (saved) {
+    document.getElementById('gateOverlay').style.display = 'none';
+    document.getElementById('gatedContent').classList.remove('gated-blur');
+  }
+} catch(e) {}
+</script>
+</body>
+</html>
