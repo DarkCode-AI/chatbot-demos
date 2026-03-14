@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI ROI Calculator — DarkCode AI</title>
+<title>How Much Revenue Is Your Business Losing After Hours? — DarkCode AI</title>
+<meta name="description" content="Free AI ROI Calculator — see exactly how much revenue your business loses to missed calls and how an AI chatbot can recover it in days.">
+<meta property="og:title" content="How Much Revenue Is Your Business Losing After Hours?">
+<meta property="og:description" content="Calculate your missed call revenue leak in 30 seconds. Free AI ROI report for dental, HVAC, legal, real estate, and med spa businesses.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://darkcode-ai.github.io/chatbot-demos/roi-calculator/">
+<meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f172a'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='16' fill='%2360a5fa'%3EDC%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -276,9 +282,9 @@ body {
 
   <!-- Hero -->
   <div class="hero">
-    <div class="hero-badge">DarkCode AI</div>
-    <h1>AI ROI Calculator</h1>
-    <p>See exactly how much revenue your business is losing to missed calls — and how AI can recover it.</p>
+    <div class="hero-badge">Free Calculator</div>
+    <h1>How Much Revenue Is Your Business Losing After Hours?</h1>
+    <p>Calculate your missed call revenue leak in 30 seconds. Used by 50+ small businesses to find hidden profit.</p>
   </div>
 
   <!-- Input Card -->
@@ -333,10 +339,13 @@ body {
   <div class="card" id="gatedCard">
     <div class="gated" id="gatedWrapper">
       <div class="gated-overlay" id="gateOverlay">
-        <p>Enter your email to unlock your complete AI ROI report — savings, ROI timeline, and net annual gain.</p>
+        <div id="gateTeaser" style="font-family:var(--font-mono);font-size:1.5rem;font-weight:800;color:var(--success);margin-bottom:0.5rem;">$0</div>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.25rem;">in recoverable annual revenue</p>
+        <p>Get your free personalized ROI report — savings breakdown, ROI timeline, and net annual gain.</p>
+        <p id="gateLossLine" style="font-size:0.8rem;color:var(--error);font-weight:600;margin-bottom:0.75rem;"></p>
         <div class="email-row">
           <input type="email" id="emailInput" placeholder="you@business.com" autocomplete="email">
-          <button class="btn btn-primary" onclick="unlockReport()">Unlock</button>
+          <button class="btn btn-primary" onclick="unlockReport()">Get My Free Report</button>
         </div>
         <div id="emailError" style="color:var(--error);font-size:0.75rem;margin-top:0.5rem;display:none;">Please enter a valid email address.</div>
       </div>
@@ -365,7 +374,8 @@ body {
   <!-- CTA -->
   <div class="cta-section">
     <p>Want to see a live AI chatbot demo built for your business?</p>
-    <a href="https://darkcodeai.carrd.co" target="_blank" class="btn btn-success btn-lg">Book a Free Call</a>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.75rem;">15-minute call. We'll build a free custom demo for your business.</p>
+    <a href="https://darkcodeai.carrd.co" target="_blank" class="btn btn-success btn-lg">Book a Free Demo Call</a>
   </div>
 
   <!-- Footer -->
@@ -430,6 +440,12 @@ function calculate() {
   document.getElementById('monthlySavings').textContent = formatCurrency(monthlySavings);
   document.getElementById('roiTimeline').textContent = 'Pays for itself in ' + roiDays + ' days';
   document.getElementById('netAnnual').textContent = formatCurrency(netAnnual);
+
+  // Update gate teaser with actual number (visible behind the blur gate)
+  var teaser = document.getElementById('gateTeaser');
+  if (teaser) teaser.textContent = formatCurrency(netAnnual);
+  var lossLine = document.getElementById('gateLossLine');
+  if (lossLine && monthlyLost > 0) lossLine.textContent = 'Every month you wait, you lose another ' + formatCurrency(monthlyLost);
 
   // Store for email capture
   window._roiData = {
