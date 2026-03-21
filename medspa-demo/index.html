@@ -5,227 +5,600 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f172a'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='16' fill='%2360a5fa'%3EDC%3C/text%3E%3C/svg%3E">
 <title>Radiance Med Spa - AI Chatbot Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --brand: #9333ea;
-  --brand-dark: color-mix(in srgb, #9333ea 80%, black);
-  --brand-light: color-mix(in srgb, #9333ea 12%, white);
-  --text: #1a1a2e;
-  --text-light: #6b7280;
-  --bg: #f8fafc;
+  --brand-dark: #7e22ce;
+  --brand-deeper: #6b21a8;
+  --brand-light: #f3e8ff;
+  --brand-glow: rgba(147, 51, 234, 0.15);
+  --accent: #faf5ff;
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --bg: #f8fafb;
   --white: #ffffff;
-  --shadow: 0 4px 24px rgba(0,0,0,0.12);
-  --radius: 12px;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+h1, h2, h3 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+/* Hero Section */
 .hero {
-  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 40%, var(--brand-deeper) 100%);
   color: white;
-  padding: 80px 20px 100px;
+  padding: 100px 20px 120px;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: heroFloat 20s ease-in-out infinite;
+}
 .hero::after {
   content: '';
   position: absolute;
-  bottom: -2px; left: 0; right: 0;
-  height: 60px;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 80px;
   background: var(--bg);
-  border-radius: 50% 50% 0 0;
+  border-radius: 60% 60% 0 0;
 }
-.hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; margin-bottom: 16px; letter-spacing: -0.02em; }
-.hero p { font-size: 1.15rem; opacity: 0.9; max-width: 600px; margin: 0 auto 32px; line-height: 1.6; }
+@keyframes heroFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, 30px) scale(1.05); }
+  66% { transform: translate(-20px, -15px) scale(0.98); }
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+  position: relative;
+  animation: fadeInDown 0.6s ease-out;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #f9a8d4;
+  border-radius: 50%;
+  animation: dotPulse 2s infinite;
+}
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  position: relative;
+  animation: fadeInDown 0.6s ease-out 0.1s both;
+}
+.hero p {
+  font-size: 1.1rem;
+  opacity: 0.88;
+  max-width: 520px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+  font-weight: 400;
+  position: relative;
+  animation: fadeInDown 0.6s ease-out 0.2s both;
+}
 .hero-cta {
-  display: inline-block; background: white; color: var(--brand);
-  padding: 14px 32px; border-radius: 50px; font-weight: 600; font-size: 1.05rem;
-  cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: var(--brand-dark);
+  padding: 14px 30px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  position: relative;
+  animation: fadeInDown 0.6s ease-out 0.3s both;
 }
-.hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+}
+.hero-cta::after {
+  content: '\2192';
+  transition: transform 0.25s;
+}
+.hero-cta:hover::after {
+  transform: translateX(3px);
+}
 
+/* Features */
 .features {
-  max-width: 1000px; margin: -20px auto 60px; padding: 0 20px;
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;
-  position: relative; z-index: 1;
+  max-width: 960px;
+  margin: -40px auto 80px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 20px;
+  position: relative;
+  z-index: 1;
 }
 .feature-card {
-  background: var(--white); padding: 28px; border-radius: var(--radius);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-align: center;
+  background: var(--white);
+  padding: 32px 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
-.feature-card .icon { font-size: 2rem; margin-bottom: 12px; }
-.feature-card h3 { font-size: 1.05rem; margin-bottom: 8px; color: var(--text); }
-.feature-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-dark));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.feature-card:hover::before {
+  opacity: 1;
+}
+.feature-card .icon {
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  width: 52px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-light);
+  border-radius: 14px;
+}
+.feature-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.feature-card p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
 
+/* Footer */
 .footer {
-  text-align: center; padding: 40px 20px; color: var(--text-light); font-size: 0.85rem;
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
 }
-.footer a { color: var(--brand); text-decoration: none; }
-.footer a:hover { text-decoration: underline; }
+.footer a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.footer a:hover { color: var(--brand-dark); }
 
+/* Chat Widget */
 .chat-fab {
-  position: fixed; bottom: 24px; right: 24px; width: 64px; height: 64px;
-  border-radius: 50%; background: var(--brand); color: white; border: none;
-  cursor: pointer; box-shadow: var(--shadow); z-index: 1000;
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 0.3s, background 0.3s; animation: pulse 2s infinite;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(147, 51, 234, 0.35);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fabEntry 0.5s ease-out 1s both;
 }
-.chat-fab:hover { transform: scale(1.08); }
-.chat-fab svg { width: 28px; height: 28px; }
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
-  50% { box-shadow: 0 4px 32px rgba(0,0,0,0.25); }
+.chat-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(147, 51, 234, 0.45);
+}
+.chat-fab svg { width: 26px; height: 26px; }
+@keyframes fabEntry {
+  from { opacity: 0; transform: scale(0.5) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .chat-window {
-  position: fixed; bottom: 100px; right: 24px; width: 380px;
-  max-width: calc(100vw - 32px); height: 560px; max-height: calc(100vh - 140px);
-  background: var(--white); border-radius: 16px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.18); z-index: 1001;
-  display: none; flex-direction: column; overflow: hidden;
+  position: fixed;
+  bottom: 96px;
+  right: 24px;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  height: 560px;
+  max-height: calc(100vh - 140px);
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: var(--shadow-xl);
+  z-index: 1001;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
 }
-.chat-window.open { display: flex; animation: slideUp 0.3s ease-out; }
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.chat-window.open {
+  display: flex;
+  animation: chatSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes chatSlideUp {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .chat-header {
-  background: var(--brand); color: white; padding: 16px 20px;
-  display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  color: white;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
 }
 .chat-header .avatar {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(255,255,255,0.2); display: flex;
-  align-items: center; justify-content: center; font-size: 1.2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
 }
-.chat-header .info h4 { font-size: 0.95rem; font-weight: 600; }
-.chat-header .info span { font-size: 0.8rem; opacity: 0.85; }
+.chat-header .info h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+.chat-header .info span {
+  font-size: 0.78rem;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.chat-header .info span::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #f9a8d4;
+  border-radius: 50%;
+}
 .chat-close {
-  margin-left: auto; background: none; border: none; color: white;
-  cursor: pointer; font-size: 1.4rem; padding: 4px; opacity: 0.8;
+  margin-left: auto;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: all 0.2s;
 }
-.chat-close:hover { opacity: 1; }
+.chat-close:hover { opacity: 1; background: rgba(255,255,255,0.2); }
 
 .chat-body {
-  flex: 1; overflow-y: auto; padding: 16px;
-  display: flex; flex-direction: column; gap: 12px;
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg);
 }
+.chat-body::-webkit-scrollbar { width: 4px; }
+.chat-body::-webkit-scrollbar-track { background: transparent; }
+.chat-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
 .msg {
-  max-width: 85%; padding: 10px 14px; border-radius: 16px;
-  font-size: 0.9rem; line-height: 1.5; animation: fadeIn 0.3s;
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  animation: msgIn 0.3s ease-out;
 }
-@keyframes fadeIn {
+@keyframes msgIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .msg.bot {
-  background: var(--brand-light); color: var(--text);
-  align-self: flex-start; border-bottom-left-radius: 4px; white-space: pre-line;
+  background: var(--white);
+  color: var(--text);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  white-space: pre-line;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
 }
 .msg.user {
-  background: var(--brand); color: white;
-  align-self: flex-end; border-bottom-right-radius: 4px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
 }
 
-.quick-actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0; }
-.quick-btn {
-  background: var(--white); border: 1.5px solid var(--brand); color: var(--brand);
-  padding: 6px 14px; border-radius: 20px; font-size: 0.82rem;
-  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 0;
 }
-.quick-btn:hover { background: var(--brand); color: white; }
+.quick-btn {
+  background: var(--white);
+  border: 1.5px solid var(--brand-light);
+  color: var(--brand-dark);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+.quick-btn:hover {
+  background: var(--brand);
+  color: white;
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
 
 .typing {
-  display: flex; gap: 4px; padding: 10px 14px;
-  background: var(--brand-light); border-radius: 16px;
-  border-bottom-left-radius: 4px; align-self: flex-start; max-width: 60px;
+  display: flex;
+  gap: 5px;
+  padding: 12px 16px;
+  background: var(--white);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+  max-width: 64px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
 }
 .typing span {
-  width: 8px; height: 8px; background: var(--brand);
-  border-radius: 50%; opacity: 0.4; animation: typingDot 1.4s infinite;
+  width: 7px;
+  height: 7px;
+  background: var(--brand);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: typingDot 1.4s infinite;
 }
 .typing span:nth-child(2) { animation-delay: 0.2s; }
 .typing span:nth-child(3) { animation-delay: 0.4s; }
 @keyframes typingDot {
-  0%, 60%, 100% { opacity: 0.4; transform: translateY(0); }
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
   30% { opacity: 1; transform: translateY(-4px); }
 }
 
 .chat-input {
-  display: flex; gap: 8px; padding: 12px 16px;
-  border-top: 1px solid #e5e7eb; flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--white);
 }
 .chat-input input {
-  flex: 1; border: 1.5px solid #e5e7eb; border-radius: 24px;
-  padding: 10px 16px; font-size: 0.9rem; outline: none; transition: border-color 0.2s;
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: 24px;
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.2s;
+  background: var(--bg);
+  color: var(--text);
 }
-.chat-input input:focus { border-color: var(--brand); }
+.chat-input input:focus {
+  border-color: var(--brand);
+  background: var(--white);
+  box-shadow: 0 0 0 3px var(--brand-glow);
+}
+.chat-input input::placeholder { color: var(--text-muted); }
 .chat-input button {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--brand); color: white; border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: background 0.2s;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
 }
-.chat-input button:hover { background: var(--brand-dark); }
+.chat-input button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(147, 51, 234, 0.3);
+}
 
+/* Lead capture form */
 .lead-form {
-  background: #f3e8ff; border-radius: 12px; padding: 14px;
-  align-self: flex-start; max-width: 90%;
+  background: var(--white);
+  border-radius: 14px;
+  padding: 16px;
+  align-self: flex-start;
+  max-width: 90%;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
-.lead-form p { font-size: 0.85rem; margin-bottom: 10px; color: var(--text); }
-.lead-form input {
-  display: block; width: 100%; padding: 8px 12px;
-  border: 1px solid #d1d5db; border-radius: 8px;
-  font-size: 0.85rem; margin-bottom: 8px;
+.lead-form p {
+  font-size: 0.84rem;
+  margin-bottom: 12px;
+  color: var(--text);
+  font-weight: 600;
+}
+.lead-form input, .lead-form select {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.lead-form input:focus, .lead-form select:focus {
+  border-color: var(--brand);
+  background: var(--white);
 }
 .lead-form textarea {
-  display: block; width: 100%; padding: 8px 12px;
-  border: 1px solid #d1d5db; border-radius: 8px;
-  font-size: 0.85rem; margin-bottom: 8px;
-  font-family: inherit; resize: vertical; min-height: 50px;
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  resize: vertical;
+  min-height: 50px;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
 }
+.lead-form textarea:focus { border-color: var(--brand); background: var(--white); }
 .lead-form button {
-  background: var(--brand); color: white; border: none;
-  padding: 8px 20px; border-radius: 8px; font-size: 0.85rem;
-  cursor: pointer; width: 100%;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+.lead-form button:hover {
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 480px) {
-  .chat-window { bottom: 0; right: 0; width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; }
+  .chat-window {
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
   .chat-fab { bottom: 16px; right: 16px; width: 56px; height: 56px; }
+  .hero { padding: 72px 20px 100px; }
 }
 </style>
 </head>
 <body>
 
 <section class="hero">
+  <div class="hero-badge">AI-Powered Med Spa Assistant</div>
   <h1>Radiance Med Spa</h1>
-  <p>Your Destination for Aesthetic Excellence</p>
-  <button class="hero-cta" onclick="toggleChat()">Try Our AI Assistant</button>
+  <p>Your Beauty Questions Answered &mdash; Instantly, 24/7</p>
+  <button class="hero-cta" onclick="toggleChat()">Ask Our AI Assistant</button>
 </section>
 
 <section class="features">
-  <div class="feature-card"><div class="icon">&#128133;</div><h3>Book Treatment</h3><p>Schedule Botox, fillers, laser, and more &mdash; 24/7.</p></div>
-  <div class="feature-card"><div class="icon">&#128218;</div><h3>Browse Services</h3><p>Explore our full treatment menu and pricing.</p></div>
-  <div class="feature-card"><div class="icon">&#127873;</div><h3>New Patient Specials</h3><p>Exclusive offers for first-time clients.</p></div>
-  <div class="feature-card"><div class="icon">&#128172;</div><h3>Free Consultation</h3><p>Talk to our team about your aesthetic goals.</p></div>
+  <div class="feature-card"><div class="icon">&#128137;</div><h3>Free Consultations</h3><p>Book a complimentary consultation with our licensed medical providers — no pressure.</p></div>
+  <div class="feature-card"><div class="icon">&#10024;</div><h3>Medical-Grade Treatments</h3><p>FDA-cleared devices and medical-grade injectables administered by licensed professionals.</p></div>
+  <div class="feature-card"><div class="icon">&#128179;</div><h3>Financing Available</h3><p>Flexible payment plans through CareCredit and Cherry so your glow fits your budget.</p></div>
+  <div class="feature-card"><div class="icon">&#127891;</div><h3>Expert Providers</h3><p>Board-certified nurse practitioners and licensed medical aestheticians on every service.</p></div>
 </section>
 
 <footer class="footer">
-  <p>Powered by <a href="https://darkcodeai.carrd.co" target="_blank">DarkCode AI</a></p>
+  <p>Powered by <a href="https://darkcodeai.com" target="_blank">DarkCode AI</a></p>
   <p style="margin-top:8px;font-size:0.78rem;opacity:0.7">AI-powered chatbot demo &mdash; responses are generated from publicly available business information</p>
 </footer>
 
+<!-- Chat Widget -->
 <button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="Open chat">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -252,15 +625,50 @@ body {
 
 <script>
 (function() {
-  var QA_DATA = [{"q": "What are your hours?", "a": "We're open Monday through Friday, 9:00 AM - 7:00 PM, and Saturday 9:00 AM - 5:00 PM. Sunday by appointment only. Call 555-123-4567 to book your visit.", "kw": ["hours", "open", "close", "time", "schedule", "when"], "cat": "hours"}, {"q": "What treatments do you offer?", "a": "We offer a full range of aesthetic treatments:\n\n\u2022 Botox & Dysport\n\u2022 Dermal fillers (lips, cheeks, jawline)\n\u2022 Laser skin resurfacing\n\u2022 Chemical peels\n\u2022 Microneedling\n\u2022 IPL photofacial\n\u2022 Body contouring\n\u2022 HydraFacial\n\u2022 Medical-grade skincare\n\nCall 555-123-4567 for a free consultation.", "kw": ["treatments", "services", "what do you do", "offer", "provide", "menu", "options"], "cat": "services"}, {"q": "How much does Botox cost?", "a": "Botox is priced per unit. Most patients need 20-60 units depending on the treatment area. We offer competitive pricing and new patient specials. Call 555-123-4567 for a personalized quote during your free consultation.", "kw": ["botox", "cost", "price", "how much", "expensive", "per unit", "dysport"], "cat": "pricing"}, {"q": "Do you offer free consultations?", "a": "Yes! We offer complimentary consultations for all new patients. Our providers will assess your goals, recommend treatments, and create a personalized plan. Call 555-123-4567 to schedule.", "kw": ["free consultation", "consultation", "consult", "assessment", "evaluate", "first visit"], "cat": "consultation"}, {"q": "How do I book an appointment?", "a": "You can book an appointment by calling us at 555-123-4567 or through our website. We offer same-day and next-day availability for many treatments.", "kw": ["book", "appointment", "schedule", "reserve", "sign up", "come in"], "cat": "booking"}, {"q": "What are dermal fillers?", "a": "Dermal fillers are injectable treatments that restore volume and smooth wrinkles. We use premium fillers for:\n\n\u2022 Lip enhancement\n\u2022 Cheek contouring\n\u2022 Jawline definition\n\u2022 Under-eye hollows\n\u2022 Nasolabial folds\n\nResults are immediate and last 6-18 months. Call 555-123-4567 for a consultation.", "kw": ["fillers", "filler", "dermal", "juvederm", "restylane", "lips", "cheeks", "jawline", "volume", "inject"], "cat": "services"}, {"q": "Do you have new patient specials?", "a": "Yes! We offer exclusive specials for first-time clients:\n\n\u2022 Free initial consultation\n\u2022 New patient discount on first treatment\n\u2022 Complimentary skincare assessment\n\nCall 555-123-4567 to learn about current promotions.", "kw": ["specials", "deals", "discount", "promotion", "new patient", "first time", "offer", "sale", "new client"], "cat": "promotions"}, {"q": "What is a HydraFacial?", "a": "HydraFacial is a multi-step facial treatment that cleanses, exfoliates, extracts, and hydrates your skin. It's gentle, non-invasive, and gives immediate results. Great for all skin types. Sessions take about 30 minutes. Call 555-123-4567 to book.", "kw": ["hydrafacial", "hydra facial", "facial", "skin treatment", "exfoliate", "cleanse", "glow"], "cat": "services"}, {"q": "What is laser skin resurfacing?", "a": "Laser skin resurfacing uses focused light energy to improve skin texture, reduce wrinkles, minimize scars, and even out skin tone. We offer both ablative and non-ablative options depending on your goals. Recovery time varies by treatment intensity. Call 555-123-4567 for a consultation.", "kw": ["laser", "resurfacing", "skin resurfacing", "wrinkles", "scars", "texture", "skin tone", "rejuvenation"], "cat": "services"}, {"q": "Is Botox safe?", "a": "Botox is FDA-approved and one of the most studied cosmetic treatments in the world. When administered by our trained and certified providers, it's very safe with minimal side effects. Most patients experience only slight redness or bruising that resolves within hours.", "kw": ["safe", "safety", "side effects", "risk", "dangerous", "hurt", "pain", "bruise"], "cat": "safety"}, {"q": "How long does Botox last?", "a": "Botox results typically last 3-4 months. Many patients schedule maintenance treatments every 3 months to maintain their results. With regular treatments, some patients find their results last longer over time.", "kw": ["how long", "last", "duration", "wear off", "maintain", "results", "temporary", "permanent"], "cat": "results"}, {"q": "What is microneedling?", "a": "Microneedling creates tiny micro-channels in the skin to stimulate collagen production. Benefits include:\n\n\u2022 Reduced fine lines and wrinkles\n\u2022 Improved skin texture\n\u2022 Minimized pore size\n\u2022 Reduced acne scars\n\u2022 Enhanced product absorption\n\nMost patients need 3-6 sessions for optimal results. Call 555-123-4567 to learn more.", "kw": ["microneedling", "micro needling", "needling", "collagen", "pores", "acne scars", "skin texture"], "cat": "services"}, {"q": "Do you offer body contouring?", "a": "Yes! We offer non-invasive body contouring treatments to help sculpt and tone problem areas. These treatments can reduce stubborn fat, tighten skin, and improve body shape without surgery or downtime. Call 555-123-4567 for a consultation.", "kw": ["body contouring", "body sculpting", "fat reduction", "tighten", "sculpt", "tone", "coolsculpting", "body"], "cat": "services"}, {"q": "What skincare products do you recommend?", "a": "We carry medical-grade skincare lines that deliver clinical results you can't get from over-the-counter products. Our providers will recommend a personalized skincare regimen during your consultation based on your skin type and goals.", "kw": ["skincare", "skin care", "products", "recommend", "cream", "serum", "routine", "regimen", "moisturizer", "sunscreen"], "cat": "products"}, {"q": "How do I prepare for my appointment?", "a": "To prepare for your treatment:\n\n\u2022 Avoid blood thinners and alcohol 24-48 hours before\n\u2022 Come with a clean face (no makeup for facial treatments)\n\u2022 Avoid sun exposure before laser treatments\n\u2022 Share your medical history and medications\n\nWe'll provide specific prep instructions when you book. Call 555-123-4567.", "kw": ["prepare", "preparation", "before appointment", "what to do", "ready", "beforehand", "instructions"], "cat": "preparation"}, {"q": "Do you offer chemical peels?", "a": "Yes! We offer a range of chemical peels from light to deep:\n\n\u2022 Light peels \u2014 minimal downtime, great for maintenance\n\u2022 Medium peels \u2014 address sun damage and fine lines\n\u2022 Deep peels \u2014 significant skin rejuvenation\n\nOur providers will recommend the right peel for your skin type and concerns. Call 555-123-4567.", "kw": ["chemical peel", "peel", "peels", "exfoliation", "skin peel", "glycolic", "salicylic"], "cat": "services"}, {"q": "What is your phone number?", "a": "You can reach us at 555-123-4567. We'd love to hear from you!", "kw": ["phone", "phone number", "call", "telephone", "number", "contact"], "cat": "contact"}, {"q": "Where are you located?", "a": "We're located at 123 Aesthetic Drive. We look forward to welcoming you! Call 555-123-4567 for directions.", "kw": ["location", "located", "where", "address", "directions", "find you"], "cat": "location"}, {"q": "Do you offer financing?", "a": "Yes! We offer flexible financing and payment plans for treatments. We want to make your aesthetic goals accessible. Ask about our financing options when you call 555-123-4567.", "kw": ["financing", "finance", "payment plan", "monthly payment", "afford", "credit", "pay"], "cat": "billing"}, {"q": "What is your contact info?", "a": "Here's how to reach us:\n\nPhone: 555-123-4567\nAddress: 123 Aesthetic Drive\n\nWe're here to help you look and feel your best!", "kw": ["contact info", "contact information", "how to contact", "reach you", "get in touch", "contact"], "cat": "contact"}];
-  var QUICK_ACTIONS = [{"label": "Book Treatment", "q": "How do I book an appointment?"}, {"label": "Browse Services", "q": "What treatments do you offer?"}, {"label": "New Patient Specials", "q": "Do you have new patient specials?"}, {"label": "Free Consultation", "q": "Do you offer free consultations?"}];
-  var BUSINESS_NAME = "Radiance Med Spa";
-  var PHONE = "555-123-4567";
-  var PROVIDER_DATA = [
-    {name: "Dr. Sarah Chen", lastName: "chen", specialty: "Injectables & Aesthetics"},
-    {name: "Jessica Rivera", lastName: "rivera", specialty: "Laser Treatments"},
-    {name: "Dr. Emily Park", lastName: "park", specialty: "Skincare & Rejuvenation"}
+  var QA_DATA = [
+    {"q": "What services do you offer?", "a": "Radiance Med Spa offers a full menu of medical-grade treatments including:\n\n• Botox & Dysport\n• Dermal fillers (Juvederm, Restylane, Sculptra)\n• Laser skin resurfacing\n• IPL photofacial\n• Microneedling with PRP\n• Chemical peels\n• HydraFacial\n• Body contouring (CoolSculpting)\n• Laser hair removal\n• IV wellness drips\n• Skincare & facials\n\nCall 555-200-8800 or book a free consultation online.", "kw": ["services", "what do you offer", "treatments", "menu", "what can you do", "procedures", "what treatments", "services offered"], "cat": "services"},
+    {"q": "How much does Botox cost?", "a": "Botox at Radiance Med Spa is priced per unit:\n\n• $12–$14 per unit (standard)\n• Forehead: 10–20 units ($120–$280)\n• Crow's feet: 10–15 units per side ($120–$210)\n• Glabellar (11s): 20–30 units ($240–$420)\n• Full-face treatment: varies by provider\n\nWe offer free consultations so you know exactly what to expect before committing. Call 555-200-8800.", "kw": ["botox cost", "botox price", "how much botox", "botox units", "cost of botox", "botox pricing", "botox per unit", "how much does botox cost"], "cat": "pricing"},
+    {"q": "How long does Botox last?", "a": "Botox results typically last 3–4 months for most patients. First-time patients may notice results fading a bit sooner; repeat patients often find results last longer over time as the muscles learn to relax. We recommend scheduling a touch-up before you fully lose results for the most consistent look.", "kw": ["how long botox", "botox last", "botox results last", "botox duration", "when does botox wear off", "botox longevity", "how long does botox"], "cat": "botox"},
+    {"q": "What is the recovery time after Botox?", "a": "Botox has virtually no downtime. You can return to normal activities immediately. Common post-treatment tips:\n• Avoid lying down for 4 hours after treatment\n• Don't rub or massage the treated area for 24 hours\n• Skip intense exercise for 24 hours\n• Avoid alcohol for 24 hours\n\nYou may see slight redness or pinpoint marks at injection sites that fade within hours.", "kw": ["botox downtime", "botox recovery", "after botox", "botox side effects", "botox aftercare", "what to do after botox", "recovery from botox"], "cat": "botox"},
+    {"q": "How much do fillers cost?", "a": "Dermal filler pricing at Radiance Med Spa:\n\n• Lips: $599–$899 per syringe\n• Cheeks / midface: $699–$999 per syringe\n• Under-eye (tear trough): $799–$1,099 per syringe\n• Jawline / chin: $699–$999 per syringe\n• Nasolabial folds: $599–$799 per syringe\n\nMost areas require 1–2 syringes. Free consultations available — call 555-200-8800.", "kw": ["filler cost", "filler price", "how much filler", "dermal filler cost", "lip filler cost", "cheek filler price", "how much do fillers cost", "filler pricing"], "cat": "pricing"},
+    {"q": "How long do fillers last?", "a": "Filler longevity depends on the product and area treated:\n• Lips: 6–12 months\n• Cheeks / midface: 12–18 months\n• Under-eye: 12–18 months\n• Jawline / chin: 12–24 months\n• Nasolabial folds: 12–18 months\n\nSculptra (collagen stimulator) can last 2+ years. Results vary by individual metabolism and lifestyle.", "kw": ["how long filler", "filler last", "filler duration", "how long lip filler", "filler results", "when does filler wear off", "how long does filler last"], "cat": "fillers"},
+    {"q": "Does Botox or filler hurt?", "a": "Most patients describe Botox as a tiny pinch — very tolerable. Fillers involve slightly more pressure, but we use topical numbing cream before treatment and many fillers contain built-in lidocaine for added comfort. Most patients are pleasantly surprised at how comfortable the experience is.", "kw": ["does botox hurt", "does filler hurt", "painful", "pain", "numbing", "needle", "is it painful", "how much pain", "hurt a lot"], "cat": "comfort"},
+    {"q": "What is a HydraFacial?", "a": "A HydraFacial is a 30–45 minute treatment that deeply cleanses, exfoliates, extracts impurities, and infuses the skin with customized serums in one step. It's gentle enough for all skin types, with no downtime.\n\nBenefits: reduced fine lines, improved texture, smaller-looking pores, brighter complexion, hydrated skin.\n\nPricing starts at $199. Call 555-200-8800 to book.", "kw": ["hydrafacial", "hydra facial", "what is hydrafacial", "hydrafacial treatment", "facial treatment", "hydrafacial cost", "hydrafacial price"], "cat": "services"},
+    {"q": "What is microneedling?", "a": "Microneedling creates tiny controlled micro-injuries in the skin to stimulate collagen and elastin production. It's excellent for:\n• Fine lines and wrinkles\n• Acne scars\n• Uneven skin texture\n• Enlarged pores\n• Stretch marks\n\nWe also offer microneedling with PRP (platelet-rich plasma) for enhanced results. Pricing starts at $299. 3–6 sessions recommended for best results.", "kw": ["microneedling", "micro needling", "what is microneedling", "microneedling cost", "microneedling price", "microneedling prp", "prp microneedling"], "cat": "services"},
+    {"q": "What is laser hair removal?", "a": "Laser hair removal uses concentrated light to permanently reduce unwanted hair by targeting hair follicles. We treat all body areas: legs, underarms, bikini/Brazilian, arms, back, chest, and face.\n\nMost patients need 6–8 sessions for optimal results. Pricing is per area — call 555-200-8800 for a quote, or ask about our package discounts.", "kw": ["laser hair removal", "hair removal", "laser hair", "permanent hair removal", "remove hair", "hair removal cost", "laser hair removal price", "how many sessions hair removal"], "cat": "services"},
+    {"q": "What is IPL photofacial?", "a": "IPL (Intense Pulsed Light) photofacial targets sun damage, brown spots, broken capillaries, and redness with broad-spectrum light. It's great for:\n• Sun spots and age spots\n• Rosacea and facial redness\n• Broken capillaries\n• Uneven skin tone\n\nLittle to no downtime. Brown spots may temporarily darken before flaking off. Pricing starts at $299 per session.", "kw": ["ipl", "photofacial", "ipl treatment", "photo facial", "sun spots", "age spots", "brown spots", "rosacea", "ipl cost", "ipl price"], "cat": "services"},
+    {"q": "Do you offer chemical peels?", "a": "Yes! We offer a range of medical-grade chemical peels:\n• Light peel (lunch-peel): No downtime, refreshed glow — $149\n• Medium peel (TCA): Addresses wrinkles, discoloration — $249, 5–7 days peeling\n• Deep peel (Phenol): Dramatic results for advanced aging — $499+, 7–14 days recovery\n\nA consultation is required before medium and deep peels. Call 555-200-8800.", "kw": ["chemical peel", "peel treatment", "peels", "what is chemical peel", "chemical peel cost", "peel price", "how much peel", "vi peel", "tca peel"], "cat": "services"},
+    {"q": "Do you offer free consultations?", "a": "Yes! All new patients receive a complimentary consultation with one of our licensed providers. During your consultation, we'll assess your skin, discuss your goals, and create a personalized treatment plan with transparent pricing. No pressure — ever. Call 555-200-8800 to book yours.", "kw": ["free consultation", "consultation", "free consult", "initial consultation", "book a consultation", "free visit", "complimentary consultation", "first appointment"], "cat": "booking"},
+    {"q": "How do I book an appointment?", "a": "You can book an appointment by calling us at 555-200-8800 or using our online booking system on our website. We offer morning, afternoon, and select evening appointments. New patients can start with a free consultation.", "kw": ["book appointment", "schedule appointment", "how to book", "make appointment", "appointment", "book online", "schedule online", "set up appointment", "get an appointment"], "cat": "booking"},
+    {"q": "What are your hours?", "a": "Radiance Med Spa is open:\n• Monday–Friday: 9:00 AM – 7:00 PM\n• Saturday: 9:00 AM – 5:00 PM\n• Sunday: Closed\n\nEvening appointments are available select weekdays. Call 555-200-8800 to check availability.", "kw": ["hours", "open", "close", "time", "schedule", "when", "what time", "business hours", "office hours", "what time do you open"], "cat": "hours"},
+    {"q": "Do you offer memberships?", "a": "Yes! Our Radiance Membership includes:\n\n✓ Monthly HydraFacial or chemical peel\n✓ 10% off all injectables\n✓ 15% off retail skincare\n✓ Priority booking\n✓ Members-only promotions\n\nMemberships start at $199/month. Call 555-200-8800 or ask at your next visit to enroll.", "kw": ["membership", "monthly plan", "membership plan", "membership cost", "member plan", "subscription", "how much membership", "loyalty program", "vip"], "cat": "membership"},
+    {"q": "Do you offer gift cards?", "a": "Yes! Radiance Med Spa gift cards are available in any amount and make the perfect gift for birthdays, holidays, or special occasions. Gift cards can be purchased in person or by calling 555-200-8800. They never expire.", "kw": ["gift card", "gift certificate", "gift", "present", "buy gift card", "gift for her", "gift for him", "purchase gift card", "gifting"], "cat": "giftcard"},
+    {"q": "Do you offer financing?", "a": "Yes! We offer financing through CareCredit and Cherry, with plans including 0% interest promotions for qualified patients. This makes it easy to spread treatment costs over time. Ask about financing when you call 555-200-8800 or at your consultation.", "kw": ["financing", "finance", "payment plan", "carecredit", "cherry", "monthly payments", "pay over time", "afford", "payment options", "installment", "0 percent interest"], "cat": "financing"},
+    {"q": "Who are your providers?", "a": "Radiance Med Spa treatments are performed by:\n\n• Dr. Amanda Reyes, MD — Medical Director, board-certified in dermatology\n• Jessica Park, NP — Licensed nurse practitioner specializing in injectables\n• Mia Torres, PA-C — Physician assistant, laser and body treatments\n• Licensed medical aestheticians for all facial and skin services\n\nAll injectable treatments are performed or directly supervised by our medical providers.", "kw": ["who are providers", "who does treatments", "providers", "staff", "team", "who performs", "doctors", "nurse", "aesthetician", "your team", "meet the team"], "cat": "team"},
+    {"q": "Are your treatments safe?", "a": "Yes — safety is our top priority. All treatments at Radiance Med Spa are performed using FDA-cleared devices and medical-grade products. Our providers are licensed medical professionals with extensive training. We conduct thorough health history reviews before every treatment and follow strict clinical protocols.", "kw": ["safe", "safety", "is it safe", "fda", "medical grade", "qualified", "licensed", "professional", "are treatments safe", "how safe"], "cat": "safety"},
+    {"q": "Who is NOT a good candidate for Botox or fillers?", "a": "Botox and fillers may NOT be appropriate if you:\n• Are pregnant or breastfeeding\n• Have certain neurological conditions\n• Have active skin infections in the treatment area\n• Have had allergic reactions to botulinum toxin or filler ingredients\n• Take certain blood thinners (increases bruising risk)\n\nWe review your medical history at every consultation to ensure your safety. When in doubt, call 555-200-8800.", "kw": ["contraindications", "not a candidate", "who cannot get botox", "who cannot get filler", "pregnant botox", "breastfeeding botox", "not eligible", "can i get botox if"], "cat": "safety"},
+    {"q": "What should I do before my appointment?", "a": "Pre-treatment tips:\n• Arrive with a clean face (no heavy makeup)\n• Avoid blood thinners (aspirin, ibuprofen, alcohol, fish oil) for 3–5 days before injectables\n• Stay well hydrated\n• Let us know about any medications or supplements\n• Avoid retinoids 2–3 days before laser or peel treatments\n\nWe'll send you specific pre-care instructions when you book.", "kw": ["before appointment", "pre treatment", "prepare for treatment", "what to do before", "before botox", "before filler", "pre care", "pre-care", "before laser"], "cat": "preparation"},
+    {"q": "What should I do after treatment?", "a": "General post-treatment tips:\n• Avoid direct sun exposure for at least 48 hours\n• Use SPF 30+ sunscreen daily\n• Stay hydrated\n• Avoid intense exercise for 24–48 hours after injectables\n• Don't rub or massage treated areas unless instructed\n• Avoid alcohol for 24 hours after injectables\n\nWe'll give you specific aftercare instructions for your treatment. Follow-up with us if you have any concerns.", "kw": ["after treatment", "post treatment", "aftercare", "what to do after", "after botox", "after filler", "post care", "post-care", "recovery tips"], "cat": "aftercare"},
+    {"q": "How long until I see results?", "a": "Results timeline by treatment:\n• Botox: Visible in 3–5 days, full effect at 14 days\n• Fillers: Immediate, with final results after 2 weeks (once any swelling resolves)\n• HydraFacial: Immediate glow\n• Laser / IPL: 2–4 weeks as skin heals and renews\n• Microneedling: 4–6 weeks for collagen remodeling\n• Chemical peel: 1–2 weeks after peeling\n\nOur providers will set realistic expectations at your consultation.", "kw": ["how long results", "when will i see results", "results timeline", "how soon", "how fast results", "when does it work", "how long to see results"], "cat": "results"},
+    {"q": "Do I need a touch-up after Botox?", "a": "Some patients like a 2-week follow-up after their first Botox treatment so we can assess results and add a few units if needed — at no extra charge. This ensures you're completely happy. Regular clients typically come back every 3–4 months to maintain their results.", "kw": ["touch up", "touch-up", "follow up botox", "after botox appointment", "maintenance botox", "how often botox", "when to get more botox", "botox follow up"], "cat": "botox"},
+    {"q": "What skincare products do you recommend?", "a": "We carry a curated selection of medical-grade skincare brands including SkinMedica, Revision Skincare, iS Clinical, and SkinCeuticals. Our providers can recommend a personalized skincare routine during your consultation. Members receive 15% off all retail products.", "kw": ["skincare", "products", "skincare products", "what products", "recommend products", "skin care", "medical grade skincare", "skinmedica", "is clinical", "skinceuticals"], "cat": "skincare"},
+    {"q": "Do you treat men?", "a": "Absolutely! Med spa treatments are increasingly popular with men. We regularly treat men for Botox, fillers, laser hair removal, HydraFacials, and body contouring. Our consultations are private and judgment-free. Call 555-200-8800 to book.", "kw": ["men", "male", "guys", "for men", "botox for men", "do you treat men", "male patients", "men's treatments"], "cat": "general"},
+    {"q": "What is CoolSculpting?", "a": "CoolSculpting is an FDA-cleared body contouring treatment that freezes and eliminates stubborn fat cells without surgery or downtime. Common treatment areas: abdomen, flanks (love handles), thighs, double chin, arms, and back fat.\n\nResults appear over 1–3 months as the body naturally eliminates the frozen fat cells. Most patients see a 20–25% fat reduction per treatment. Call 555-200-8800 for a free body contouring consultation.", "kw": ["coolsculpting", "cool sculpting", "body contouring", "fat reduction", "fat freezing", "cryolipolysis", "sculpt", "lose fat", "stubborn fat", "coolsculpting cost"], "cat": "services"},
+    {"q": "Where are you located?", "a": "Radiance Med Spa is located at 825 Wellness Way, Suite 300. We have ample parking and are easily accessible. Call 555-200-8800 for directions.", "kw": ["location", "located", "where", "address", "directions", "find you", "parking", "where are you", "your address"], "cat": "contact"},
+    {"q": "What is your phone number?", "a": "You can reach Radiance Med Spa at 555-200-8800. We're happy to answer questions, provide pricing, and book your free consultation.", "kw": ["phone", "phone number", "call you", "telephone", "your number", "number", "how to call", "contact number"], "cat": "contact"},
+    {"q": "How do I contact you?", "a": "Here's how to reach us:\n\nPhone: 555-200-8800\nAddress: 825 Wellness Way, Suite 300\nHours: Mon–Fri 9 AM–7 PM, Sat 9 AM–5 PM\n\nWe love hearing from you — call or book online anytime.", "kw": ["contact", "contact info", "how to contact", "reach you", "get in touch", "contact details", "how do i contact", "how do i reach"], "cat": "contact"},
+    {"q": "Do you accept insurance?", "a": "Med spa treatments are elective cosmetic procedures and are not covered by insurance. However, we offer flexible financing through CareCredit and Cherry, plus membership plans to make regular treatments more affordable. Call 555-200-8800 to learn more.", "kw": ["insurance", "insurance cover", "does insurance pay", "accept insurance", "insurance for botox", "covered by insurance", "health insurance"], "cat": "insurance"}
   ];
+
+  var QUICK_ACTIONS = [
+    {"label": "Botox Pricing", "q": "How much does Botox cost?"},
+    {"label": "Free Consultation", "q": "Do you offer free consultations?"},
+    {"label": "Memberships", "q": "Do you offer memberships?"},
+    {"label": "All Treatments", "q": "What services do you offer?"}
+  ];
+
+  var BUSINESS_NAME = "Radiance Med Spa";
+  var PHONE = "555-200-8800";
 
   var chatOpen = false;
   var initialized = false;
@@ -274,7 +682,10 @@ body {
     if (chatOpen) {
       win.classList.add("open");
       fab.style.display = "none";
-      if (!initialized) { initChat(); initialized = true; }
+      if (!initialized) {
+        initChat();
+        initialized = true;
+      }
       setTimeout(function() { document.getElementById("chatInput").focus(); }, 300);
     } else {
       win.classList.remove("open");
@@ -283,8 +694,10 @@ body {
   };
 
   function initChat() {
-    addBotMessage("Hi there! I'm the AI assistant for " + BUSINESS_NAME + ". How can I help you with your aesthetic goals today?");
-    setTimeout(function() { addQuickActions(); }, 400);
+    addBotMessage("Hi there! I'm the AI assistant for " + BUSINESS_NAME + ". How can I help you today?");
+    setTimeout(function() {
+      addQuickActions();
+    }, 400);
   }
 
   function addBotMessage(text) {
@@ -328,40 +741,88 @@ body {
   function showTyping() {
     var body = document.getElementById("chatBody");
     var div = document.createElement("div");
-    div.className = "typing"; div.id = "typingIndicator";
+    div.className = "typing";
+    div.id = "typingIndicator";
     div.innerHTML = "<span></span><span></span><span></span>";
     body.appendChild(div);
     body.scrollTop = body.scrollHeight;
   }
-  function hideTyping() { var el = document.getElementById("typingIndicator"); if (el) el.remove(); }
+
+  function hideTyping() {
+    var el = document.getElementById("typingIndicator");
+    if (el) el.remove();
+  }
 
   function findBestMatch(input) {
     var inputLower = input.toLowerCase();
     var inputWords = inputLower.split(/\s+/);
-    var bestScore = 0, bestAnswer = null, bestCat = null;
+    var bestScore = 0;
+    var bestAnswer = null;
+    var bestCat = null;
+
     for (var i = 0; i < QA_DATA.length; i++) {
-      var qa = QA_DATA[i]; var score = 0;
+      var qa = QA_DATA[i];
+      var score = 0;
+
       for (var k = 0; k < qa.kw.length; k++) {
-        if (inputLower.indexOf(qa.kw[k].toLowerCase()) !== -1) score += 20;
+        var kw = qa.kw[k].toLowerCase();
+        if (inputLower.indexOf(kw) !== -1) {
+          score += 20;
+        }
       }
+
       var qWords = qa.q.toLowerCase().replace(/[?!.,]/g, "").split(/\s+/);
       for (var w = 0; w < inputWords.length; w++) {
         if (inputWords[w].length <= 4) continue;
         for (var qw = 0; qw < qWords.length; qw++) {
           if (qWords[qw].length <= 4) continue;
-          if (qWords[qw].indexOf(inputWords[w]) !== -1 || inputWords[w].indexOf(qWords[qw]) !== -1) score += 8;
+          if (qWords[qw].indexOf(inputWords[w]) !== -1 || inputWords[w].indexOf(qWords[qw]) !== -1) {
+            score += 8;
+          }
         }
       }
-      if (inputLower.indexOf(qa.q.toLowerCase()) !== -1 || qa.q.toLowerCase().indexOf(inputLower) !== -1) score += 50;
-      if (score > bestScore) { bestScore = score; bestAnswer = qa.a; bestCat = qa.cat; }
+
+      if (inputLower.indexOf(qa.q.toLowerCase()) !== -1 || qa.q.toLowerCase().indexOf(inputLower) !== -1) {
+        score += 50;
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestAnswer = qa.a;
+        bestCat = qa.cat;
+      }
     }
-    return bestScore >= 15 ? {a: bestAnswer, cat: bestCat} : null;
+
+    if (bestScore >= 15) {
+      return {a: bestAnswer, cat: bestCat};
+    }
+    return null;
   }
 
   function isGreeting(text) {
-    var greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "thanks", "thank you", "yo", "sup"];
+    var greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "thanks", "thank you", "yo", "sup", "howdy", "greetings"];
     var lower = text.toLowerCase().trim();
-    for (var i = 0; i < greetings.length; i++) { if (lower === greetings[i] || lower.indexOf(greetings[i]) === 0) return true; }
+    for (var i = 0; i < greetings.length; i++) {
+      if (lower === greetings[i] || lower.indexOf(greetings[i]) === 0) return true;
+    }
+    return false;
+  }
+
+  function isAvailabilityQuestion(text) {
+    var terms = ["available", "availability", "schedule", "appointment", "book", "come in", "this week", "next week", "when can i", "can i get", "slot available"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function isMedicalQuestion(text) {
+    var terms = ["should i get", "am i a candidate", "is it right for me", "will it work for me", "my skin", "my face", "can you treat", "will botox help", "do i need filler", "what should i get"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
     return false;
   }
 
@@ -374,7 +835,23 @@ body {
       "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
       "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
       "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
-      "<textarea id=\"leadNote\" placeholder=\"Tell us about your aesthetic goals\"></textarea>" +
+      "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
+    body.appendChild(form);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function showConsultLeadCapture(originalQuestion) {
+    addBotMessage("That's a great question for one of our licensed providers. Leave your info below and we'll set up a free consultation to address it directly.");
+    var body = document.getElementById("chatBody");
+    var form = document.createElement("div");
+    form.className = "lead-form";
+    form.setAttribute("data-question-text", originalQuestion);
+    form.innerHTML =
+      "<p>Leave your info and we'll get back to you:</p>" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
+      "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
+      "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
+      "<textarea id=\"leadNote\" placeholder=\"Your question or area of interest\">" + originalQuestion + "</textarea>" +
       "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
     body.appendChild(form);
     body.scrollTop = body.scrollHeight;
@@ -383,15 +860,39 @@ body {
   function handleUserInput(text) {
     addUserMessage(text);
     showTyping();
+
     var delay = 600 + Math.random() * 600;
     setTimeout(function() {
       hideTyping();
-      if (isGreeting(text)) { addBotMessage("Hello! How can I help with your aesthetic goals today?"); return; }
+
+      if (isGreeting(text)) {
+        addBotMessage("Hello! How can I help you today?");
+        return;
+      }
+
       var match = findBestMatch(text);
+      var availability = isAvailabilityQuestion(text);
+      var medicalQ = isMedicalQuestion(text);
+
+      if (medicalQ && !match) {
+        showConsultLeadCapture(text);
+        lastCategory = "medical";
+        lastAnswer = null;
+        return;
+      }
+
+      if (availability && !match) {
+        showConsultLeadCapture(text);
+        lastCategory = "booking";
+        lastAnswer = null;
+        return;
+      }
+
       if (match) {
         if (match.a === lastAnswer) {
-          addBotMessage("Looks like you want more details on this. Leave your info and one of our providers will follow up directly.");
+          addBotMessage("It looks like you'd like more details on this. Leave your info and our team will follow up directly.");
           showLeadCaptureForm();
+          lastCategory = match.cat;
           lastAnswer = null;
           return;
         }
@@ -400,19 +901,30 @@ body {
         lastCategory = match.cat;
         return;
       }
-      addBotMessage("Great question! Let me connect you with " + BUSINESS_NAME + " directly so they can give you the best answer.");
-      showLeadCaptureForm();
+
+      showLeadCapture(text);
+      lastCategory = null;
       lastAnswer = null;
     }, delay);
+  }
+
+  function showLeadCapture(originalQuestion) {
+    addBotMessage("Great question! Let me connect you with " + BUSINESS_NAME + " directly so they can give you the best answer.");
+    showLeadCaptureForm();
   }
 
   window.submitLead = function() {
     var name = document.getElementById("leadName").value;
     var phone = document.getElementById("leadPhone").value;
     var email = document.getElementById("leadEmail").value;
-    if (!name && !phone && !email) return;
+
+    if (!name && !phone && !email) {
+      return;
+    }
+
     var forms = document.querySelectorAll(".lead-form");
     for (var i = 0; i < forms.length; i++) { forms[i].remove(); }
+
     addBotMessage("Thank you, " + (name || "friend") + "! " + BUSINESS_NAME + " will reach out to you shortly." +
       (PHONE ? " You can also call us directly at " + PHONE + "." : ""));
   };
@@ -425,7 +937,9 @@ body {
     handleUserInput(text);
   };
 
-  document.getElementById("chatInput").addEventListener("keypress", function(e) { if (e.key === "Enter") window.sendMessage(); });
+  document.getElementById("chatInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") window.sendMessage();
+  });
 })();
 </script>
 </body>

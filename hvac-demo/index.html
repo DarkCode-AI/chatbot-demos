@@ -5,35 +5,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f172a'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='16' fill='%2360a5fa'%3EDC%3C/text%3E%3C/svg%3E">
 <title>Summit HVAC Services - AI Chatbot Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --brand: #2563eb;
-  --brand-dark: color-mix(in srgb, #2563eb 80%, black);
-  --brand-light: color-mix(in srgb, #2563eb 15%, white);
-  --text: #1a1a2e;
-  --text-light: #6b7280;
-  --bg: #f8fafc;
+  --brand-dark: #1d4ed8;
+  --brand-deeper: #1e40af;
+  --brand-light: #dbeafe;
+  --brand-glow: rgba(37, 99, 235, 0.15);
+  --accent: #eff6ff;
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --bg: #f8fafb;
   --white: #ffffff;
-  --shadow: 0 4px 24px rgba(0,0,0,0.12);
-  --radius: 12px;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+h1, h2, h3 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+/* Hero Section */
 .hero {
-  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 40%, var(--brand-deeper) 100%);
   color: white;
-  padding: 80px 20px 100px;
+  padding: 100px 20px 120px;
   text-align: center;
   position: relative;
   overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: heroFloat 20s ease-in-out infinite;
 }
 .hero::after {
   content: '';
@@ -41,122 +71,237 @@ body {
   bottom: -2px;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 80px;
   background: var(--bg);
-  border-radius: 50% 50% 0 0;
+  border-radius: 60% 60% 0 0;
+}
+@keyframes heroFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, 30px) scale(1.05); }
+  66% { transform: translate(-20px, -15px) scale(0.98); }
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+  position: relative;
+  animation: fadeInDown 0.6s ease-out;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #34d399;
+  border-radius: 50%;
+  animation: dotPulse 2s infinite;
+}
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .hero h1 {
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
   margin-bottom: 16px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  position: relative;
+  animation: fadeInDown 0.6s ease-out 0.1s both;
 }
 .hero p {
-  font-size: 1.15rem;
-  opacity: 0.9;
-  max-width: 600px;
-  margin: 0 auto 32px;
-  line-height: 1.6;
+  font-size: 1.1rem;
+  opacity: 0.88;
+  max-width: 520px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+  font-weight: 400;
+  position: relative;
+  animation: fadeInDown 0.6s ease-out 0.2s both;
 }
 .hero-cta {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: white;
-  color: var(--brand);
-  padding: 14px 32px;
+  color: var(--brand-dark);
+  padding: 14px 30px;
   border-radius: 50px;
-  font-weight: 600;
-  font-size: 1.05rem;
+  font-weight: 700;
+  font-size: 0.95rem;
   cursor: pointer;
   border: none;
-  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  position: relative;
+  animation: fadeInDown 0.6s ease-out 0.3s both;
 }
 .hero-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+}
+.hero-cta::after {
+  content: '\2192';
+  transition: transform 0.25s;
+}
+.hero-cta:hover::after {
+  transform: translateX(3px);
 }
 
+/* Features */
 .features {
-  max-width: 1000px;
-  margin: -20px auto 60px;
+  max-width: 960px;
+  margin: -40px auto 80px;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 20px;
   position: relative;
   z-index: 1;
 }
 .feature-card {
   background: var(--white);
-  padding: 28px;
+  padding: 32px 28px;
   border-radius: var(--radius);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-sm);
   text-align: center;
+  border: 1px solid var(--border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
-.feature-card .icon { font-size: 2rem; margin-bottom: 12px; }
-.feature-card h3 { font-size: 1.05rem; margin-bottom: 8px; color: var(--text); }
-.feature-card p { font-size: 0.9rem; color: var(--text-light); line-height: 1.5; }
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-dark));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+.feature-card:hover::before {
+  opacity: 1;
+}
+.feature-card .icon {
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  width: 52px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-light);
+  border-radius: 14px;
+}
+.feature-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.feature-card p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
 
+/* Footer */
 .footer {
   text-align: center;
-  padding: 40px 20px;
-  color: var(--text-light);
+  padding: 48px 20px;
+  color: var(--text-muted);
   font-size: 0.85rem;
+  border-top: 1px solid var(--border);
 }
-.footer a { color: var(--brand); text-decoration: none; }
-.footer a:hover { text-decoration: underline; }
+.footer a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.footer a:hover { color: var(--brand-dark); }
 
+/* Chat Widget */
 .chat-fab {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: var(--brand);
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
   color: white;
   border: none;
   cursor: pointer;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s, background 0.3s;
-  animation: pulse 2s infinite;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fabEntry 0.5s ease-out 1s both;
 }
-.chat-fab:hover { transform: scale(1.08); }
-.chat-fab svg { width: 28px; height: 28px; }
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
-  50% { box-shadow: 0 4px 32px rgba(0,0,0,0.25); }
+.chat-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(37, 99, 235, 0.45);
+}
+.chat-fab svg { width: 26px; height: 26px; }
+@keyframes fabEntry {
+  from { opacity: 0; transform: scale(0.5) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .chat-window {
   position: fixed;
-  bottom: 100px;
+  bottom: 96px;
   right: 24px;
   width: 380px;
   max-width: calc(100vw - 32px);
   height: 560px;
   max-height: calc(100vh - 140px);
   background: var(--white);
-  border-radius: 16px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  border-radius: 20px;
+  box-shadow: var(--shadow-xl);
   z-index: 1001;
   display: none;
   flex-direction: column;
   overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
 }
-.chat-window.open { display: flex; animation: slideUp 0.3s ease-out; }
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.chat-window.open {
+  display: flex;
+  animation: chatSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes chatSlideUp {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .chat-header {
-  background: var(--brand);
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
   color: white;
-  padding: 16px 20px;
+  padding: 18px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -165,26 +310,51 @@ body {
 .chat-header .avatar {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
 }
-.chat-header .info h4 { font-size: 0.95rem; font-weight: 600; }
-.chat-header .info span { font-size: 0.8rem; opacity: 0.85; }
+.chat-header .info h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+.chat-header .info span {
+  font-size: 0.78rem;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.chat-header .info span::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #34d399;
+  border-radius: 50%;
+}
 .chat-close {
   margin-left: auto;
-  background: none;
+  background: rgba(255,255,255,0.1);
   border: none;
   color: white;
   cursor: pointer;
-  font-size: 1.4rem;
-  padding: 4px;
+  font-size: 1.2rem;
+  padding: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0.8;
+  transition: all 0.2s;
 }
-.chat-close:hover { opacity: 1; }
+.chat-close:hover { opacity: 1; background: rgba(255,255,255,0.2); }
 
 .chat-body {
   flex: 1;
@@ -192,130 +362,243 @@ body {
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  background: var(--bg);
 }
+.chat-body::-webkit-scrollbar { width: 4px; }
+.chat-body::-webkit-scrollbar-track { background: transparent; }
+.chat-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
 .msg {
-  max-width: 85%;
+  max-width: 82%;
   padding: 10px 14px;
   border-radius: 16px;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  animation: fadeIn 0.3s;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  animation: msgIn 0.3s ease-out;
 }
-@keyframes fadeIn {
+@keyframes msgIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .msg.bot {
-  background: var(--brand-light);
+  background: var(--white);
   color: var(--text);
   align-self: flex-start;
   border-bottom-left-radius: 4px;
   white-space: pre-line;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
 }
 .msg.user {
-  background: var(--brand);
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
   color: white;
   align-self: flex-end;
   border-bottom-right-radius: 4px;
 }
 
-.quick-actions { display: flex; flex-wrap: wrap; gap: 8px; padding: 4px 0; }
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 0;
+}
 .quick-btn {
   background: var(--white);
-  border: 1.5px solid var(--brand);
-  color: var(--brand);
-  padding: 6px 14px;
+  border: 1.5px solid var(--brand-light);
+  color: var(--brand-dark);
+  padding: 7px 14px;
   border-radius: 20px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
+  font-family: 'Inter', sans-serif;
 }
-.quick-btn:hover { background: var(--brand); color: white; }
+.quick-btn:hover {
+  background: var(--brand);
+  color: white;
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
 
 .typing {
-  display: flex; gap: 4px; padding: 10px 14px;
-  background: var(--brand-light); border-radius: 16px;
-  border-bottom-left-radius: 4px; align-self: flex-start; max-width: 60px;
+  display: flex;
+  gap: 5px;
+  padding: 12px 16px;
+  background: var(--white);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  align-self: flex-start;
+  max-width: 64px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
 }
 .typing span {
-  width: 8px; height: 8px; background: var(--brand);
-  border-radius: 50%; opacity: 0.4; animation: typingDot 1.4s infinite;
+  width: 7px;
+  height: 7px;
+  background: var(--brand);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: typingDot 1.4s infinite;
 }
 .typing span:nth-child(2) { animation-delay: 0.2s; }
 .typing span:nth-child(3) { animation-delay: 0.4s; }
 @keyframes typingDot {
-  0%, 60%, 100% { opacity: 0.4; transform: translateY(0); }
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
   30% { opacity: 1; transform: translateY(-4px); }
 }
 
 .chat-input {
-  display: flex; gap: 8px; padding: 12px 16px;
-  border-top: 1px solid #e5e7eb; flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--white);
 }
 .chat-input input {
-  flex: 1; border: 1.5px solid #e5e7eb; border-radius: 24px;
-  padding: 10px 16px; font-size: 0.9rem; outline: none; transition: border-color 0.2s;
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: 24px;
+  padding: 10px 16px;
+  font-size: 0.88rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.2s;
+  background: var(--bg);
+  color: var(--text);
 }
-.chat-input input:focus { border-color: var(--brand); }
+.chat-input input:focus {
+  border-color: var(--brand);
+  background: var(--white);
+  box-shadow: 0 0 0 3px var(--brand-glow);
+}
+.chat-input input::placeholder { color: var(--text-muted); }
 .chat-input button {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--brand); color: white; border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: background 0.2s;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
 }
-.chat-input button:hover { background: var(--brand-dark); }
+.chat-input button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
 
+/* Lead capture form */
 .lead-form {
-  background: #eff6ff; border-radius: 12px; padding: 14px;
-  align-self: flex-start; max-width: 90%;
+  background: var(--white);
+  border-radius: 14px;
+  padding: 16px;
+  align-self: flex-start;
+  max-width: 90%;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
-.lead-form p { font-size: 0.85rem; margin-bottom: 10px; color: var(--text); }
-.lead-form input {
-  display: block; width: 100%; padding: 8px 12px;
-  border: 1px solid #d1d5db; border-radius: 8px;
-  font-size: 0.85rem; margin-bottom: 8px;
+.lead-form p {
+  font-size: 0.84rem;
+  margin-bottom: 12px;
+  color: var(--text);
+  font-weight: 600;
+}
+.lead-form input, .lead-form select {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.2s;
+  outline: none;
+}
+.lead-form input:focus, .lead-form select:focus {
+  border-color: var(--brand);
+  background: var(--white);
 }
 .lead-form textarea {
-  display: block; width: 100%; padding: 8px 12px;
-  border: 1px solid #d1d5db; border-radius: 8px;
-  font-size: 0.85rem; margin-bottom: 8px;
-  font-family: inherit; resize: vertical; min-height: 50px;
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  resize: vertical;
+  min-height: 50px;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
 }
+.lead-form textarea:focus { border-color: var(--brand); background: var(--white); }
 .lead-form button {
-  background: var(--brand); color: white; border: none;
-  padding: 8px 20px; border-radius: 8px; font-size: 0.85rem;
-  cursor: pointer; width: 100%;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+.lead-form button:hover {
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 480px) {
-  .chat-window { bottom: 0; right: 0; width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; }
+  .chat-window {
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
   .chat-fab { bottom: 16px; right: 16px; width: 56px; height: 56px; }
+  .hero { padding: 72px 20px 100px; }
 }
 </style>
 </head>
 <body>
 
 <section class="hero">
+  <div class="hero-badge">AI-Powered HVAC Assistant</div>
   <h1>Summit HVAC Services</h1>
-  <p>Your Trusted Home Service Partner</p>
-  <button class="hero-cta" onclick="toggleChat()">Try Our AI Assistant</button>
+  <p>24/7 Heating &amp; Cooling Support &mdash; Instant Answers, Anytime</p>
+  <button class="hero-cta" onclick="toggleChat()">Ask Our AI Assistant</button>
 </section>
 
 <section class="features">
-  <div class="feature-card"><div class="icon">&#128680;</div><h3>Emergency Service Requests</h3><p>Get immediate help for heating and cooling emergencies.</p></div>
-  <div class="feature-card"><div class="icon">&#128197;</div><h3>Schedule Maintenance</h3><p>Book tune-ups and maintenance visits 24/7.</p></div>
-  <div class="feature-card"><div class="icon">&#128176;</div><h3>Get a Quote</h3><p>Instant estimates for repairs, installations, and replacements.</p></div>
-  <div class="feature-card"><div class="icon">&#128205;</div><h3>Service Area Check</h3><p>Find out if we service your neighborhood.</p></div>
+  <div class="feature-card"><div class="icon">&#128680;</div><h3>24/7 Emergency Response</h3><p>AC down at midnight? Furnace out in winter? We dispatch fast, day or night.</p></div>
+  <div class="feature-card"><div class="icon">&#128176;</div><h3>Free Estimates</h3><p>No-obligation quotes on all new installs, replacements, and major repairs.</p></div>
+  <div class="feature-card"><div class="icon">&#128179;</div><h3>Financing Available</h3><p>Flexible payment plans so you never have to suffer through extreme temps.</p></div>
+  <div class="feature-card"><div class="icon">&#9989;</div><h3>Licensed &amp; Insured</h3><p>Fully licensed HVAC technicians with background checks and full insurance.</p></div>
 </section>
 
 <footer class="footer">
-  <p>Powered by <a href="https://darkcodeai.carrd.co" target="_blank">DarkCode AI</a></p>
+  <p>Powered by <a href="https://darkcodeai.com" target="_blank">DarkCode AI</a></p>
   <p style="margin-top:8px;font-size:0.78rem;opacity:0.7">AI-powered chatbot demo &mdash; responses are generated from publicly available business information</p>
 </footer>
 
+<!-- Chat Widget -->
 <button class="chat-fab" id="chatFab" onclick="toggleChat()" aria-label="Open chat">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -324,7 +607,7 @@ body {
 
 <div class="chat-window" id="chatWindow">
   <div class="chat-header">
-    <div class="avatar">&#128295;</div>
+    <div class="avatar">&#10052;</div>
     <div class="info">
       <h4>Summit HVAC Services</h4>
       <span>AI Assistant &bull; Online</span>
@@ -342,15 +625,51 @@ body {
 
 <script>
 (function() {
-  var QA_DATA = [{"q": "What are your hours?", "a": "We're available Monday through Friday, 7:00 AM - 6:00 PM, and Saturday 8:00 AM - 2:00 PM. For after-hours emergencies, call 555-123-4567 \u2014 we have 24/7 emergency service.", "kw": ["hours", "open", "close", "time", "schedule", "when"], "cat": "hours"}, {"q": "Do you offer emergency service?", "a": "Yes! We provide 24/7 emergency HVAC service. If your heating or AC breaks down, call 555-123-4567 immediately. We'll dispatch a technician as soon as possible.", "kw": ["emergency", "urgent", "broken", "no heat", "no ac", "no air", "not working", "stopped working", "won't turn on", "after hours", "24/7"], "cat": "emergency"}, {"q": "How do I schedule a service call?", "a": "You can schedule a service call by calling us at 555-123-4567 or through our website. We offer same-day and next-day appointments for most services.", "kw": ["schedule", "book", "appointment", "service call", "come out", "visit"], "cat": "booking"}, {"q": "What services do you offer?", "a": "We provide a full range of HVAC services:\n\n\u2022 AC repair and installation\n\u2022 Heating and furnace repair\n\u2022 Tune-ups and seasonal maintenance\n\u2022 Duct cleaning and repair\n\u2022 Indoor air quality solutions\n\u2022 Thermostat installation\n\u2022 New system installations\n\nCall 555-123-4567 for a free estimate.", "kw": ["services", "what do you do", "offer", "provide", "do you do", "repairs", "install"], "cat": "services"}, {"q": "How much does AC repair cost?", "a": "AC repair costs depend on the issue. Our diagnostic fee is $89, which is waived if you proceed with the repair. Most common repairs range from $150-$500. Call 555-123-4567 for a specific estimate.", "kw": ["cost", "price", "how much", "expensive", "fee", "charge", "estimate", "quote"], "cat": "pricing"}, {"q": "Do you offer free estimates?", "a": "Yes! We offer free estimates on new system installations and replacements. For repairs, our $89 diagnostic fee is waived if you proceed with the work. Call 555-123-4567.", "kw": ["free estimate", "free quote", "estimate", "quote", "pricing"], "cat": "pricing"}, {"q": "Do you service my area?", "a": "We service a wide area including the greater metro region and surrounding communities. Call 555-123-4567 with your zip code and we'll confirm coverage right away.", "kw": ["service area", "my area", "my neighborhood", "come to", "location", "zip code", "where", "coverage"], "cat": "service_area"}, {"q": "Do you offer maintenance plans?", "a": "Yes! Our HVAC maintenance plan includes:\n\n\u2022 2 tune-ups per year (spring AC + fall heating)\n\u2022 Priority scheduling\n\u2022 15% discount on all repairs\n\u2022 No overtime charges\n\nPlans start at $14.95/month. Call 555-123-4567 to sign up.", "kw": ["maintenance plan", "tune-up", "tune up", "annual", "seasonal", "preventive", "membership", "plan"], "cat": "maintenance"}, {"q": "My AC is not cooling", "a": "If your AC isn't cooling, try these steps first:\n\n1. Check your thermostat settings\n2. Replace the air filter\n3. Make sure vents aren't blocked\n4. Check the outdoor unit for debris\n\nIf it still won't cool, call 555-123-4567 \u2014 we can usually get a technician out same day.", "kw": ["not cooling", "warm air", "hot air", "ac not working", "air conditioner", "won't cool", "blowing warm", "blowing hot"], "cat": "troubleshooting"}, {"q": "My furnace won't turn on", "a": "If your furnace won't start:\n\n1. Check the thermostat is set to HEAT\n2. Make sure the furnace switch is ON\n3. Check the circuit breaker\n4. Replace the air filter\n\nIf it still won't start, call 555-123-4567 for emergency service. No heat is a priority call.", "kw": ["furnace", "heater", "no heat", "won't start", "heating", "not heating", "cold", "won't turn on"], "cat": "troubleshooting"}, {"q": "How often should I change my filter?", "a": "We recommend changing your HVAC filter every 1-3 months depending on the type. If you have pets or allergies, change it monthly. A clean filter improves efficiency and air quality.", "kw": ["filter", "change filter", "replace filter", "air filter", "how often"], "cat": "maintenance"}, {"q": "Do you install new systems?", "a": "Yes! We install all major brands of heating and cooling systems including Carrier, Lennox, Trane, Rheem, and more. We offer free estimates and financing options. Call 555-123-4567.", "kw": ["install", "new system", "new unit", "replacement", "new ac", "new furnace", "new hvac", "brands"], "cat": "installation"}, {"q": "Do you offer financing?", "a": "Yes! We offer flexible financing options for new system installations and major repairs. 0% interest options available for qualified buyers. Call 555-123-4567 to learn more.", "kw": ["financing", "finance", "payment plan", "monthly payment", "afford", "credit", "loan"], "cat": "billing"}, {"q": "What is your phone number?", "a": "You can reach us at 555-123-4567. We're happy to help!", "kw": ["phone", "phone number", "call", "telephone", "number", "contact"], "cat": "contact"}, {"q": "Where are you located?", "a": "We're located at 123 Service Drive. We serve the entire metro area. Call 555-123-4567 for service.", "kw": ["location", "located", "where", "address", "directions", "find you"], "cat": "location"}, {"q": "Do you do duct cleaning?", "a": "Yes! We offer professional duct cleaning to improve indoor air quality and HVAC efficiency. Most homes can be done in 3-4 hours. Call 555-123-4567 for pricing.", "kw": ["duct", "duct cleaning", "air duct", "ductwork", "vents", "air quality"], "cat": "services"}, {"q": "What brands do you work on?", "a": "We service all major HVAC brands including Carrier, Lennox, Trane, Rheem, Goodman, York, Daikin, Mitsubishi, and more. No matter what system you have, we can help.", "kw": ["brand", "brands", "carrier", "lennox", "trane", "rheem", "goodman", "york"], "cat": "services"}, {"q": "How long does an installation take?", "a": "A typical HVAC system installation takes 1-2 days depending on the complexity. We'll give you a specific timeline during your free estimate. Call 555-123-4567.", "kw": ["how long", "installation time", "how many days", "timeline", "duration"], "cat": "installation"}, {"q": "Do you work on commercial systems?", "a": "Yes! We service both residential and commercial HVAC systems. From small offices to large commercial buildings. Call 555-123-4567 for commercial service.", "kw": ["commercial", "business", "office", "building", "industrial", "rooftop unit", "rtu"], "cat": "commercial"}, {"q": "What is your contact info?", "a": "Here's how to reach us:\n\nPhone: 555-123-4567\nAddress: 123 Service Drive\n24/7 Emergency Line: 555-123-4567\n\nWe're here to help with all your heating and cooling needs!", "kw": ["contact info", "contact information", "how to contact", "reach you", "get in touch", "contact"], "cat": "contact"}];
-  var QUICK_ACTIONS = [{"label": "Emergency Service", "q": "Do you offer emergency service?"}, {"label": "Schedule Service", "q": "How do I schedule a service call?"}, {"label": "Get a Quote", "q": "Do you offer free estimates?"}, {"label": "Service Area", "q": "Do you service my area?"}];
-  var BUSINESS_NAME = "Summit HVAC Services";
-  var PHONE = "555-123-4567";
-  var TECH_DATA = [
-    {name: "Mike Johnson", lastName: "johnson", specialty: "AC & Refrigeration"},
-    {name: "Dave Williams", lastName: "williams", specialty: "Heating & Furnace"},
-    {name: "Tom Garcia", lastName: "garcia", specialty: "Installation Specialist"}
+  var QA_DATA = [
+    {"q": "Do you offer 24/7 emergency service?", "a": "Yes! Summit HVAC Services offers 24/7 emergency service for heating and cooling failures. Whether your AC dies in a heatwave or your furnace goes out on the coldest night of the year, call us at 555-555-0100 and we'll dispatch a technician as quickly as possible.", "kw": ["emergency", "24/7", "after hours", "urgent", "breakdown", "not working", "broken", "midnight", "weekend", "night"], "cat": "emergency"},
+    {"q": "What should I do if my AC stops working?", "a": "If your AC stops working:\n1. Check the thermostat — make sure it's set to COOL and below current room temp\n2. Check your circuit breaker — reset any tripped breakers\n3. Check/replace your air filter — a clogged filter can cause a shutdown\n4. Check the outdoor unit — make sure it has power and isn't blocked\n\nIf none of that helps, call us at 555-555-0100. We're available 24/7.", "kw": ["ac stopped", "ac not working", "air conditioning stopped", "ac died", "no air", "ac out", "cooling not working", "ac broken", "what to do ac", "ac won't turn on"], "cat": "emergency"},
+    {"q": "What should I do if my furnace stops working?", "a": "If your furnace stops working:\n1. Check the thermostat — set it to HEAT, above current room temp\n2. Check the circuit breaker and furnace power switch\n3. Check the filter — a clogged filter can trigger a safety shutoff\n4. Check the pilot light (if older unit)\n5. Make sure all vents and registers are open\n\nStill no heat? Call 555-555-0100 right away — we handle furnace emergencies 24/7.", "kw": ["furnace stopped", "furnace not working", "no heat", "heater broken", "heat went out", "furnace died", "heat not coming on", "furnace won't start"], "cat": "emergency"},
+    {"q": "What are your hours?", "a": "Our office is open Monday–Friday 7:00 AM – 6:00 PM and Saturday 8:00 AM – 2:00 PM. However, our emergency dispatch line is available 24/7, 365 days a year. Call 555-555-0100 anytime.", "kw": ["hours", "open", "close", "time", "schedule", "when", "what time", "office hours", "business hours"], "cat": "hours"},
+    {"q": "How do I schedule a service appointment?", "a": "Scheduling is easy! Call us at 555-555-0100 or use the contact form on our website. We offer morning, afternoon, and Saturday appointments. Most standard service calls can be booked within 1–2 business days.", "kw": ["schedule", "book", "appointment", "service call", "come out", "visit", "how to book", "set up appointment"], "cat": "booking"},
+    {"q": "How much does AC repair cost?", "a": "AC repair costs vary depending on the issue:\n• Service call / diagnostic: $89–$129\n• Refrigerant recharge: $150–$400\n• Capacitor replacement: $150–$300\n• Compressor repair: $600–$1,200\n• Full AC replacement: $3,500–$7,500\n\nWe provide a full written estimate before any work begins. Call 555-555-0100 for a free estimate.", "kw": ["ac repair cost", "how much repair", "ac price", "repair cost", "ac estimate", "how much ac", "cost to fix ac", "fix ac price"], "cat": "pricing"},
+    {"q": "How much does a new AC unit cost?", "a": "A new central AC unit typically costs $3,500–$7,500 installed, depending on the size of your home and the unit's efficiency rating (SEER). We install top brands including Carrier, Trane, Lennox, and Rheem. We offer free estimates and financing — call 555-555-0100.", "kw": ["new ac cost", "new unit cost", "replace ac", "ac replacement cost", "new air conditioner", "how much new ac", "buy new ac", "ac install cost", "install new ac"], "cat": "pricing"},
+    {"q": "How much does a new furnace cost?", "a": "A new furnace typically costs $2,500–$6,000 installed, depending on the unit's BTU capacity, efficiency (AFUE rating), and your home's ductwork. High-efficiency models (95%+ AFUE) cost more upfront but save significantly on energy bills. Free estimates available — call 555-555-0100.", "kw": ["furnace cost", "new furnace", "replace furnace", "furnace replacement", "how much furnace", "buy furnace", "furnace price", "install furnace", "furnace install"], "cat": "pricing"},
+    {"q": "Do you offer free estimates?", "a": "Yes! We offer FREE estimates on all new equipment installations, replacements, and major repairs. There's never any obligation. Call 555-555-0100 or schedule online to set up your free estimate.", "kw": ["free estimate", "estimate", "quote", "no cost estimate", "free quote", "get a quote", "how much would it cost"], "cat": "pricing"},
+    {"q": "Do you offer financing?", "a": "Yes! We offer flexible financing options so you can get your HVAC system fixed or replaced without the stress of a big upfront cost. Plans available with low monthly payments and 0% interest promotions for qualified customers. Ask about financing when you call 555-555-0100.", "kw": ["financing", "finance", "payment plan", "monthly payments", "0 percent", "no interest", "afford", "pay over time", "installment", "payment options"], "cat": "financing"},
+    {"q": "What areas do you serve?", "a": "Summit HVAC Services serves the greater metro area including downtown, Northside, Eastbrook, Lakewood, Westfield, Riverside, and surrounding suburbs within 40 miles. Not sure if you're in our service area? Call 555-555-0100 and we'll confirm.", "kw": ["service area", "do you serve", "my area", "location", "where do you work", "city", "county", "nearby", "come to my area", "cover my area", "service my area"], "cat": "service_area"},
+    {"q": "What brands do you service?", "a": "We service and install all major HVAC brands including:\n\nCarrier, Trane, Lennox, Rheem, Ruud, Goodman, American Standard, Bryant, Heil, York, Amana, Daikin, and most others.\n\nNot sure if we service your brand? Call 555-555-0100 and we'll confirm.", "kw": ["brands", "brand", "carrier", "trane", "lennox", "rheem", "goodman", "american standard", "bryant", "what brands", "service my brand", "my brand"], "cat": "brands"},
+    {"q": "How often should I change my air filter?", "a": "Filter change frequency depends on the filter type and your household:\n• 1-inch basic filters: Every 1–3 months\n• 4-inch media filters: Every 6–12 months\n• Homes with pets or allergies: More frequently (every 4–6 weeks for basic filters)\n\nA dirty filter is the #1 cause of HVAC problems. When in doubt, check it monthly and replace when it looks grey/clogged.", "kw": ["filter", "air filter", "change filter", "replace filter", "how often filter", "filter change", "dirty filter", "air filter change"], "cat": "maintenance"},
+    {"q": "Do you offer maintenance plans?", "a": "Yes! Our Summit Comfort Club maintenance plan includes:\n\n✓ Spring AC tune-up\n✓ Fall furnace tune-up\n✓ Priority scheduling\n✓ 15% discount on repairs\n✓ No overtime or emergency dispatch fees\n✓ Annual filter included\n\nPlans start at $149/year. Call 555-555-0100 to enroll.", "kw": ["maintenance plan", "service plan", "tune up plan", "annual plan", "preventive maintenance", "club plan", "service contract", "maintenance contract", "maintenance agreement"], "cat": "maintenance"},
+    {"q": "How often should I tune up my HVAC?", "a": "We recommend two tune-ups per year:\n• Spring: AC tune-up before the cooling season\n• Fall: Furnace tune-up before the heating season\n\nRegular maintenance improves efficiency, extends equipment life, and helps catch small problems before they become expensive breakdowns.", "kw": ["tune up", "tune-up", "maintenance", "how often service", "annual service", "yearly service", "service my hvac", "check up"], "cat": "maintenance"},
+    {"q": "What warranties do you offer?", "a": "Summit HVAC offers the following warranties:\n\n• Labor warranty: 1 year on all repair work\n• Equipment warranty: Manufacturer's warranty (typically 5–10 years on parts) — we register equipment on your behalf\n• Installation warranty: 2 years on all new equipment installations\n\nCall 555-555-0100 for details on specific equipment warranties.", "kw": ["warranty", "guarantee", "warrantied", "what is covered", "how long warranty", "parts warranty", "labor warranty", "installation warranty"], "cat": "warranty"},
+    {"q": "Are you licensed and insured?", "a": "Yes! Summit HVAC Services is fully licensed, bonded, and insured. All of our technicians hold EPA 608 certification and state HVAC contractor licenses. We carry full liability insurance and workers' compensation. You're in safe hands.", "kw": ["licensed", "insured", "bonded", "certified", "epa", "license", "credentials", "background check", "qualified", "certified technicians"], "cat": "credentials"},
+    {"q": "How long does an AC installation take?", "a": "A standard central AC installation typically takes 4–8 hours. For a full system replacement (AC + furnace), plan for a full day. Our technicians work cleanly and efficiently, and will walk you through the new system before they leave.", "kw": ["how long install", "installation time", "how long replace", "ac installation time", "how long does it take", "install time", "how long to install ac"], "cat": "installation"},
+    {"q": "Do you handle both heating and cooling?", "a": "Yes! Summit HVAC handles everything — central air conditioning, furnaces, heat pumps, mini-splits, boilers, thermostats, and indoor air quality systems. One company for all your comfort needs.", "kw": ["heating and cooling", "both heating cooling", "full service", "heat and cool", "what do you do", "services offered", "what services", "do you do furnaces", "do you do ac"], "cat": "services"},
+    {"q": "What is a heat pump?", "a": "A heat pump is an all-in-one heating and cooling system. Instead of burning fuel, it moves heat between indoors and outdoors — it cools in summer and heats in winter. Heat pumps are very energy-efficient and can replace both your AC and furnace. Ask us if a heat pump is right for your home — call 555-555-0100.", "kw": ["heat pump", "what is heat pump", "how does heat pump work", "heat pump vs furnace", "heat pump vs ac", "should i get heat pump"], "cat": "services"},
+    {"q": "Do you install mini-splits?", "a": "Yes! We install ductless mini-split systems — great for additions, garages, sunrooms, or any space without existing ductwork. Mini-splits are energy efficient and allow zone-by-zone temperature control. Call 555-555-0100 for a free mini-split estimate.", "kw": ["mini split", "mini-split", "ductless", "ductless system", "ductless ac", "no ductwork", "mini split install", "ductless install"], "cat": "services"},
+    {"q": "Do you offer smart thermostat installation?", "a": "Absolutely! We install and configure smart thermostats including Nest, Ecobee, Honeywell Home, and others. Smart thermostats can save 10–15% on energy bills and give you remote control from your phone. Ask about thermostat upgrades when you schedule service.", "kw": ["smart thermostat", "thermostat install", "nest", "ecobee", "honeywell", "thermostat upgrade", "wifi thermostat", "programmable thermostat", "thermostat"], "cat": "services"},
+    {"q": "My AC is blowing warm air — what's wrong?", "a": "There are several common causes for an AC blowing warm air:\n• Thermostat set incorrectly (check it's on COOL)\n• Low refrigerant (likely a leak — needs a technician)\n• Dirty air filter blocking airflow\n• Frozen evaporator coil (turn the system off for 2–3 hours to thaw)\n• Failed compressor or capacitor\n\nIf you've checked the thermostat and filter and it's still blowing warm, call us at 555-555-0100.", "kw": ["warm air", "blowing warm", "ac blowing hot", "not cooling", "hot air coming out", "ac not cold", "no cool air", "ac not blowing cold"], "cat": "troubleshooting"},
+    {"q": "Why is my HVAC making a strange noise?", "a": "Strange HVAC noises often indicate specific problems:\n• Banging/clanking: Loose or broken part inside the unit\n• Squealing: Belt or bearing issue\n• Rattling: Loose panel or debris in unit\n• Hissing: Refrigerant leak or high pressure issue\n• Clicking (on startup): Normal — sustained clicking may be a relay problem\n\nDon't ignore unusual sounds — call 555-555-0100 to schedule a diagnostic.", "kw": ["strange noise", "loud noise", "banging", "squealing", "rattling", "hissing", "clicking", "grinding", "noise from hvac", "hvac noise", "weird noise"], "cat": "troubleshooting"},
+    {"q": "Why is my energy bill so high?", "a": "A sudden spike in your energy bill is often HVAC-related:\n• Dirty or clogged filter restricting airflow\n• Low refrigerant causing the system to work harder\n• Aging equipment losing efficiency\n• Duct leaks wasting conditioned air\n• Thermostat issues causing the system to run continuously\n\nAn annual tune-up typically improves efficiency 15–20%. Call 555-555-0100 to schedule a diagnostic.", "kw": ["high energy bill", "electric bill high", "energy cost", "expensive bills", "utility bill", "costs too much", "using too much energy", "high electricity"], "cat": "troubleshooting"},
+    {"q": "How do I know if I need to replace my HVAC system?", "a": "Signs it's time to replace rather than repair:\n• System is 10+ years old (AC) or 15+ years old (furnace)\n• Repairs cost more than 50% of a new system\n• Frequent breakdowns in the same season\n• Energy bills keep rising despite repairs\n• Home isn't reaching the set temperature\n• R-22 refrigerant system (now phased out)\n\nWe'll give you an honest assessment — call 555-555-0100 for a free evaluation.", "kw": ["replace hvac", "should i replace", "new system", "when to replace", "repair or replace", "old system", "time to replace", "age of hvac", "how old is too old"], "cat": "replacement"},
+    {"q": "Do you pull permits for installations?", "a": "Yes — Summit HVAC pulls all necessary permits for new equipment installations and major replacements. This protects you legally and ensures the work meets local building codes. Permit costs are included in our installation quotes.", "kw": ["permit", "permits", "do you pull permits", "building permit", "code", "inspection", "city inspection", "required permit"], "cat": "installation"},
+    {"q": "Do you service commercial properties?", "a": "Yes! We service light commercial properties including small offices, retail spaces, restaurants, and multi-family buildings. For large commercial projects, call 555-555-0100 and we'll discuss your specific needs.", "kw": ["commercial", "business", "office", "retail", "restaurant", "commercial hvac", "commercial property", "multi-family", "apartment"], "cat": "commercial"},
+    {"q": "What is your phone number?", "a": "You can reach Summit HVAC Services at 555-555-0100. For emergencies, this line is answered 24/7.", "kw": ["phone", "phone number", "call you", "telephone", "your number", "number", "how to call"], "cat": "contact"},
+    {"q": "Where are you located?", "a": "Our main office is located at 4801 Commerce Blvd, Suite 110. We serve the greater metro area and surrounding suburbs. Call 555-555-0100 or visit our website for directions.", "kw": ["location", "located", "where", "address", "directions", "find you", "office", "where are you"], "cat": "contact"},
+    {"q": "Do you offer indoor air quality services?", "a": "Yes! We offer a full range of indoor air quality solutions:\n• Whole-home air purifiers\n• UV germicidal lights\n• Humidifiers and dehumidifiers\n• Media air cleaners\n• Duct cleaning\n\nPoor indoor air quality can affect your health and comfort. Call 555-555-0100 to learn more.", "kw": ["air quality", "air purifier", "uv light", "humidifier", "dehumidifier", "duct cleaning", "indoor air", "allergens", "dust", "clean air"], "cat": "services"},
+    {"q": "Do you offer duct cleaning?", "a": "Yes, we offer professional duct cleaning services. Over time, ducts accumulate dust, allergens, and even mold. Cleaning your ducts improves air quality and can improve system efficiency. Call 555-555-0100 to schedule or get a quote.", "kw": ["duct cleaning", "clean ducts", "ductwork cleaning", "air duct", "duct work", "clean air ducts", "duct inspection"], "cat": "services"},
+    {"q": "How do I contact you?", "a": "Here's how to reach us:\n\nPhone: 555-555-0100 (24/7 for emergencies)\nOffice: 4801 Commerce Blvd, Suite 110\nHours: Mon–Fri 7 AM–6 PM, Sat 8 AM–2 PM\n\nCall anytime — our emergency line never closes.", "kw": ["contact", "contact info", "how to contact", "reach you", "get in touch", "contact details", "how do i contact", "how do i reach"], "cat": "contact"}
   ];
+
+  var QUICK_ACTIONS = [
+    {"label": "Emergency Service", "q": "Do you offer 24/7 emergency service?"},
+    {"label": "Free Estimate", "q": "Do you offer free estimates?"},
+    {"label": "Maintenance Plans", "q": "Do you offer maintenance plans?"},
+    {"label": "Financing", "q": "Do you offer financing?"}
+  ];
+
+  var BUSINESS_NAME = "Summit HVAC Services";
+  var PHONE = "555-555-0100";
 
   var chatOpen = false;
   var initialized = false;
@@ -364,7 +683,10 @@ body {
     if (chatOpen) {
       win.classList.add("open");
       fab.style.display = "none";
-      if (!initialized) { initChat(); initialized = true; }
+      if (!initialized) {
+        initChat();
+        initialized = true;
+      }
       setTimeout(function() { document.getElementById("chatInput").focus(); }, 300);
     } else {
       win.classList.remove("open");
@@ -373,8 +695,10 @@ body {
   };
 
   function initChat() {
-    addBotMessage("Hi there! I'm the AI assistant for " + BUSINESS_NAME + ". How can I help you with your heating or cooling needs today?");
-    setTimeout(function() { addQuickActions(); }, 400);
+    addBotMessage("Hi there! I'm the AI assistant for " + BUSINESS_NAME + ". How can I help you today?");
+    setTimeout(function() {
+      addQuickActions();
+    }, 400);
   }
 
   function addBotMessage(text) {
@@ -418,40 +742,88 @@ body {
   function showTyping() {
     var body = document.getElementById("chatBody");
     var div = document.createElement("div");
-    div.className = "typing"; div.id = "typingIndicator";
+    div.className = "typing";
+    div.id = "typingIndicator";
     div.innerHTML = "<span></span><span></span><span></span>";
     body.appendChild(div);
     body.scrollTop = body.scrollHeight;
   }
-  function hideTyping() { var el = document.getElementById("typingIndicator"); if (el) el.remove(); }
+
+  function hideTyping() {
+    var el = document.getElementById("typingIndicator");
+    if (el) el.remove();
+  }
 
   function findBestMatch(input) {
     var inputLower = input.toLowerCase();
     var inputWords = inputLower.split(/\s+/);
-    var bestScore = 0, bestAnswer = null, bestCat = null;
+    var bestScore = 0;
+    var bestAnswer = null;
+    var bestCat = null;
+
     for (var i = 0; i < QA_DATA.length; i++) {
-      var qa = QA_DATA[i]; var score = 0;
+      var qa = QA_DATA[i];
+      var score = 0;
+
       for (var k = 0; k < qa.kw.length; k++) {
-        if (inputLower.indexOf(qa.kw[k].toLowerCase()) !== -1) score += 20;
+        var kw = qa.kw[k].toLowerCase();
+        if (inputLower.indexOf(kw) !== -1) {
+          score += 20;
+        }
       }
+
       var qWords = qa.q.toLowerCase().replace(/[?!.,]/g, "").split(/\s+/);
       for (var w = 0; w < inputWords.length; w++) {
         if (inputWords[w].length <= 4) continue;
         for (var qw = 0; qw < qWords.length; qw++) {
           if (qWords[qw].length <= 4) continue;
-          if (qWords[qw].indexOf(inputWords[w]) !== -1 || inputWords[w].indexOf(qWords[qw]) !== -1) score += 8;
+          if (qWords[qw].indexOf(inputWords[w]) !== -1 || inputWords[w].indexOf(qWords[qw]) !== -1) {
+            score += 8;
+          }
         }
       }
-      if (inputLower.indexOf(qa.q.toLowerCase()) !== -1 || qa.q.toLowerCase().indexOf(inputLower) !== -1) score += 50;
-      if (score > bestScore) { bestScore = score; bestAnswer = qa.a; bestCat = qa.cat; }
+
+      if (inputLower.indexOf(qa.q.toLowerCase()) !== -1 || qa.q.toLowerCase().indexOf(inputLower) !== -1) {
+        score += 50;
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestAnswer = qa.a;
+        bestCat = qa.cat;
+      }
     }
-    return bestScore >= 15 ? {a: bestAnswer, cat: bestCat} : null;
+
+    if (bestScore >= 15) {
+      return {a: bestAnswer, cat: bestCat};
+    }
+    return null;
   }
 
   function isGreeting(text) {
-    var greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "thanks", "thank you", "yo", "sup"];
+    var greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "thanks", "thank you", "yo", "sup", "howdy", "greetings"];
     var lower = text.toLowerCase().trim();
-    for (var i = 0; i < greetings.length; i++) { if (lower === greetings[i] || lower.indexOf(greetings[i]) === 0) return true; }
+    for (var i = 0; i < greetings.length; i++) {
+      if (lower === greetings[i] || lower.indexOf(greetings[i]) === 0) return true;
+    }
+    return false;
+  }
+
+  function isAvailabilityQuestion(text) {
+    var terms = ["available", "availability", "schedule", "appointment", "book", "come out", "send someone", "dispatch", "this week", "next week", "when can you", "can you come"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  function isTechQuestion(text) {
+    var terms = ["diagnose", "what's wrong", "what is wrong", "why is my", "should i get", "do i need", "is it broken", "what's causing", "reason for", "my unit", "my system"];
+    var lower = text.toLowerCase();
+    for (var i = 0; i < terms.length; i++) {
+      if (lower.indexOf(terms[i]) !== -1) return true;
+    }
     return false;
   }
 
@@ -464,7 +836,23 @@ body {
       "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
       "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
       "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
-      "<textarea id=\"leadNote\" placeholder=\"Describe your HVAC issue\"></textarea>" +
+      "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
+    body.appendChild(form);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function showServiceLeadCapture(originalQuestion) {
+    addBotMessage("That's a great question for our service team. Leave your info below and a technician will follow up with you directly.");
+    var body = document.getElementById("chatBody");
+    var form = document.createElement("div");
+    form.className = "lead-form";
+    form.setAttribute("data-question-text", originalQuestion);
+    form.innerHTML =
+      "<p>Leave your info and we'll get back to you:</p>" +
+      "<input type=\"text\" id=\"leadName\" placeholder=\"Your name\">" +
+      "<input type=\"tel\" id=\"leadPhone\" placeholder=\"Phone number\">" +
+      "<input type=\"email\" id=\"leadEmail\" placeholder=\"Email address\">" +
+      "<textarea id=\"leadNote\" placeholder=\"Describe your issue\">" + originalQuestion + "</textarea>" +
       "<button onclick=\"submitLead()\" type=\"button\">Send</button>";
     body.appendChild(form);
     body.scrollTop = body.scrollHeight;
@@ -473,15 +861,39 @@ body {
   function handleUserInput(text) {
     addUserMessage(text);
     showTyping();
+
     var delay = 600 + Math.random() * 600;
     setTimeout(function() {
       hideTyping();
-      if (isGreeting(text)) { addBotMessage("Hello! How can I help with your heating or cooling needs?"); return; }
+
+      if (isGreeting(text)) {
+        addBotMessage("Hello! How can I help you today?");
+        return;
+      }
+
       var match = findBestMatch(text);
+      var availability = isAvailabilityQuestion(text);
+      var techQ = isTechQuestion(text);
+
+      if (availability && !match) {
+        showServiceLeadCapture(text);
+        lastCategory = "booking";
+        lastAnswer = null;
+        return;
+      }
+
+      if (techQ && !match) {
+        showServiceLeadCapture(text);
+        lastCategory = "technical";
+        lastAnswer = null;
+        return;
+      }
+
       if (match) {
         if (match.a === lastAnswer) {
-          addBotMessage("Looks like you want more details on this. Leave your info and a technician will follow up directly.");
+          addBotMessage("Looks like you'd like more details on this. Leave your info and our team will follow up directly.");
           showLeadCaptureForm();
+          lastCategory = match.cat;
           lastAnswer = null;
           return;
         }
@@ -490,20 +902,31 @@ body {
         lastCategory = match.cat;
         return;
       }
-      addBotMessage("Great question! Let me connect you with " + BUSINESS_NAME + " directly so they can give you the best answer.");
-      showLeadCaptureForm();
+
+      showLeadCapture(text);
+      lastCategory = null;
       lastAnswer = null;
     }, delay);
+  }
+
+  function showLeadCapture(originalQuestion) {
+    addBotMessage("Great question! Let me connect you with " + BUSINESS_NAME + " directly so they can give you the best answer.");
+    showLeadCaptureForm();
   }
 
   window.submitLead = function() {
     var name = document.getElementById("leadName").value;
     var phone = document.getElementById("leadPhone").value;
     var email = document.getElementById("leadEmail").value;
-    if (!name && !phone && !email) return;
+
+    if (!name && !phone && !email) {
+      return;
+    }
+
     var forms = document.querySelectorAll(".lead-form");
     for (var i = 0; i < forms.length; i++) { forms[i].remove(); }
-    addBotMessage("Thank you, " + (name || "friend") + "! " + BUSINESS_NAME + " will reach out to you shortly." +
+
+    addBotMessage("Thanks, " + (name || "friend") + "! " + BUSINESS_NAME + " will reach out to you shortly." +
       (PHONE ? " You can also call us directly at " + PHONE + "." : ""));
   };
 
@@ -515,7 +938,9 @@ body {
     handleUserInput(text);
   };
 
-  document.getElementById("chatInput").addEventListener("keypress", function(e) { if (e.key === "Enter") window.sendMessage(); });
+  document.getElementById("chatInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") window.sendMessage();
+  });
 })();
 </script>
 </body>
